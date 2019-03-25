@@ -1,0 +1,17 @@
+<!--miniprogram/page/shop_list/shop_list.wxml-->
+<!-- <text>miniprogram/page/shop_list/shop_list.wxml</text> -->
+ <view class="newest">
+        <view class="newest-title"><text>所有门店列表如下！！！</text></view>
+        <view class="newest-box">
+            <view class="newest-list">
+                <navigator url="details/details">
+                    <!-- <image src="/image/sy_shop_1.jpg"></image> -->
+                    <text>广州市海珠区翠城花园店</text>
+                    <view class="newest-text1"><text>营业时间：10：30到22：30</text></view>
+                    <view class="newest-text2"><text>地址：广州市海珠区宝岗大道翠宝路182号</text></view>
+                    <view class="newest-text2"><text>电话：020-89667567</text></view>
+                </navigator>
+            </view>
+          </view>
+        </view>
+      <!-- </view> -->
