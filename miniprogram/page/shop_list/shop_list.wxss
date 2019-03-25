@@ -1,44 +1,50 @@
 /* miniprogram/page/shop_list/shop_list.wxss */
 @import '../common/common.wxss';
 .newest-title{
-    width: 100%;
-    padding:50rpx 0;
-    height: 40rpx;
-    color: #AB956D;
-    text-align: center;
+width: 100%;
+padding:50rpx 0;
+height: 40rpx;
+color: #AB956D;
+text-align: center;
 }
 .newest-box{
-    padding:0 40rpx;
+padding:0 40rpx;
 }
-.newest-box .newest-list{
-    display: inline-block;
-    width: 100%;
-    height: 250rpx;
-    margin:0 20rpx 20rpx 0;
-    border-radius: 10px;
-    text-align: left;
-    font-size: 40rpx;
-    /* letter-spacing:100px; */
-    background:#f4f8b8e7;
+.singleTrade{
+display: inline-block;
+width: 100%;
+height: 300rpx;
+margin:0 20rpx 20rpx 0;
+border-radius: 10px;
+text-align: left; 
+font-size: 40rpx;
+/* letter-spacing:100px;  */
+background:#f8fae2e7;
+
 }
-.newest-box .newest-list:nth-child(2n){
-    margin-right: 0;
+
+.name{
+height: 100rpx;
+font-size: 35rpx;
+/* text-align: center; */
+color:#2c2a2a;
 }
-.newest-box .newest-list image{
-    width:  75rpx;
-    height: 75rpx;
-    /* margin: 20rpx 0 10rpx; */
+.time{
+height: 70rpx;
+font-size: 25rpx;
+color:#a19f9f;
 }
-/* .newest-box .newest-list test{
-    font-size: 100%;
-     color:#000000;
-} */
-.newest-box .newest-list .newest-text1{
-    font-size: 80%;
-    color:#a19f9f;
+.phone{
+font-size: 30rpx;
+color:#2c2a2a;
+    
 }
-.newest-box .newest-list .newest-text2{
-    font-size: 80%;
-    color:#2c2a2a;
+.address{
+font-size: 30rpx;
+color:#2c2a2a;
+height: 70rpx;
 }
- 
+.call{
+color:#37f341;
+text-align: right;
+}
