@@ -1,4 +1,8 @@
 // page/component/new-pages/cart/cart.js
+var app = getApp();
+var cart_totalNums = app.globalData.cart_totalNums;
+var product_list = app.globalData.product_list;
+
 Page({
   data: {
     carts:[],               // 购物车列表
@@ -9,13 +13,11 @@ Page({
         name:"hello"
     }
   },
-  onShow() {
+  onShow(e) {
+    
     this.setData({
       hasList: true,
-      carts:[
-        // {id:1,title:'新鲜芹菜 半斤',image:'/image/s5.png',num:4,price:0.01,selected:true},
-        { id: 2, title:'草本养发',image:'/image/sy_list/list_1.jpg',num:1,price:0.03,selected:true}
-      ]
+      carts:[]
     });
     this.getTotalPrice();
   },

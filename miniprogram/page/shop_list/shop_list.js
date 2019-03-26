@@ -1,90 +1,62 @@
 // miniprogram/page/shop_list/shop_list.js
-
+// import '../../utils/data_list.js'
 // var aa=123;
 // 引入SDK核心类
 var QQMapWX = require('../../libs/qqmap/qqmap-wx-jssdk.js');
 var qqmapsdk;
 // // 实例化API核心类
-// var demo = new QQMapWX({
-//   key: 'RFHBZ-V56CU-25RVN-4QV2L-ZONZO-KVBWO' // 必填RFHBZ-V56CU-25RVN-4QV2L-ZONZO-KVBWO
-// });
+var demo = new QQMapWX({
+  key: 'RFHBZ-V56CU-25RVN-4QV2L-ZONZO-KVBWO' // 必填RFHBZ-V56CU-25RVN-4QV2L-ZONZO-KVBWO
+});
+var app = getApp();
+var shop_list = app.globalData.shop_list;
 Page({
 
   /**
    * 页面的初始数据
    */
+ 
   data: {
-    shop_list:[
-      {
-        id:1,
-        shop_name: '广州市-海珠区-丝域翠城花园店',
-        shop_phone: '020-89667567',
-        shop_business_time: '10：30-22：30',
-        shop_address: '广州市海珠区宝岗大道翠宝路182号'
+    
+    shop_list: shop_list
+    // shop_list: app.globalData.shop_list
+    
+  },
+  
+  phoneCall: function(e) {
+
+    wx.makePhoneCall({
+
+      phoneNumber: e.currentTarget.dataset.phone,
+
+      success: function() {
+
+        console.log("成功拨打电话")
+
       },
-      {
-        id: 2,
-        shop_name: '广州市-海珠区-昌岗店',
-        shop_phone: '020-89667567-2',
-        shop_business_time: '10：30-22：30',
-        shop_address: '广州市海珠区宝岗大道翠宝路182号---22222'
-      },
-      {
-        id: 3,
-        shop_name: '广州市-',
-        shop_phone: '',
-        shop_business_time: '10：30-22：30',
-        shop_address: ''
-      },
-      {
-        id: 4,
-        shop_name: '广州市-',
-        shop_phone: '',
-        shop_business_time: '10：30-22：30',
-        shop_address: ''
-      },
-      {
-        id: 5,
-        shop_name: '广州市-',
-        shop_phone: '',
-        shop_business_time: '10：30-22：30',
-        shop_address: ''
-      },
-      {
-        id:6,
-        shop_name: '广州市-',
-        shop_phone: '',
-        shop_business_time: '10：30-22：30',
-        shop_address: ''
-      },
-      {
-        id: 7,
-        shop_name: '广州市-',
-        shop_phone: '',
-        shop_business_time: '10：30-22：30',
-        shop_address: ''
-      }
-      ,
-      {
-        id: 8,
-        shop_name: '广州市-',
-        shop_phone: '',
-        shop_business_time: '10：30-22：30',
-        shop_address: ''
-      }
-    ]
+
+    })
 
   },
-  // QQMapWX:require('../../../qqmap/qqmap-wx-jssdk.js'),
-  // demo:new QQMapWX({key: 'RFHBZ-V56CU-25RVN-4QV2L-ZONZO-KVBWO'}),
-  
-  get_map: function(e){
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function(options) {
+    // this.setData(shop_list);
+    // var app = getApp();
+    // var shop_list = app.globalData.shop_list;
+    // this.setData({
+    //   shop_list: shop_list
+    // });
+    // console.log("shop_list ===", shop_list)
+  },
+  seeMap: function(e) {
     // 调用接口
-    qqmapsdk.search({
-      keyword: '酒店',
-    });
-    // qqmapsdk.search({
-    //   keyword: e.currentTarget.dataset.phone,
+    // demo.reverseGeocoder({
+    //   location: {
+    //     latitude: 39.984060,
+    //     longitude: 116.307520
+    //   },
     //   success: function (res) {
     //     console.log(res);
     //   },
@@ -94,81 +66,122 @@ Page({
     //   complete: function (res) {
     //     console.log(res);
     //   }
-    // },
-    // )
-    },
-  phoneCall: function (e) {
+    // });
+    //地址解析(地址转坐标)     
 
-    wx.makePhoneCall({
-
-      phoneNumber: e.currentTarget.dataset.phone,
-
-      success: function () {
-
-        console.log("成功拨打电话")
+    demo.geocoder({
+      address: e.currentTarget.dataset.address,
+      success: function(res) {
+        //console.log(res.result.location.lng);
+        var latitude = res.result.location.lat
+        var longitude = res.result.location.lng
+        // var name=res.result
+        wx.openLocation({
+          latitude: latitude,
+          longitude: longitude,
+          scale: 28,
+          name: e.currentTarget.dataset.address,
+          // address: "address"
+        })
 
       },
-
-    })
-
-  },
-  
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-    // 实例化API核心类
-    qqmapsdk = new QQMapWX({
-      key: 'RFHBZ-V56CU-25RVN-4QV2L-ZONZO-KVBWO'
+      fail: function(res) {
+        // console.log(res);
+      },
+      complete: function(res) {
+        // console.log(res);
+      }
     });
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
 
+  openMap: function() {
+
+    wx.getLocation({
+      type: 'gcj02', //默认为 wgs84 返回 gps 坐标，gcj02 返回可用于wx.openLocation的坐标
+      success: function(res) {
+        // var latitude = res.latitude
+        // var longitude = res.longitude
+        var latitude = 113.341392;
+        var longitude = 23.138709;
+        wx.openLocation({
+          latitude: latitude,
+          longitude: longitude,
+          scale: 28
+        })
+      }
+    })
   },
-
   /**
-   * 生命周期函数--监听页面显示
+   * 弹出层函数 开始
    */
-  onShow: function () {
+  // submit: function () {
+  //   this.setData({
+  //     showModal: true
+  //   })
+  // },
+  submit(e) {
+    let aid = e.currentTarget.dataset.id;
+    switch (aid) {
+      case '1':
+        this.setData({
+          a_tel: "020-38038789",
+          a_add: "广东省广州市天河区天河路490号壬丰大厦西厅1704",
+          showModal: true
 
+          //gd: this.data.gd ? false : true
+        })
+        break;
+      case '2':
+        this.setData({
+          a_tel: "0755-33320126",
+          a_add: "广东省深圳市福田区深南大道6013号 中国有色大厦1013室",
+          showModal: true
+          //xn: this.data.xn ? false : true
+        })
+        break;
+    }
   },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
+  preventTouchMove: function() {},
+  go: function() {
+    this.setData({
+      showModal: false
+    })
   },
+  map: function() {
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
+    wx.navigateTo({ //保留当前页面，跳转到应用内的某个页面（最多打开5个页面，之后按钮就没有响应的）
 
+      url: "/pages/map/map"
+
+    })
   },
-
   /**
-   * 页面相关事件处理函数--监听用户下拉动作
+   * 弹出层函数 结束
    */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+  onToggle(e) {
+    let idId = e.currentTarget.dataset.id;
+    switch (idId) {
+      case 'gd':
+        this.setData({
+          gd: this.data.gd ? false : true
+        })
+        break;
+      case 'xn':
+        this.setData({
+          xn: this.data.xn ? false : true
+        })
+        break;
+      case 'hd':
+        this.setData({
+          hd: this.data.hd ? false : true
+        })
+        break;
+      case 'xb':
+        this.setData({
+          xb: this.data.xb ? false : true
+        })
+        break;
+    }
   }
 })

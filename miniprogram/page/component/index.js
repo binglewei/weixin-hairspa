@@ -1,11 +1,10 @@
+var app = getApp();
+var bannerUrls = app.globalData.bannerUrls;
+var product_list = app.globalData.product_list;
 Page({
   data: {
-    imgUrls: [
-      '/image/sy_banner/banner_1.jpg',
-      '/image/sy_banner/banner_2.jpg',
-      '/image/sy_banner/banner_3.jpg',
-      '/image/sy_banner/banner_4.jpg'
-    ],
+    bannerUrls:bannerUrls,
+    product_list: product_list,
     indicatorDots: false,
     autoplay: false,
     interval: 3000,
