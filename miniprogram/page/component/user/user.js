@@ -24,9 +24,10 @@ Page({
             //     code: res.code
             //   }
             // })
+            console.log('wx.login登录成功===', res);
             wx.getUserInfo({
                 success: function(res) {
-                  console.log('wx.getUserInfo登录成功===', res)
+                  console.log('wx.getUserInfo成功===', res)
                   self.setData({
                     thumb: res.userInfo.avatarUrl,
                     nickname: res.userInfo.nickName,
@@ -34,6 +35,11 @@ Page({
                   });
                 },
                 fail: function(res) {
+                  Toast({
+                    message: '请先获取授权！！',
+                    selector: '#zan-toast-test'
+                  })
+                  // }
                   // <button open-type='getUserInfo'>获取授权</button>
                   console.log('getUserInfo失败！', res)
                 }

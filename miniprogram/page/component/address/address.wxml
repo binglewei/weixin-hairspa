@@ -1,16 +1,18 @@
 <view class="main">
   <view class="form-box">
     <form bindsubmit="formSubmit">
-      <view class="weui-cell_input">
-        <view class="weui-label">性别</view>
-        <input class="weui-input" name='sex' value='{{sex}}' />
-        <view class='weui-cell_ft'>
-          <switch checked bindchange='switch1Change'></switch>
-        </view>
+      <view>
+        <text class="form-test">姓名：</text>
+        <input class="form-input" value="{{address.name}}" name="name" placeholder="姓名" />
       </view>
-      <input value="{{address.name}}" name="name" placeholder="姓名" />
-      <input type="number" name="phone" value="{{address.phone}}" placeholder="电话号码" />
-      <input name="detail" value="{{address.detail}}" placeholder="详细地址" />
+      <view>
+        <text class="form-test">电话号码：</text>
+        <input class="form-input" type="number" name="phone" value="{{address.phone}}" placeholder="电话号码" />
+      </view>
+      <view>
+        <text class="form-test">详细地址：</text>
+        <input class="form-input" name="detail" value="{{address.detail}}" placeholder="详细地址" />
+      </view>
       <button form-type="submit">保存</button>
     </form>
   </view>

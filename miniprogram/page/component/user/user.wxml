@@ -7,7 +7,7 @@
   <view class="address-box">
     <view class="address-manage">
       <navigator url="/page/component/address/address">
-      <button class="manage-banner" open-type='getUserInfo'>地址管理</button>
+      <button class="manage-banner" open-type='getUserInfo'>个人设置</button>
       <!-- 地址管理 -->
       </navigator>
     </view>

@@ -1,40 +1,62 @@
 // page/component/new-pages/user/address/address.js
 Page({
-  data:{
-    address:{
-      name:'',
-      phone:'',
-      detail:''
+  data: {
+    address: {
+      name: '',
+      phone: '',
+      detail: ''
     }
   },
-  onLoad(){
+  onLoad() {
     var self = this;
-    
+
     wx.getStorage({
       key: 'address',
-      success: function(res){
+      success: function(res) {
         self.setData({
-          address : res.data
+          address: res.data
         })
       }
     })
   },
-  formSubmit(e){
+  formSubmit(e) {
     const value = e.detail.value;
-    if (value.name && value.phone && value.detail){
+    var phone=value.phone;
+    var name = value.name;
+    var detail = value.detail;
+    if (name && phone && detail) {
       wx.setStorage({
         key: 'address',
         data: value,
-        success(){
+        success() {
           wx.navigateBack();
         }
       })
-    }else{
+    } else {
       wx.showModal({
-        title:'提示',
-        content:'请填写完整资料',
-        showCancel:false
+        title: '提示',
+        content: '请填写完整资料',
+        showCancel: false
       })
+    }
+  },
+  getVerificationCode (e) {
+    var reg = /^1[3|4|5|7|8][0-9]{9}$/
+    var phone = this.data.phone
+    var flag = reg.test(phone)
+    if (flag) {
+      var that = this
+      var code
+      this.setData({
+        isValated: true
+      })
+    } else {
+      Toast({
+        message: '请输入正确的手机号',
+        selector: '#zan-toast-test'
+      });
+
     }
   }
 })
+

@@ -14,3 +14,13 @@
 .form-box button{
     margin:30rpx 30rpx 0 0;
 }
+/* .form-input{
+  position: absolute;
+  left: 100rpx;
+
+}
+form-test{
+  position: absolute;
+  left: 10rpx;
+  
+} */
