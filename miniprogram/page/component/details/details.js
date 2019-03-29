@@ -24,7 +24,7 @@ Page({
     // for product in product_list:
     //   if product["id"]=id;
 
-    var product = product_list[id - 1];
+    var product = product_list[id];
     // console.log("product===", product)
     this.setData({
       // hasList: true,
@@ -47,9 +47,9 @@ Page({
     var totalNum=0;
     var cart_totalNums = app.globalData.cart_totalNums;
     for (var key in cart_totalNums) {
-       totalNum = totalNum + cart_totalNums[key] };
+      totalNum = totalNum + cart_totalNums[key]["num"] };
     const total = totalNum;
-    console.log("product_id===", product_id)
+    // console.log("product_id===", product_id)
     self.setData({
       show: true
     })
@@ -65,9 +65,12 @@ Page({
           totalNum: num + total
         })
         if (cart_totalNums[product_id]){
-          app.globalData.cart_totalNums[product_id] = num + app.globalData.cart_totalNums[product_id]
+          app.globalData.cart_totalNums[product_id]["num"] = num + app.globalData.cart_totalNums[product_id]["num"];
+          app.globalData.cart_totalNums[product_id]["selected"] = true;
         }else{
-          app.globalData.cart_totalNums[product_id] = num
+          app.globalData.cart_totalNums[product_id] = product_list[product_id];
+          app.globalData.cart_totalNums[product_id]["num"] = num;
+          app.globalData.cart_totalNums[product_id]["selected"] = true;
         }
           
         console.log("totalNum===", app.globalData.cart_totalNums)        

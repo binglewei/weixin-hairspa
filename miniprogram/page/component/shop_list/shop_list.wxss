@@ -1,5 +1,5 @@
 /* miniprogram/page/shop_list/shop_list.wxss */
-@import '../common/common.wxss';
+@import '../../common/common.wxss';
 .shop-title{
 width: 100%;
 padding:50rpx 0;
@@ -26,7 +26,7 @@ background:#f8fae2e7;
 }
 
 .name{
-height: 100rpx;
+height: 90rpx;
 font-size: 35rpx;
 /* text-align: center; */
 color:#2c2a2a;
@@ -44,9 +44,11 @@ color:#2c2a2a;
 .address{
 font-size: 30rpx;
 color:#2c2a2a;
-height: 70rpx;
+height: 80rpx;
 }
 .call{
+position: absolute;
+right: 40rpx;
 color:#37f341;
 text-align: center;
 }

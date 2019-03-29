@@ -1,15 +1,16 @@
 {
   "pages": [
     "page/component/index",
-    "page/component/category/category",
-    "page/component/cart/cart",
-    "page/component/user/user",
     "page/component/address/address",
-    "page/component/orders/orders",
+    "page/component/cart/cart",
+    "page/component/category/category",
     "page/component/details/details",
     "page/component/list/list",
+    "page/component/orders/orders",
+    "page/component/user/user",
+    "page/component/reservation/reservation",
     "page/component/search/search",
-    "page/shop_list/shop_list"
+    "page/component/shop_list/shop_list"
   ],
   "window": {
     "navigationBarTextStyle": "white",
@@ -31,7 +32,7 @@
         "text": "主页"
       },
       {
-        "pagePath": "page/shop_list/shop_list",
+        "pagePath": "page/component/shop_list/shop_list",
         "iconPath": "image/22.png",
         "selectedIconPath": "image/21.png",
         "text": "门店"

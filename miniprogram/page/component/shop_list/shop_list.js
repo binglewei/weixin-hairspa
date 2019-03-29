@@ -2,7 +2,7 @@
 // import '../../utils/data_list.js'
 // var aa=123;
 // 引入SDK核心类
-var QQMapWX = require('../../libs/qqmap/qqmap-wx-jssdk.js');
+var QQMapWX = require('../../../libs/qqmap/qqmap-wx-jssdk.js');
 var qqmapsdk;
 // // 实例化API核心类
 var demo = new QQMapWX({

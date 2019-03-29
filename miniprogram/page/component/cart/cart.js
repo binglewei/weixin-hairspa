@@ -1,7 +1,5 @@
 // page/component/new-pages/cart/cart.js
 var app = getApp();
-var cart_totalNums = app.globalData.cart_totalNums;
-var product_list = app.globalData.product_list;
 
 Page({
   data: {
@@ -14,10 +12,27 @@ Page({
     }
   },
   onShow(e) {
-    
+    var cart_totalNums = app.globalData.cart_totalNums;
+    var cart_list = [];
+    for (var key in cart_totalNums) {
+      var product_id = key;
+      var cart_1 = cart_totalNums[key];
+      // // console.log("product_cart====", cart_1);
+      cart_list.push(cart_1);
+      // console.log("cart_1====", cart_1);
+    }
+    // console.log("cart_list====", cart_list);
+    if (cart_list.length){
+      var hasList=true;
+    }else{
+      var hasList = false;
+    }
     this.setData({
-      hasList: true,
-      carts:[]
+      hasList: hasList,
+      carts: cart_list,
+      // carts:[
+      //    { id: 1, title: '新鲜芹菜 半斤', image: '/image/s5.png', num: 4, price: 0.01, selected: true },
+      // ]
     });
     this.getTotalPrice();
   },
@@ -28,7 +43,9 @@ Page({
     const index = e.currentTarget.dataset.index;
     let carts = this.data.carts;
     const selected = carts[index].selected;
+    const cart_id = carts[index].id;
     carts[index].selected = !selected;
+    app.globalData.cart_totalNums[cart_id]["selected"] = !selected;
     this.setData({
       carts: carts
     });
@@ -40,8 +57,15 @@ Page({
    */
   deleteList(e) {
     const index = e.currentTarget.dataset.index;
+    // console.log("index====", index);
     let carts = this.data.carts;
-    carts.splice(index,1);
+    let cart_id = carts[index].id;
+    // console.log("this.data.carts====", carts);
+    carts.splice(index, 1);
+    // console.log("this.data.carts.splice====", carts);
+   
+    delete app.globalData.cart_totalNums[cart_id];
+    // console.log("app.globalData.cart_totalNums====", cart_totalNums);
     this.setData({
       carts: carts
     });
@@ -76,11 +100,18 @@ Page({
    * 绑定加数量事件
    */
   addCount(e) {
+    // console.log("e====", e);
     const index = e.currentTarget.dataset.index;
+    // console.log("index====", index);
     let carts = this.data.carts;
     let num = carts[index].num;
     num = num + 1;
     carts[index].num = num;
+    // console.log("arts[index],====", carts);
+    // console.log("cart_totalNums====",  app.globalData.cart_totalNums);
+    let cart_id = carts[index].id;
+    app.globalData.cart_totalNums[cart_id]["num"] = num;
+    // console.log("cart_totalNums——num====", cart_totalNums[index]["num"]);
     this.setData({
       carts: carts
     });
@@ -100,6 +131,8 @@ Page({
     }
     num = num - 1;
     carts[index].num = num;
+    let cart_id = carts[index].id;
+    app.globalData.cart_totalNums[cart_id]["num"] = num;
     this.setData({
       carts: carts
     });

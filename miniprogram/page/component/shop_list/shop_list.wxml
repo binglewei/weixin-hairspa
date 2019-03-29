@@ -1,6 +1,6 @@
 <!--miniprogram/page/shop_list/shop_list.wxml-->
 <!-- <text>miniprogram/page/shop_list/shop_list.wxml</text> -->
- <!-- <view class="newest">
+<!-- <view class="newest">
         <view class="newest-title"><text>所有门店列表如下！！！</text></view>
         <view class="newest-box">
             <view class="newest-list">
@@ -16,7 +16,9 @@
         </view>
       </view> -->
 <!-- <input class="search-input" placeholder="请输入门店名称或地址" data-address="{{value}}" bindtap="seeMap" /> -->
-<view class="shop-title"><text>以下是所有门店列表！！！</text></view>
+<view class="shop-title">
+  <text>以下是所有门店列表！！！</text>
+</view>
 <!-- <button bindtap="map" class='btn'>地图1</button> -->
 <!-- <button bindtap="seeMap" class='btn'>地图2</button> -->
 <!-- <button class='btn' bindtap="openMap">点击进入打开微信地图页面</button> -->
@@ -28,13 +30,21 @@
     </block>
 </swiper>  -->
 <!-- tradeList是要循环的数组，内部的属性通过item.xxx的方式调用 -->
- <block wx:for='{{shop_list}}'>
-   <!-- data-*属性在触发事件时获取  -->
-   <view class='singleTrade' hover-class='item-press' catchtap='showTradeDetail' data-id='{{item.id}}'>
-     <!-- <image src='{{item.imageUrl}}' class='img' /> -->
+<block wx:for='{{shop_list}}'>
+  <!-- data-*属性在触发事件时获取  -->
+  <view class='singleTrade' hover-class='item-press' catchtap='showTradeDetail' data-id='{{item.id}}'>
+    <!-- <image src='{{item.imageUrl}}' class='img' /> -->
     <view class='name'>{{item.id}}.{{item.shop_name}}</view>
+    <!-- <view class='time'>营业时间：{{item.shop_business_time}}</view> -->
+    <view class='address' data-address='{{item.shop_address}}' bindtap="seeMap">
+      <text>地址：{{item.shop_address}}
+      <text class='call'>去导航</text></text>
+      
+    </view>
     <view class='time'>营业时间：{{item.shop_business_time}}</view>
-    <view class='address' data-address='{{item.shop_address}}' bindtap="seeMap"><text>地址：{{item.shop_address}}<text class='call'>去导航</text></text></view>
-    <view class='phone' data-phone='{{item.shop_phone}}' bindtap="phoneCall"><text>电话：{{item.shop_phone}}<text class='call'>打电话</text></text></view>
-   </view>
- </block>
+    <view class='phone' data-phone='{{item.shop_phone}}' bindtap="phoneCall">
+      <text>电话：{{item.shop_phone}}</text>
+      <text class='call'>打电话</text>
+    </view>
+  </view>
+</block>
