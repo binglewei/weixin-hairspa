@@ -13,7 +13,7 @@ padding:0 40rpx;
 }
 .singleTrade{
 /* table,inline-block */
-display: table;
+display: inline-block;
 width: 100%;
 height: 300rpx;
 margin:0 20rpx 20rpx 0;
@@ -51,4 +51,8 @@ position: absolute;
 right: 40rpx;
 color:#37f341;
 text-align: center;
+}
+.address-list{
+position: absolute;
+right: 200rpx; 
 }

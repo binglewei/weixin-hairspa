@@ -2,15 +2,23 @@
   <view class="form-box">
     <form bindsubmit="formSubmit">
       <view>
-        <text class="form-test">姓名：</text>
-        <input class="form-input" value="{{address.name}}" name="name" placeholder="姓名" />
+       <text class="form-test">姓名</text>
+      <input class="form-input" value="{{address.name}}" name="name" placeholder="姓名" />
       </view>
       <view>
-        <text class="form-test">电话号码：</text>
+        <text class="form-test">性别</text>
+        <input class="form-input" type="number" name="gender" value="{{address.gender}}" placeholder="性别" />
+      </view>
+      <view>
+        <text class="form-test">电话号码（必填）</text>
         <input class="form-input" type="number" name="phone" value="{{address.phone}}" placeholder="电话号码" />
       </view>
       <view>
-        <text class="form-test">详细地址：</text>
+        <text class="form-test">出生日期（必填）</text>
+        <input class="form-input" type="number" name="birthday" value="{{address.birthday}}" placeholder="出生日期" />
+      </view>
+      <view>
+        <text class="form-test">详细地址</text>
         <input class="form-input" name="detail" value="{{address.detail}}" placeholder="详细地址" />
       </view>
       <button form-type="submit">保存</button>

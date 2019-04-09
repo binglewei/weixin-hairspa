@@ -12,9 +12,9 @@
       </navigator>
     </view>
     <view wx:if="{{hasAddress}}" class="address-list">
-      <view>{{address.name}}</view>
-      <view>{{address.phone}}</view>
-      <view>{{address.detail}}</view>
+      <view><text class='address-test-title'>姓名：</text>{{address.name}}</view>
+      <view><text class='address-test-title'>电话：</text>{{address.phone}}</view>
+      <view><text class='address-test-title'>地址：</text>{{address.detail}}</view>
     </view>
   </view>
   <view class="orders-box">

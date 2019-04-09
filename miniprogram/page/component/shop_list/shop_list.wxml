@@ -35,14 +35,13 @@
   <view class='singleTrade' hover-class='item-press' catchtap='showTradeDetail' data-id='{{item.id}}'>
     <!-- <image src='{{item.imageUrl}}' class='img' /> -->
     <view class='name'>{{item.id}}.{{item.shop_name}}</view>
-    <!-- <view class='time'>营业时间：{{item.shop_business_time}}</view> -->
-    <view class='address' data-address='{{item.shop_address}}' bindtap="seeMap">
-      <text>地址：{{item.shop_address}}
-      <text class='call'>去导航</text></text>
-      
-    </view>
     <view class='time'>营业时间：{{item.shop_business_time}}</view>
-    <view class='phone' data-phone='{{item.shop_phone}}' bindtap="phoneCall">
+    <view class='address' data-address='{{item.shop_address}}' catchtap="seeMap">
+      <text class='address-list'>地址：{{item.shop_address}}</text>
+      <text class='call'>去导航</text>  
+    </view>
+    <!-- <view class='time'>营业时间：{{item.shop_business_time}}</view> -->
+    <view class='phone' data-phone='{{item.shop_phone}}' catchtap="phoneCall">
       <text>电话：{{item.shop_phone}}</text>
       <text class='call'>打电话</text>
     </view>

@@ -29,6 +29,13 @@ App({
   },
   globalData: {
     hasLogin: false,
+    address: {
+      name: '',
+      phone: '',
+      gender: '',
+      birthday:'',
+      detail: ''
+    },
     seach_hot: ['草本养发', '净安养发'],
     cart_totalNums:{},
     // cart_totalNums: { 0: { id: 0, title: '新鲜芹菜 半斤', image: '/image/s5.png', num: 4, price: 0.01, selected: true }},
@@ -81,24 +88,24 @@ App({
     ],
     shop_list: [{
         id: 1,
-        shop_name: '广州市-海珠区-丝域翠城花园店',
+      shop_name: '广州市-海珠区-丝域养发馆-翠城花园店',
         shop_phone: '020-89667567',
         shop_business_time: '10：30-22：30',
-        shop_address: '广州市海珠区宝岗大道翠宝路182号'
+      shop_address: '广州市海珠区宝岗大道南翠宝路182号(翠城花园)1015A号铺'
       },
       {
         id: 2,
         shop_name: '广州市-海珠区-丝域养发馆-昌岗店',
         shop_phone: '020-34248872',
         shop_business_time: '10：00-22：00',
-        shop_address: '广州市海珠区昌岗中路188号合生生活天地2楼212铺'
+        shop_address: '广州市海珠区昌岗中路188号合生生活天地二楼212铺'
       },
       {
         id: 3,
         shop_name: '佛山市-南海区-丝域养发馆',
         shop_phone: '0757-86323969',
         shop_business_time: '10：00-22：00',
-        shop_address: '佛山市南海区桂城镇中海锦城南门商业街1座10号'
+        shop_address: '佛山市南海区桂城镇中海锦城南门商业街1座10号OUT-L2-217'
       },
       {
         id: 4,

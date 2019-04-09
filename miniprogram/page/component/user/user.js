@@ -1,5 +1,6 @@
 // page/component/new-pages/user/user.js
-
+// var app = getApp();
+// var globalData_address= app.globalData.address;
 Page({
   data: {
     thumb: '',
@@ -28,11 +29,26 @@ Page({
             wx.getUserInfo({
                 success: function(res) {
                   console.log('wx.getUserInfo成功===', res)
+                  var gender = res.userInfo.gender;
                   self.setData({
                     thumb: res.userInfo.avatarUrl,
                     nickname: res.userInfo.nickName,
 
                   });
+                  wx.getStorage({
+                    key: 'address',
+                    success: function(res) {
+                      var address = res.data;
+                      address["gender"] = gender ;
+                      console.log("address===", address);
+                      wx.setStorage({
+                        key: 'address',
+                        data: address,
+                      })
+                    },
+                  })
+                  
+                  // globalData_address.gender = res.userInfo.gender
                 },
                 fail: function(res) {
                   Toast({
@@ -82,6 +98,7 @@ Page({
     wx.getStorage({
       key: 'address',
       success: function(res) {
+        console.log("address22222===", res.data);
         self.setData({
           hasAddress: true,
           address: res.data

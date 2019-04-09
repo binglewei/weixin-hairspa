@@ -21,7 +21,9 @@
 .header .about{
     float: right;
 }
-
+.address-test-title{
+font-weight: bold
+}
 .address-box{
     border-bottom: 20rpx solid #ededed;
     color: #999;
