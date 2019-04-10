@@ -30,6 +30,7 @@ Page({
     var phone=value.phone;
     var name = value.name;
     var detail = value.detail;
+    var shop = value.shop;//shop
     var birthday = value.birthday;
     var reg = /^1[3|4|5|7|8][0-9]{9}$/
     var flag = reg.test(phone)
@@ -42,7 +43,15 @@ Page({
     //     showCancel: false
     //   })
     // }
-    if (flag) {
+    
+    if (!flag) {
+      wx.showModal({
+        title: '错误提示',
+        content: '手机号不正确哦，请核对！',
+        showCancel: false
+      })
+      console.log("flag,addressdetail==11==", flag, value);
+     
       // wx.setStorage({
       //   key: 'address',
       //   data: value,
@@ -50,28 +59,36 @@ Page({
       //     wx.navigateBack();
       //   }
       // })
-      console.log("flag,addressdetail==11==", flag, value);
-    } else {
+      } 
+    else if  (!birthday){
       wx.showModal({
         title: '错误提示',
-        content: '手机号不正确，请核对！',
+        content: '生日是必填项哦！！',
         showCancel: false
       })
-      console.log("flag,addressdetail==222==", flag, value);
-    };
-    if (phone & birthday) {
+      console.log("addressdetail==22==",  value);
+    }
+    else if (!shop) {
+      wx.showModal({
+        title: '错误提示',
+        content: '请选择你喜欢的门店！！',
+        showCancel: false
+      })
+      console.log("addressdetail==333==", value);
+    }
+     else {
+      // wx.showModal({
+      //   title: '提示',
+      //   content: '手机号跟生日是必填项哦！！！',
+      //   showCancel: false
+      // })
+      console.log("addressdetail==else==", value);
       wx.setStorage({
         key: 'address',
         data: value,
         success() {
           wx.navigateBack();
         }
-      })
-    } else {
-      wx.showModal({
-        title: '提示',
-        content: '手机号跟生日是必填项哦！！！',
-        showCancel: false
       })
     }
   }

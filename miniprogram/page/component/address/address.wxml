@@ -10,6 +10,10 @@
         <input class="form-input" type="number" name="gender" value="{{address.gender}}" placeholder="性别" />
       </view>
       <view>
+        <text class="form-test">门店（必填）</text>
+        <input class="form-input"  name="shop" value="{{address.shop}}" placeholder="门店" />
+      </view>
+      <view>
         <text class="form-test">电话号码（必填）</text>
         <input class="form-input" type="number" name="phone" value="{{address.phone}}" placeholder="电话号码" />
       </view>
