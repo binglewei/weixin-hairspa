@@ -51,14 +51,6 @@ Page({
         showCancel: false
       })
       console.log("flag,addressdetail==11==", flag, value);
-     
-      // wx.setStorage({
-      //   key: 'address',
-      //   data: value,
-      //   success() {
-      //     wx.navigateBack();
-      //   }
-      // })
       } 
     else if  (!birthday){
       wx.showModal({
@@ -77,11 +69,6 @@ Page({
       console.log("addressdetail==333==", value);
     }
      else {
-      // wx.showModal({
-      //   title: '提示',
-      //   content: '手机号跟生日是必填项哦！！！',
-      //   showCancel: false
-      // })
       console.log("addressdetail==else==", value);
       wx.setStorage({
         key: 'address',
