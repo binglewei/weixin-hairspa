@@ -5,13 +5,14 @@
        <text class="form-test">姓名</text>
       <input class="form-input" value="{{address.name}}" name="name" placeholder="姓名" />
       </view>
-      <view>
+      <!-- <view>
         <text class="form-test">性别</text>
         <input class="form-input" type="number" name="gender" value="{{address.gender}}" placeholder="性别" />
-      </view>
+      </view> -->
       <view>
         <text class="form-test">门店（必填）</text>
-        <input class="form-input"  name="shop" value="{{address.shop}}" placeholder="门店" />
+        <picker class="picker" value="{{picker1Value}}" range="{{picker1Range}}" bindchange="normalPickerBindchange">{{picker1Range[picker1Value]}}</picker>
+        <!-- <input class="form-input"  name="shop" value="{{address.shop}}" placeholder="门店" /> -->
       </view>
       <view>
         <text class="form-test">电话号码（必填）</text>
@@ -19,7 +20,9 @@
       </view>
       <view>
         <text class="form-test">出生日期（必填）</text>
-        <input class="form-input" type="number" name="birthday" value="{{address.birthday}}" placeholder="出生日期" />
+        <picker class="picker" mode="date" value="{{picker_data}}" start="1900-01-01" end="2999-12-12" bindchange="datePickerBindchange" >{{picker_data}}</picker>
+        <!-- bindchange="datePickerBindchange" -->
+        <!-- <input class="form-input" type="number" name="birthday" value="{{address.birthday}}" placeholder="出生日期" /> -->
       </view>
       <view>
         <text class="form-test">详细地址</text>

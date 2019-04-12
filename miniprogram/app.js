@@ -28,36 +28,37 @@ App({
 
   },
   globalData: {
+    appId: 'wxc6c41875b492a9c0',
     hasLogin: false,
     address: {
       name: '',
       phone: '',
       gender: '',
-      birthday:'',
+      birthday: '',
       detail: ''
     },
     seach_hot: ['草本养发', '净安养发'],
-    cart_totalNums:{},
+    cart_totalNums: {},
     // cart_totalNums: { 0: { id: 0, title: '新鲜芹菜 半斤', image: '/image/s5.png', num: 4, price: 0.01, selected: true }},
     product_list: [{
-      id: 0,
-      image: '/image/sy_list/list_1.jpg',
-      title: '草本养发',
-      price: 0.01,
-      stock: 10,
-      detail: '这里是草本养发详情。',
-      parameter: '好多好多钱！！！！！',
-      service: '不支持退货'
-    },
-    {
-      id: 1,
-      image: '/image/sy_list/list_2.jpg',
-      title: '净安养发',
-      price: 0.02,
-      stock: 200,
-      detail: '',
-      parameter: '',
-      service: ''
+        id: 0,
+        image: '/image/sy_list/list_1.jpg',
+        title: '草本养发',
+        price: 0.01,
+        stock: 10,
+        detail: '这里是草本养发详情。',
+        parameter: '好多好多钱！！！！！',
+        service: '不支持退货'
+      },
+      {
+        id: 1,
+        image: '/image/sy_list/list_2.jpg',
+        title: '净安养发',
+        price: 0.02,
+        stock: 200,
+        detail: '',
+        parameter: '',
+        service: ''
       },
       {
         id: 2,
@@ -68,7 +69,7 @@ App({
         detail: '这里是舒缓调理详情。',
         parameter: '舒缓调理舒缓调理舒缓调理好多好多钱！！！！！',
         service: '舒缓调理舒缓调理舒缓调理不支持退货,舒缓调理舒缓调理舒缓调理不支持退货,舒缓调理舒缓调理舒缓调理不支持退货,舒缓调理舒缓调理舒缓调理不支持退货,舒缓调理舒缓调理舒缓调理不支持退货'
-      } ,
+      },
       {
         id: 3,
         image: '/image/sy_list/list_4.jpg',
@@ -78,7 +79,7 @@ App({
         detail: '这里是密罗木头皮保湿详情。',
         parameter: '密罗木头皮保湿好多好多钱！！！！！',
         service: '舒密罗木头皮保湿不支持退货'
-      } 
+      }
     ],
     bannerUrls: [
       '/image/sy_banner/banner_1.jpg',
@@ -88,10 +89,10 @@ App({
     ],
     shop_list: [{
         id: 1,
-      shop_name: '广州市-海珠区-丝域养发馆-翠城花园店',
+        shop_name: '广州市-海珠区-丝域养发馆-翠城花园店',
         shop_phone: '020-89667567',
         shop_business_time: '10：30-22：30',
-      shop_address: '广州市海珠区宝岗大道南翠宝路182号(翠城花园)1015A号铺'
+        shop_address: '广州市海珠区宝岗大道南翠宝路182号(翠城花园)1015A号铺'
       },
       {
         id: 2,
