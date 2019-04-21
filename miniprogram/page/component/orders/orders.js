@@ -84,10 +84,10 @@ Page({
         console.log("res==11==", res)
       },
       fail: function(res) {
-        console.log("res==22==", res);
+        console.log("res=fail=22==", res);
         wx.showModal({
           title: '支付提示',
-          content: res.content,
+          content: 'res.content',
           showCancel: false
         })
       }
