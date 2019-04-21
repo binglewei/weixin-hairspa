@@ -61,17 +61,25 @@ Page({
    * 发起支付请求
    */
   toPay() {
+  var resp={}
+    resp["total"]=this.data.total;
+    resp["address"] = this.data.address;
+    resp["orders"] = this.data.orders;
+    console.log("res==resp=befor=", resp);
+    var returnValue = sign.wxpay(resp);
+    console.log("res==returnValue=", returnValue);
+
     // var appId = app.globalData.appId;
     // var timeStamp = util.formatTime(new Date());
     // var nonceStr = md5.hexMD5(timeStamp);
     // // var package = sign
     // var paySign = md5.hexMD5(timeStamp);
     wx.requestPayment({
-      // timeStamp: timeStamp,
-      // nonceStr: nonceStr,
-      // package: package,
-      // signType: 'MD5',
-      // paySign: paySign,
+      timeStamp: returnValue.timeStamp,
+      nonceStr: returnValue.nonceStr,
+      package: returnValue.package,
+      signType: 'MD5',
+      paySign: returnValue.paySign,
       success: function(res) {
         console.log("res==11==", res)
       },
@@ -79,7 +87,7 @@ Page({
         console.log("res==22==", res);
         wx.showModal({
           title: '支付提示',
-          content: "res.content",
+          content: res.content,
           showCancel: false
         })
       }

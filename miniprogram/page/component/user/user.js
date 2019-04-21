@@ -88,10 +88,10 @@ Page({
             console.log("address===", address);
           }
         })
-        wx.setStorage({
-          key: 'openid',
-          data: openid,
-        })
+        // wx.setStorage({
+        //   key: 'openid',
+        //   data: openid,
+        // })
 
         // globalData_address.gender = res.userInfo.gender
       },
