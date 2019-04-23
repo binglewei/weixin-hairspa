@@ -14,7 +14,18 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-
+    // wx.cloud.init();
+    // wx.cloud.callFunction({
+    //   name: 'get_openid',
+    //   complete: res => {
+    //     console.log('云函数获取到的openid: ', res.result.userInfo.openId)
+    //     var openId = res.result.openId;
+    //     // app.globalData.openId = openId;
+    //     // this.setdata({
+    //     //   openId: openId
+    //     // })
+    //   }
+    // })
   },
 
   /**

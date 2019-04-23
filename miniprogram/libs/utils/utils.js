@@ -40,8 +40,18 @@ function RandomNumBoth(Min, Max) {
   return num;
 
 }
+//云开发初始化
+wx.cloud.init()
+
+//使用和云函数
+function login() {
+ wx.cloud.callFunction({
+    name: 'login'
+  })
+}
 module.exports = {
   formatTime: formatTime,
   format_date: format_date,
-  RandomNumBoth: RandomNumBoth
+  RandomNumBoth: RandomNumBoth,
+  login: login
 }

@@ -28,42 +28,42 @@ Page({
             //   }
             // })
             console.log('wx.login登录成功===', res);
-            
+
           } else {
             console.log('登录失败！', res.errMsg)
           }
         }
       }),
-      // wx.getUserInfo({
-      //   success: function(res){
-      //     console.log('wx.getUserInfo===' ,  res)
-      //     self.setData({
-      //       thumb: res.userInfo.avatarUrl,
-      //       nickname: res.userInfo.nickName,
+    // wx.getUserInfo({
+    //   success: function(res){
+    //     console.log('wx.getUserInfo===' ,  res)
+    //     self.setData({
+    //       thumb: res.userInfo.avatarUrl,
+    //       nickname: res.userInfo.nickName,
 
-      //     })
-      // console.log("res.userInfo.avatarUrl==", res.userInfo.avatarUrl),
-      //   },
-      // }),
+    //     })
+    // console.log("res.userInfo.avatarUrl==", res.userInfo.avatarUrl),
+    //   },
+    // }),
 
 
-      /**
-       * 发起请求获取订单列表信息
-       */
-      wx.request({
-        url: 'http://www.gdfengshuo.com/api/wx/orders.txt',
-        success(res) {
-          self.setData({
-            orders: res.data
-          })
-        }
-      })
+    /**
+     * 发起请求获取订单列表信息
+     */
+    wx.request({
+      url: 'http://www.gdfengshuo.com/api/wx/orders.txt',
+      success(res) {
+        self.setData({
+          orders: res.data
+        })
+      }
+    })
   },
   onShow() {
     wx.getUserInfo({
-      lang:"zh_CN",
-      withCredentials:true,
-      success: function (res) {
+      lang: "zh_CN",
+      withCredentials: true,
+      success: function(res) {
         console.log('wx.getUserInfo成功===', res)
         // var encryptedData = res.encryptedData;
         // var iv = res.iv;
@@ -82,7 +82,7 @@ Page({
         });
         wx.getStorage({
           key: 'address',
-          success: function (res) {
+          success: function(res) {
             var address = res.data;
             // address["gender"] = gender;
             console.log("address===", address);
@@ -95,7 +95,7 @@ Page({
 
         // globalData_address.gender = res.userInfo.gender
       },
-      fail: function (res) {
+      fail: function(res) {
         // Toast({
         //   message: '请先获取授权！！',
         //   selector: '#zan-toast-test'
@@ -136,7 +136,7 @@ Page({
       signType: 'MD5',
       paySign: 'String4',
       success: function(res) {
-        console.log("res==11==",res)
+        console.log("res==11==", res)
       },
       fail: function(res) {
         console.log("res==22==", res);
