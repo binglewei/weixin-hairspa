@@ -33,7 +33,7 @@ Page({
             console.log('登录失败！', res.errMsg)
           }
         }
-      }),
+      })
     // wx.getUserInfo({
     //   success: function(res){
     //     console.log('wx.getUserInfo===' ,  res)
@@ -50,14 +50,14 @@ Page({
     /**
      * 发起请求获取订单列表信息
      */
-    wx.request({
-      url: 'http://www.gdfengshuo.com/api/wx/orders.txt',
-      success(res) {
-        self.setData({
-          orders: res.data
-        })
-      }
-    })
+    // wx.request({
+    //   url: 'http://www.gdfengshuo.com/api/wx/orders.txt',
+    //   success(res) {
+    //     self.setData({
+    //       orders: res.data
+    //     })
+    //   }
+    // })
   },
   onShow() {
     wx.getUserInfo({

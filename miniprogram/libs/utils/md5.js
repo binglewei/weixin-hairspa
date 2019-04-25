@@ -428,6 +428,6 @@ function calcMD5(str) {
 module.exports = {
 
     
-  hexMD5: hexMD5
-
+  hexMD5: hexMD5,
+  hexMD5w: hexMD5w
 }

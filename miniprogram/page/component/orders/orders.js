@@ -1,17 +1,23 @@
 // page/component/orders/orders.js
 var util = require('../../../libs/utils/utils.js');
 var md5 = require('../../../libs/utils/md5.js');
+var md5_2 = require('../../../libs/utils/md5_2.js');
 var sign = require('../../../libs/utils/sign.js');
+var parser = require("../../../libs/xmldom/dom-parser.js");
 var app = getApp();
 var cart_totalNums = app.globalData.cart_totalNums;
+
+
 Page({
   data: {
     openId: "",
     address: {},
+    returnValue: '',
     hasAddress: false,
     total: 0,
     orders: [
       // {id:2,title:'素米 500g',image:'/image/s6.png',num:1,price:0.03}
+      // { id: 0, title: '新鲜芹菜 半斤', image: '/image/s5.png', num: 4, price: 0.01, selected: true }
     ]
   },
 
@@ -26,26 +32,17 @@ Page({
     wx.cloud.callFunction({
       name: 'get_openid',
       complete: res => {
-       
-        var openId = res.result.userInfo.openId;
-        this.setData({
-          openId: openId
-        })
-        console.log('云函数获取到的openid: ', openId)
-      }
-    })
-    // let that = this;
-    // wx.cloud.callFunction({
-    //   name: 'get_openid',//get_openid
-    //   complete: res => {
-    //     console.log('云函数获取到的openid: ', res.result.openId)
-    //     var openid = res.result.openId;
-    //     self.setData({
-    //       openId: openId
-    //     })
-    //   }
-    // });
 
+        var openId = res.result.userInfo.openId;
+        // var openId = res.result.userInfo.appId;
+        this.setData({
+          // appId: appId,
+          openId: openId
+
+        })
+        console.log('云函数获取到的openid ', openId, res.result.userInfo)
+      }
+    });
     for (var key in cart_totalNums) {
       var selected = cart_totalNums[key]["selected"];
       if (selected) {
@@ -93,33 +90,73 @@ Page({
     resp["orders"] = this.data.orders;
     resp["openId"] = this.data.openId;
     console.log("res==resp=befor=", resp);
-    var returnValue = sign.wxpay(resp);
-    console.log("res==returnValue============", returnValue);
+    // var Apikey = "symeiyu1357048216039688322766666"; //不同于AppSecret(小程序密钥)#sy89667567	#api 密钥
 
-    // var appId = app.globalData.appId;
-    // var timeStamp = util.formatTime(new Date());
-    // var nonceStr = md5.hexMD5(timeStamp);
-    // // var package = sign
-    // var paySign = md5.hexMD5(timeStamp);
-    wx.requestPayment({
-      // appId: returnValue.appId,
-      timeStamp: returnValue.timeStamp,
-      nonceStr: returnValue.nonceStr,
-      package: returnValue.package,
-      signType: 'MD5',
-      paySign: returnValue.paySign,
+    var bodyData = sign.wxpay_getbodyData(resp);
+    console.log("sign返回===bodyData=", bodyData);
+    var urlStr_befor = "https://api.mch.weixin.qq.com/pay/unifiedorder";
+    wx.request({
+      url: urlStr_befor,
+      data: bodyData,
+      header: {},
+      method: 'POST',
+      // dataType: 'xml',
+      // responseType: 'text',
       success: function(res) {
-        console.log("res==11==", res)
+        console.log(' wx.request=unifiedorder=成功了111==', res);
+        var result_xml = res.data;
+        var xml_parser = new parser.DOMParser();
+        var xml = xml_parser.parseFromString(result_xml);
+        console.log(' result_xmldata=result_xmldata=', result_xml);
+        var nonce_str_s = xml.getElementsByTagName('nonce_str');
+        var prepay_id_s = xml.getElementsByTagName('prepay_id');
+        // console.log("prepaout_trade_no; // 商户订单号
+        var appId = app.globalData.appId;
+        var nonceStr = nonce_str_s[0].firstChild.nodeValue; // 随机字符串
+        var timeStamp =String(Math.round(new Date().getTime())); // 时间戳
+        var package_valus = 'prepay_id=' + prepay_id_s[0].firstChild.nodeValue; // 统一下单接口返     
+        var Apikey = app.globalData.Apikey;
+        // paySign = MD5(appId=wxd678efh567hg6787&nonceStr=5K8264ILTKCH16CQ2502SI8ZNMTM67VS&package=prepay_id=wx2017033010242291fcfe0db70013231072&signType=MD5&timeStamp=1490840662&key=qazwsxedcrfvtgbyhnujmikolp111111) = 22D9B4E54AB1950F51E0649E8810ACD6
+        var paysign_temp = ("appId=" + appId + "&nonceStr=" + nonceStr + "&package=" + package_valus + "&signType=MD5&timeStamp=" + timeStamp + "&key=" + Apikey); // 签名
+        console.log("paysign_temp==1111===", paysign_temp);
+        // var paySign = md5.hexMD5(paysign_temp).toUpperCase();
+        var paySign = md5_2.md5(paysign_temp).toUpperCase();
+        // console.log("timeStamp, nonceStr, package_valus, paySign==1111===", timeStamp, nonceStr, package_valus, paySign);
+        wx.requestPayment({
+
+          timeStamp: timeStamp,
+          nonceStr: nonceStr,
+          package: package_valus,
+          signType: 'MD5',
+          paySign: paySign,
+          success: function(res) {
+            console.log("res==支付调用成功11==", res)
+          },
+          fail: function(res) {
+            console.log("res=fail=22==", res);
+            wx.showModal({
+              title: '支付提示',
+              content: '微信支付失败，请联系管理员!',
+              showCancel: false
+            })
+          }
+        })
+
       },
       fail: function(res) {
-        console.log("res=fail=22==", res);
+        console.log(' wx.request==出错了22==', res);
         wx.showModal({
           title: '支付提示',
-          content: 'res.content',
+          content: '订单生成失败，请联系管理员!',
           showCancel: false
         })
-      }
-    })
+      },
+      complete: function(res) {
+        // console.log('complete==3333==', res);
+      },
+    });
+
+
   }
   // toPay() {
   //   wx.showModal({

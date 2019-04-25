@@ -30,7 +30,9 @@ App({
   
   globalData: {
     openId: '',
+    Apikey: "symeiyu1357048216039688322766666", //不同于AppSecret(小程序密钥)#sy89667567	#api 密钥
     appId: 'wxc6c41875b492a9c0',
+    mch_id:"1529712601", //商户号
     hasLogin: false,
     address: {
       name: '',
@@ -124,13 +126,13 @@ App({
         shop_business_time: '10：00-22：00',
         shop_address: '佛山市南海区桂城万锦豪园北门建行旁'
       },
-      // {
-      //   id: 6,
-      //   shop_name: '上海市-闵行区-丝域养发馆',
-      //   shop_phone: '021-34293663',
-      //   shop_business_time: '10:00-22:00',
-      //   shop_address: '上海市闵行区万源南路99弄中庚漫游城OUT-L2-217'
-      // }
+      {
+        id: 6,
+        shop_name: '上海市-闵行区-丝域养发馆',
+        shop_phone: '021-34293663',
+        shop_business_time: '10:00-22:00',
+        shop_address: '上海市闵行区万源南路99弄中庚漫游城OUT-L2-217'
+      }
     ]
   }
 })
