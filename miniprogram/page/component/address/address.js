@@ -5,6 +5,7 @@ Page({
   data: {
     // address: globalData_address
     picker1Value: 0,
+    region:"",
     picker_data: '出生日期',
     // picker1Range: shop_list,
     picker1Range: ['请选择门店'],
@@ -53,6 +54,11 @@ Page({
       picker_data: e.detail.value
       // address: address
 
+    })
+  },
+  bindRegionChange: function (e) {
+    this.setData({
+      region: e.detail.value
     })
   },
   formSubmit(e) {

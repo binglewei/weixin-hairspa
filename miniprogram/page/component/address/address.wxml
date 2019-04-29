@@ -2,8 +2,8 @@
   <view class="form-box">
     <form bindsubmit="formSubmit">
       <view>
-       <text class="form-test">姓名</text>
-      <input class="form-input" value="{{address.name}}" name="name" placeholder="姓名" />
+        <text class="form-test">姓名</text>
+        <input class="form-input" value="{{address.name}}" name="name" placeholder="姓名" />
       </view>
       <!-- <view>
         <text class="form-test">性别</text>
@@ -20,15 +20,22 @@
       </view>
       <view>
         <text class="form-test">出生日期（必填）</text>
-        <picker class="picker" mode="date" value="{{picker_data}}" start="1900-01-01" end="2999-12-12" bindchange="datePickerBindchange" >{{picker_data}}</picker>
+        <picker class="picker" mode="date" value="{{picker_data}}" start="1900-01-01" end="2999-12-12" bindchange="datePickerBindchange">{{picker_data}}</picker>
         <!-- bindchange="datePickerBindchange" -->
         <!-- <input class="form-input" type="number" name="birthday" value="{{address.birthday}}" placeholder="出生日期" /> -->
       </view>
-      <view>
-        <text class="form-test">详细地址</text>
-        <input class="form-input" name="detail" value="{{address.detail}}" placeholder="详细地址" />
-      </view>
-      <button form-type="submit">保存</button>
+      <!-- <view class='information-li flex'>
+        <text class='area'>所在地区</text>
+        <picker mode="region" bindchange="bindRegionChange" value="{{address.region}}" custom-item="{{customItem}}">
+          <text class='areas' data-text="C">{{address.region[0]}}，{{address.region[1]}}，{{address.region[2]}}</text>
+          <text class='iconfont icon-dizhi map'></text>
+        </picker>
+        <view> -->
+          <view>
+            <text class="form-test">详细地址</text>
+            <input class="form-input" name="detail" value="{{address.detail}}" placeholder="详细地址" />
+          </view>
+          <button form-type="submit">保存</button>
     </form>
-  </view>
-</view>
+    </view>
+    </view>

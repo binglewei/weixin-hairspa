@@ -14,11 +14,16 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    // for var urls in bannerUrls{
+    //   url = encodeURI(urls.url);
+    //   urls.url = urls;
+    // }
     // wx.cloud.init();
     // wx.cloud.callFunction({
     //   name: 'get_openid',
     //   complete: res => {
-    //     console.log('云函数获取到的openid: ', res.result.userInfo.openId)
+        // console.log('云函数获取到的openid: ', res.result.userInfo.openId)
+    // console.log('bannerUrls===: ', bannerUrls)
     //     var openId = res.result.openId;
     //     // app.globalData.openId = openId;
     //     // this.setdata({
@@ -38,7 +43,18 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
+  // goUrl: function (e) {
+  //   console.log("url=urlurlurlurlurl===", e.currentTarget.dataset.url);
+  //   if (e.currentTarget.dataset.url != '#') {
+
+  //     wx.navigateTo({
+        
+  //       url: e.currentTarget.dataset.url,
+  //     })
+  //   }
+  //   },
   onShow: function() {
+    
     // wx.getSetting({
     //   success(res) {
     //     if (!res.authSetting['scope.userInfo']) {

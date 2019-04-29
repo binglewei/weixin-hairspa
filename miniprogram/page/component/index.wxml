@@ -1,11 +1,23 @@
 <view class="main">
   <swiper indicator-dots="true" autoplay="true" interval="{{interval}}" duration="{{duration}}" circular="true">
     <block wx:for="{{bannerUrls}}" wx:key="{{index}}">
-      <swiper-item>
-        <image src="{{item}}" class="slide-image" width="100%" />
-      </swiper-item>
+      <view wx:if="{{item.url}}" class="address-list">
+        <navigator url="otherview/Favourable_activity?url_id={{item.id}}">
+          <swiper-item>
+            <image src="{{item.image}}" class="slide-image" width="100%" />
+            <!-- <image bindtap='goUrl' data-url="{{item.url}}" src="{{item.pic}}" class="slide-image"/> -->
+          </swiper-item>
+        </navigator>
+      </view>
+      <view wx:else class="address-list">
+        <swiper-item>
+          <image src="{{item.image}}" class="slide-image" width="100%" />
+          <!-- <image bindtap='goUrl' data-url="{{item.url}}" src="{{item.pic}}" class="slide-image"/> -->
+        </swiper-item>
+      </view>
     </block>
   </swiper>
+
   <view class="search">
     <navigator url="search/search">
       <view class="search-text">
@@ -40,7 +52,7 @@
     <view class="newest-title">
       <text>为你推荐！</text>
     </view>
-    <view class="newest-box" >
+    <view class="newest-box">
       <view class="newest-list" wx:for="{{product_list}}" wx:key="{{item.id}}">
         <navigator url="details/details?id={{item.id}}">
           <image class="newest-image" src="{{item.image}}"></image>
@@ -51,7 +63,7 @@
             <text>{{item.price}}</text>
           </view> -->
         </navigator>
-      <!-- </view>
+        <!-- </view>
       <view class="newest-list">
         <navigator url="details/details">
           <image src="/image/s5.png"></image>

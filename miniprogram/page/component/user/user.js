@@ -58,6 +58,30 @@ Page({
     //     })
     //   }
     // })
+      // 云数据库初始化
+    const db = wx.cloud.database({
+      env: "wxc6c41875b492a9c0-1c74f6"
+    });
+    const orders_list = db.collection('orders_list');
+    orders_list.where({
+      _openid: app.globalData.openid
+    }).get({
+      success: res => {
+        this.setData({
+          queryResult: JSON.stringify(res.data, null, 2)
+        })
+        console.log('[数据库] [查询记录] 成功: ', res)
+      },
+      fail: err => {
+        wx.showToast({
+          icon: 'none',
+          title: '查询记录失败'
+        })
+        console.error('[数据库] [查询记录] 失败：', err)
+      }
+    })
+
+
   },
   onShow() {
     wx.getUserInfo({

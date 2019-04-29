@@ -4,13 +4,26 @@ App({
    * 当小程序初始化完成时，会触发 onLaunch（全局只触发一次）
    */
   onLaunch: function() {
-    
+
+    wx.cloud.init();
+    wx.cloud.callFunction({
+      name: 'get_openid',
+      complete: res => {
+
+        var openId = res.result.userInfo.openId;
+
+        this.globalData.openId = openId;
+        // console.log('云函数获取到的openid ', openId, res.result.userInfo)
+        // console.log('this.globalData===App=== ', this.globalData)
+      }
+    })
   },
 
   /**
    * 当小程序启动，或从后台进入前台显示，会触发 onShow
    */
   onShow: function(options) {
+
 
   },
 
@@ -27,12 +40,12 @@ App({
   onError: function(msg) {
 
   },
-  
+
   globalData: {
     openId: '',
     Apikey: "symeiyu1357048216039688322766666", //不同于AppSecret(小程序密钥)#sy89667567	#api 密钥
     appId: 'wxc6c41875b492a9c0',
-    mch_id:"1529712601", //商户号
+    mch_id: "1529712601", //商户号
     hasLogin: false,
     address: {
       name: '',
@@ -85,11 +98,33 @@ App({
         service: '舒密罗木头皮保湿不支持退货'
       }
     ],
-    bannerUrls: [
-      '/image/sy_banner/banner_1.jpg',
-      '/image/sy_banner/banner_2.jpg',
-      '/image/sy_banner/banner_3.jpg',
-      '/image/sy_banner/banner_4.jpg'
+    // bannerUrls: [
+    //   {'/image/sy_banner/banner_1.jpg',
+    //   '/image/sy_banner/banner_2.jpg',
+    //   '/image/sy_banner/banner_3.jpg',
+    //   '/image/sy_banner/banner_4.jpg'
+    // ],
+    bannerUrls: [{
+        id: 1,
+        image: '/image/sy_banner/banner_1.jpg',
+        url: 'https://mp.weixin.qq.com/s?__biz=MzU3Mzg2MzMxNA==&mid=100000032&idx=1&sn=4beb02fe49d0e7b3138cf79cfe55cad0&chksm=7d3a65dd4a4deccbe19988514126068c102d8061f89abafbb7e048b9e1cf342888b5813be19a#rd'
+      },
+      {
+        id: 2,
+        image: '/image/sy_banner/banner_2.jpg',
+        url: 'https://www.baidu.com/'
+      },
+      {
+        id: 3,
+        image: '/image/sy_banner/banner_3.jpg',
+        url: ''
+      },
+      {
+        id: 4,
+        image: '/image/sy_banner/banner_4.jpg',
+        url: ''
+      }
+
     ],
     shop_list: [{
         id: 1,

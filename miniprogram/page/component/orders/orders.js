@@ -40,6 +40,7 @@ Page({
           openId: openId
 
         })
+        app.globalData.openId = openId;
         console.log('云函数获取到的openid ', openId, res.result.userInfo)
       }
     });
@@ -107,10 +108,34 @@ Page({
         var result_xml = res.data;
         var xml_parser = new parser.DOMParser();
         var xml = xml_parser.parseFromString(result_xml);
-        console.log(' result_xmldata=result_xmldata=', result_xml);
+        var return_xml = xml_parser.parseFromString(bodyData);
+        var out_trade_no = return_xml.getElementsByTagName('out_trade_no')[0].firstChild.nodeValue;
+        var total_fee = return_xml.getElementsByTagName('total_fee')[0].firstChild.nodeValue;
+        console.log("out_trade_no==openId==22222=", out_trade_no);
+        var orders_list_String = {};
+        orders_list_String.openId = total_fee;
+        orders_list_String.out_trade_no = out_trade_no;
+
+        console.log("orders_list_String=111111111111111111==", orders_list_String)
+        
+        // 云数据库初始化
+        const db = wx.cloud.database({
+          env: "wxc6c41875b492a9c0-1c74f6"
+        });
+        const orders_list = db.collection('orders_list');
+        orders_list.add({
+          // data 字段表示需新增的 JSON 数据
+          // data: JSON.parse(orders_list_String)
+          data: orders_list_String
+
+        }).then(res => {
+          console.log("DATASET==res==orders_list_String===", res, orders_list_String)
+        }).catch(err => {
+          console.log("DATASET==res==orders_list_String===", err, orders_list_String)
+        })
+        // console.log(' result_xmldata=return_xml=', result_xml, return_xml);
         var nonce_str_s = xml.getElementsByTagName('nonce_str');
         var prepay_id_s = xml.getElementsByTagName('prepay_id');
-        // console.log("prepaout_trade_no; // 商户订单号
         var appId = app.globalData.appId;
         var nonceStr = nonce_str_s[0].firstChild.nodeValue; // 随机字符串
         var timeStamp =String(Math.round(new Date().getTime())); // 时间戳
@@ -123,7 +148,6 @@ Page({
         var paySign = md5_2.md5(paysign_temp).toUpperCase();
         // console.log("timeStamp, nonceStr, package_valus, paySign==1111===", timeStamp, nonceStr, package_valus, paySign);
         wx.requestPayment({
-
           timeStamp: timeStamp,
           nonceStr: nonceStr,
           package: package_valus,
@@ -131,6 +155,7 @@ Page({
           paySign: paySign,
           success: function(res) {
             console.log("res==支付调用成功11==", res)
+           
           },
           fail: function(res) {
             console.log("res=fail=22==", res);
@@ -151,8 +176,9 @@ Page({
           showCancel: false
         })
       },
-      complete: function(res) {
+      complete: function (res) {
         // console.log('complete==3333==', res);
+        
       },
     });
 
