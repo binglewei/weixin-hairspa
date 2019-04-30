@@ -1,7 +1,7 @@
 /*
  * 根据openid 发起微信支付  
  */
-var md5 = require("../utils/md5.js");
+// var md5 = require("../utils/md5.js");
 var md5_2 = require("../utils/md5_2.js");
 var utils = require("../utils/utils.js");
 var parser = require("../xmldom/dom-parser.js");

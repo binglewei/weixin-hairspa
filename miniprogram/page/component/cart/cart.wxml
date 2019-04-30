@@ -5,10 +5,10 @@
         <icon wx:if="{{item.selected}}" type="success" color="red" data-index="{{index}}" class="cart-pro-select" bindtap="selectList" />
         <icon wx:else type="circle" class="cart-pro-select" data-index="{{index}}" bindtap="selectList" />
         <navigator url="../details/details?id={{item.id}}">
-          <image class="cart-thumb" src="{{item.image}}"></image>
+          <image class="cart-thumb" src="{{item.imgUrl}}"></image>
         </navigator>
-        <text class="cart-pro-name">{{item.title}}</text>
-        <text class="cart-pro-price">￥{{item.price}}</text>
+        <text class="cart-pro-name">{{item.name}}</text>
+        <text class="cart-pro-price">￥{{item.retailPrice}}</text>
         <view class="cart-count-box">
           <text class="cart-count-down" bindtap="minusCount" data-obj="{{obj}}" data-index="{{index}}">-</text>
           <text class="cart-count-num">{{item.num}}</text>

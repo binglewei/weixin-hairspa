@@ -1,16 +1,16 @@
 // page/component/orders/orders.js
 var util = require('../../../libs/utils/utils.js');
-var md5 = require('../../../libs/utils/md5.js');
+// var md5 = require('../../../libs/utils/md5.js');
 var md5_2 = require('../../../libs/utils/md5_2.js');
 var sign = require('../../../libs/utils/sign.js');
 var parser = require("../../../libs/xmldom/dom-parser.js");
 var app = getApp();
-var cart_totalNums = app.globalData.cart_totalNums;
+
 
 
 Page({
   data: {
-    openId: "",
+    openId: "app.globalData.openId",
     address: {},
     returnValue: '',
     hasAddress: false,
@@ -25,30 +25,19 @@ Page({
     this.getTotalPrice();
   },
   onShow: function() {
-    // wx.cloud.init();
     var self = this;
     var orders_1 = [];
-    wx.cloud.init();
-    wx.cloud.callFunction({
-      name: 'get_openid',
-      complete: res => {
-
-        var openId = res.result.userInfo.openId;
-        // var openId = res.result.userInfo.appId;
-        this.setData({
-          // appId: appId,
+    
+    var openId = app.globalData.openId;
+    this.setData({
           openId: openId
 
         })
-        app.globalData.openId = openId;
-        console.log('云函数获取到的openid ', openId, res.result.userInfo)
-      }
-    });
+    var cart_totalNums = app.globalData.cart_totalNums;
     for (var key in cart_totalNums) {
       var selected = cart_totalNums[key]["selected"];
       if (selected) {
         orders_1.push(cart_totalNums[key]);
-        // console.log("selected orders_1==", selected, orders_1);
       }
       // console.log("orders_1==", orders_1);
       self.setData({
@@ -74,7 +63,7 @@ Page({
     let orders = this.data.orders;
     let total = 0;
     for (let i = 0; i < orders.length; i++) {
-      total += orders[i].num * orders[i].price;
+      total += orders[i].num * orders[i].retailPrice;
     }
     this.setData({
       total: total
@@ -184,16 +173,5 @@ Page({
 
 
   }
-  // toPay() {
-  //   wx.showModal({
-  //     title: '提示',
-  //     content: '本系统只做演示，支付系统已屏蔽',
-  //     text: 'center',
-  //     complete() {
-  //       wx.switchTab({
-  //         url: '/page/component/user/user'
-  //       })
-  //     }
-  //   })
-  // }
+  
 })

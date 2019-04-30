@@ -15,12 +15,13 @@ Page({
   onLoad: function(options) {
     var app = getApp();
     var bannerUrls = app.globalData.bannerUrls;
-    console.log("options===============", options);
+    console.log("options===============", options, bannerUrls);
     var url_id = options.url_id;
-    
+    console.log("url_id=========22222==========", url_id);
     for (var bann in bannerUrls) {
-      var id = bannerUrls[bann]["id"];
-      if (id == url_id) {
+      console.log("bann=======1111=====", bann, url_id);
+      var _id = bannerUrls[bann]["_id"];
+      if (_id == url_id) {
         var url = bannerUrls[bann]["url"];
         console.log("bann..url==22222=============", url);
         this.setData({

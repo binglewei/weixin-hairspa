@@ -9,17 +9,16 @@ var demo = new QQMapWX({
   key: 'RFHBZ-V56CU-25RVN-4QV2L-ZONZO-KVBWO' // 必填RFHBZ-V56CU-25RVN-4QV2L-ZONZO-KVBWO
 });
 var app = getApp();
-var shop_list = app.globalData.shop_list;
+
 Page({
 
   /**
    * 页面的初始数据
    */
- 
   data: {
     
-    shop_list: shop_list
-    // shop_list: app.globalData.shop_list
+    // shop_list: ""
+    shop_list: app.globalData.shop_list
     
   },
   
@@ -42,6 +41,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    // var shop_list = app.globalData.shop_list;
     // this.setData(shop_list);
     // var app = getApp();
     // var shop_list = app.globalData.shop_list;

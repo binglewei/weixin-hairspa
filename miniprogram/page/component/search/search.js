@@ -1,12 +1,12 @@
 let timeId = null;
 var app = getApp();
-var seach_hot = app.globalData.seach_hot;
-var product_list = app.globalData.product_list;
+// var seach_hot = app.globalData.seach_hot;
+
 Page({
   data: {
     history: [],
     // hot: ['新鲜芹菜', '大红枣', '滋补桂圆干'],
-    hot: seach_hot,
+    hot: "app.globalData.seach_hot",
     result: [],
     // result: [
     //     {
@@ -28,13 +28,16 @@ Page({
    */
   onShow: function() {
     var keywords = [];
+    var product_list = app.globalData.product_list;
     for (var key in product_list) {
       var title = product_list[key]["title"]
       keywords.push(title);
     }
     // console.log("keywords===", keywords);
+    var seach_hot = app.globalData.seach_hot;
     this.setData({
       keywords: keywords,
+      hot:seach_hot
     });
   },
   cancelSearch() {
@@ -66,6 +69,7 @@ Page({
     const text = e.target.dataset.text;
     // console.log("keywordHandle", text);
     var results=[];
+    var product_list=app.globalData.product_list;
     for (var key in product_list) {
       var title = product_list[key]["title"];
       if (title.indexOf(text)>=0){

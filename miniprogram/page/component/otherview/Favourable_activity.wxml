@@ -1,4 +1,12 @@
 <!--miniprogram/page/otherview/Favourable_activity.wxml-->
 <!-- <text>{{url}}</text> -->
-<web-view src="{{url}}" > </web-view>
+<!-- <web-view src="{{url}}" > </web-view> -->
+ <!-- <image src="{{url}}" class="image" width="100%" /> -->
+ 
+<!--userinfo.wxml-->
+<view class = "userInfo">
+    <!-- <text>{{userName}}</text> -->
+    <image src="{{url}}" class = "image"></image>
+  </view>
+
 <!-- <web-view src="https://mp.weixin.qq.com/s?__biz=MzU3Mzg2MzMxNA==&mid=100000032&idx=1&sn=4beb02fe49d0e7b3138cf79cfe55cad0&chksm=7d3a65dd4a4deccbe19988514126068c102d8061f89abafbb7e048b9e1cf342888b5813be19a#rd&aa=%22ha%22"></web-view> -->

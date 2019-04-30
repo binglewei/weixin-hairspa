@@ -2,7 +2,7 @@
   <swiper indicator-dots="true" autoplay="true" interval="{{interval}}" duration="{{duration}}" circular="true">
     <block wx:for="{{bannerUrls}}" wx:key="{{index}}">
       <view wx:if="{{item.url}}" class="address-list">
-        <navigator url="otherview/Favourable_activity?url_id={{item.id}}">
+        <navigator url="otherview/Favourable_activity?url_id={{item._id}}">
           <swiper-item>
             <image src="{{item.image}}" class="slide-image" width="100%" />
             <!-- <image bindtap='goUrl' data-url="{{item.url}}" src="{{item.pic}}" class="slide-image"/> -->
@@ -27,6 +27,7 @@
       </view>
     </navigator>
   </view>
+
   <!-- <view class="selected">
         <view class="select-title"><text>为你推荐</text></view>
         <view class="select-top">
@@ -49,44 +50,51 @@
     </view> -->
 
   <view class="newest">
+    <!-- <avigator url="list/list" class="newest-title">
+      <button class="newest-title-text">爆品推荐</button>
+      <text>更多</text>
+    </avigator> -->
     <view class="newest-title">
-      <text>为你推荐！</text>
+      <navigator url="/page/component/list/list">
+        <button class="newest-title-banner">
+          <text class="newest-title-text1">爆品推荐</text>
+          <text class="newest-title-text2">更多》》</text>
+        </button>
+        <!-- 地址管理 -->
+      </navigator>
     </view>
     <view class="newest-box">
       <view class="newest-list" wx:for="{{product_list}}" wx:key="{{item.id}}">
         <navigator url="details/details?id={{item.id}}">
-          <image class="newest-image" src="{{item.image}}"></image>
+          <image class="newest-image" src="{{item.imgUrl}}"></image>
           <view class="newest-text">
-            <text>{{item.title}} ￥{{item.price}}</text>
-          </view>
-          <!-- <view class="newest-text">
-            <text>{{item.price}}</text>
-          </view> -->
-        </navigator>
-        <!-- </view>
-      <view class="newest-list">
-        <navigator url="details/details">
-          <image src="/image/s5.png"></image>
-          <view class="newest-text">
-            <text>芹菜 半斤</text>
-          </view>
-          <view class="newest-text">
-            <text>￥ 0.02</text>
+            <text>{{item.name}} ￥{{item.retailPrice}}</text>
           </view>
         </navigator>
-      </view>
-      <view class="newest-list">
-        <navigator url="details/details">
-          <image src="/image/s6.png"></image>
-          <view class="newest-text">
-            <text>素米 375g</text>
-          </view>
-          <view class="newest-text">
-            <text>￥ 0.03</text>
-          </view>
-        </navigator> -->
+
       </view>
     </view>
 
+  
   </view>
+  <view class="selected">
+        <view class="select-title"><text>精选主题</text></view>
+        <view class="select-top">
+            <view class="select-top-small">
+                <navigator url="list/list">
+                    <image src="/image/s1.png"></image>
+                </navigator>
+            </view>
+            <view class="select-top-small">
+                <navigator url="list/list">
+                    <image src="/image/s2.png"></image>
+                </navigator>
+            </view>
+        </view>
+        <view class="select-bottom">
+            <navigator url="list/list">
+                <image src="/image/s3.png"></image>
+            </navigator>
+        </view>
+    </view>
 </view>
