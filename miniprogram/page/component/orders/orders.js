@@ -75,10 +75,11 @@ Page({
   toPay() {
 
     var resp = {}
-    resp["total"] = this.data.total;
-    resp["address"] = this.data.address;
-    resp["orders"] = this.data.orders;
-    resp["openId"] = this.data.openId;
+    var self = this;
+    resp["total"] = self.data.total;
+    resp["address"] = self.data.address;
+    resp["orders"] = self.data.orders;
+    resp["openId"] = self.data.openId;
     console.log("res==resp=befor=", resp);
     // var Apikey = "symeiyu1357048216039688322766666"; //不同于AppSecret(小程序密钥)#sy89667567	#api 密钥
 
@@ -102,8 +103,10 @@ Page({
         var total_fee = return_xml.getElementsByTagName('total_fee')[0].firstChild.nodeValue;
         console.log("out_trade_no==openId==22222=", out_trade_no);
         var orders_list_String = {};
-        orders_list_String.openId = total_fee;
+        orders_list_String.total_fee = total_fee/100;
         orders_list_String.out_trade_no = out_trade_no;
+        orders_list_String.orders = self.data.orders;
+        orders_list_String.address = self.data.address;
 
         console.log("orders_list_String=111111111111111111==", orders_list_String)
         

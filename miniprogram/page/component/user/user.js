@@ -2,12 +2,13 @@
 // var app = getApp();
 // var globalData_address= app.globalData.address;
 var app = getApp();
-var WXBizDataCrypt = require('../../../libs/WXBizDataCrypt/WXBizDataCrypt.js');
+// var WXBizDataCrypt = require('../../../libs/WXBizDataCrypt/WXBizDataCrypt.js');
 Page({
   data: {
     thumb: '',
     nickname: '',
     orders: [],
+    orders_list: [],
     hasAddress: false,
     address: {}
   },
@@ -68,9 +69,9 @@ Page({
     }).get({
       success: res => {
         this.setData({
-          queryResult: JSON.stringify(res.data, null, 2)
+          orders_list:res.data
         })
-        console.log('[数据库] [查询记录] 成功: ', res)
+        console.log('[数据库] [查询记录] 成功: ', res.data)
       },
       fail: err => {
         wx.showToast({

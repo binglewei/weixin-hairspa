@@ -48,7 +48,7 @@ Page({
     product_list_data.where({
       // _openid: this.data.openid
       // _id:1
-      type:1
+      type:2
     }).get({
       success: function (res) {
         console.log('[数据库] [查询product_list_data记录]222 成功: ', res);
