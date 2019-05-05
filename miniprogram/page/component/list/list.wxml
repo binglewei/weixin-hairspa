@@ -1,10 +1,37 @@
-<view class="main">
-    <view class="banner">
-        <image src="/image/list1.png"></image>
-    </view>
+<!-- <view class="main">
+  <view class="banner">
+    <image src="/image/list1.png"></image>
+  </view> -->
+  <view class="main">
+  <swiper indicator-dots="true" autoplay="true" interval="{{interval}}" duration="{{duration}}" circular="true">
+    <block wx:for="{{bannerUrls}}" wx:key="{{index}}">
+      <view wx:if="{{item.url}}" class="address-list">
+        <navigator url="otherview/Favourable_activity?url_id={{item._id}}">
+          <swiper-item>
+            <image src="{{item.image}}" class="slide-image" width="100%" />
+            <!-- <image bindtap='goUrl' data-url="{{item.url}}" src="{{item.pic}}" class="slide-image"/> -->
+          </swiper-item>
+        </navigator>
+      </view>
+      <view wx:else class="address-list">
+        <swiper-item>
+          <image src="{{item.image}}" class="slide-image" width="100%" />
+          <!-- <image bindtap='goUrl' data-url="{{item.url}}" src="{{item.pic}}" class="slide-image"/> -->
+        </swiper-item>
+      </view>
+    </block>
+  </swiper>
 
-    <view class="list-box">
-        <view class="newest-list">
+  <!-- <view class="list-box"> -->
+  <view class="newest-box">
+    <view class="newest-list" wx:for="{{project_lists}}" wx:key="{{item.id}}">
+      <navigator url="../details/details?id={{item.id}}">
+        <image class="newest-image" src="{{item.imgUrl}}"></image>
+        <view class="newest-text">
+          <text>单次 {{item.name}} ￥{{item.retailPrice}}</text>
+        </view>
+      </navigator>
+      <!-- <view class="newest-list">
             <navigator url="../details/details">
                 <image src="/image/s4.png"></image>
                 <view class="newest-text"><text>瓜子 100g</text></view>
@@ -24,6 +51,7 @@
                 <view class="newest-text"><text>素米 375g</text></view>
                 <view class="newest-text"><text>￥ 0.03</text></view>
             </navigator>
-        </view>
+        </view> -->
     </view>
+  </view>
 </view>

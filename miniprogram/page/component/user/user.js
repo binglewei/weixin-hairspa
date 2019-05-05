@@ -2,6 +2,8 @@
 // var app = getApp();
 // var globalData_address= app.globalData.address;
 var app = getApp();
+var md5_2 = require('../../../libs/utils/md5_2.js');
+var util = require('../../../libs/utils/utils.js');
 // var WXBizDataCrypt = require('../../../libs/WXBizDataCrypt/WXBizDataCrypt.js');
 Page({
   data: {
@@ -9,6 +11,7 @@ Page({
     nickname: '',
     orders: [],
     orders_list: [],
+    orders_pay: [],
     hasAddress: false,
     address: {}
   },
@@ -19,22 +22,22 @@ Page({
      * 获取用户信息
      */
     wx.login({
-        success(res) {
-          if (res.code) {
-            // 发起网络请求
-            // wx.request({
-            //   url: 'https://test.com/onLogin',
-            //   data: {
-            //     code: res.code
-            //   }
-            // })
-            console.log('wx.login登录成功===', res);
+      success(res) {
+        if (res.code) {
+          // 发起网络请求
+          // wx.request({
+          //   url: 'https://test.com/onLogin',
+          //   data: {
+          //     code: res.code
+          //   }
+          // })
+          console.log('wx.login登录成功===', res);
 
-          } else {
-            console.log('登录失败！', res.errMsg)
-          }
+        } else {
+          console.log('登录失败！', res.errMsg)
         }
-      })
+      }
+    })
     // wx.getUserInfo({
     //   success: function(res){
     //     console.log('wx.getUserInfo===' ,  res)
@@ -59,7 +62,12 @@ Page({
     //     })
     //   }
     // })
-      // 云数据库初始化
+   
+
+
+  },
+  onShow() {
+    // 云数据库初始化
     const db = wx.cloud.database({
       env: "wxc6c41875b492a9c0-1c74f6"
     });
@@ -69,7 +77,7 @@ Page({
     }).get({
       success: res => {
         this.setData({
-          orders_list:res.data
+          orders_list: res.data
         })
         console.log('[数据库] [查询记录] 成功: ', res.data)
       },
@@ -80,11 +88,7 @@ Page({
         })
         console.error('[数据库] [查询记录] 失败：', err)
       }
-    })
-
-
-  },
-  onShow() {
+    });
     wx.getUserInfo({
       lang: "zh_CN",
       withCredentials: true,
@@ -150,26 +154,194 @@ Page({
       }
     })
   },
+
+  //  发起消费请求
+  expenseOrders(e) {
+    var self = this;
+    var id = e.target.dataset.id;
+    wx.showModal({
+      title: '消费提示',
+      content: '请问你确定要确认消费吗？？',
+      success(res) {
+        if (res.confirm) {
+          console.log('用户点击确定')
+          const db = wx.cloud.database({
+            env: "wxc6c41875b492a9c0-1c74f6"
+          });
+          const orders_list = db.collection('orders_list');
+          console.log("e=e.target.dataset.id=11111111=", id);
+
+          orders_list.doc(id).update({
+            data: {
+              expense: 0,
+              expense_describe: "已消费",
+              // ddxz:22,
+              expense_time: util.format_date_5(new Date())
+              // out_trade_no: 66666666666666
+            },
+            success: res => {
+              console.log('[数据库] [更新记录] 成功：', res);
+              getCurrentPages()[getCurrentPages().length - 1].onShow()
+              // this.setData({
+              //   count: newCount
+              // })
+            },
+            fail: err => {
+              icon: 'none',
+                console.error('[数据库] [更新记录] 失败：', err);
+              getCurrentPages()[getCurrentPages().length - 1].onShow()
+
+            }
+
+          })
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+    // var orders_list_values = {};
+   
+    // orders_list.where({
+    //   // _openid: app.globalData.openid,
+    //   out_trade_no: e.target.dataset.out_trade_no,
+    // }).update({
+    //   success: res => {
+    //     self.setData({
+    //       orders_pay: res.data
+    //     })
+    //     // orders_list_values = res.data;
+    //     console.log('[数据库] [查询记录] 222成功: ', res.data, self.data.orders_pay)
+    //   },
+    //   fail: err => {
+    //     wx.showToast({
+    //       icon: 'none',
+    //       title: '查询记录失败'
+    //     })
+    //     console.error('[数据库] [查询记录] 失败：', err)
+    //   }
+    // });
+  },
+
+
+
   /**
    * 发起支付请求
    */
-  payOrders() {
+  payOrders(e) {
+    var self = this;
+    var index = e.target.dataset.index;
+    var id = e.target.dataset.id;
+    
+    console.log("e=e.target.dataset.index===22id===", index, id);
+    var orders_list_values = {};
+    var timeStamp = String(Math.round(new Date().getTime())); // 时间戳
+
+    var orders_pay = self.data.orders_list[index];
+    console.log('==orders_pay=1111== ', orders_pay, self.data.orders_pay);
+    var appId = app.globalData.appId;
+    var Apikey = app.globalData.Apikey;
+    var nonceStr = orders_pay.nonceStr;
+    var out_trade_no = orders_pay.out_trade_no;
+    var package_valus = orders_pay.package_valus;
+    var paysign_temp = ("appId=" + appId + "&nonceStr=" + nonceStr + "&package=" + package_valus + "&signType=MD5&timeStamp=" + timeStamp + "&key=" + Apikey); // 签名
+    console.log("paysign_temp==USER=222222222==", paysign_temp);
+    // var paySign = md5.hexMD5(paysign_temp).toUpperCase();
+    var paySign = md5_2.md5(paysign_temp).toUpperCase();
     wx.requestPayment({
-      timeStamp: 'String1',
-      nonceStr: 'String2',
-      package: 'String3',
+      timeStamp: timeStamp,
+      nonceStr: nonceStr,
+      package: package_valus,
       signType: 'MD5',
-      paySign: 'String4',
+      paySign: paySign,
       success: function(res) {
-        console.log("res==11==", res)
+        console.log("res==支付调用成功11==", res)
+        const db = wx.cloud.database({
+          env: "wxc6c41875b492a9c0-1c74f6"
+        });
+        const orders_list = db.collection('orders_list');
+        orders_list.doc(id).update({
+          data: {
+            //  orders_list_String.status_describe = "支付成功";
+            // orders_list_String.status = 0;
+            // orders_list_String.expense = 1;
+            // orders_list_String.expense_describe = "未消费";
+            // orders_list_String.expense_time = "";
+            // orders_list_String.pay_time = util.format_date_5(new Date()) ;
+            status_describe: "支付成功",
+            status:0,
+            expense:1,
+            expense_describe: "未消费",
+            expense_time : "",
+            pay_time : util.format_date_5(new Date()) 
+          },
+          success: res => {
+            console.log('[数据库] [更新记录] 成功：', res)
+            getCurrentPages()[getCurrentPages().length - 1].onShow()
+            // this.setData({
+            //   count: newCount
+            // })
+          },
+          fail: err => {
+            icon: 'none',
+            console.error('[数据库] [更新记录] 失败：', err)
+            getCurrentPages()[getCurrentPages().length - 1].onShow()
+          }
+        })
       },
       fail: function(res) {
-        console.log("res==22==", res);
+        
+        var err_code = res.err_code
+        console.log("res=fail=22==", res, err_code);
+        if (err_code==2){
+          
         wx.showModal({
           title: '支付提示',
-          content: "res.content",
+          content: '微信支付失败，请从新下单!',
           showCancel: false
         })
+        const db = wx.cloud.database({
+          env: "wxc6c41875b492a9c0-1c74f6"
+        });
+        const orders_list = db.collection('orders_list');
+        orders_list.doc(id).update({
+          data: {
+            //  orders_list_String.status_describe = "支付成功";
+            // orders_list_String.status = 0;
+            // orders_list_String.expense = 1;
+            // orders_list_String.expense_describe = "未消费";
+            // orders_list_String.expense_time = "";
+            // orders_list_String.pay_time = util.format_date_5(new Date()) ;
+            status_describe: "支付失败",
+            status: 0,
+            expense: 0,
+            expense_describe: "未消费",
+            expense_time: "",
+            pay_time: util.format_date_5(new Date())
+          },
+          success: res => {
+            console.log('[数据库] [更新记录] 成功：', res)
+            getCurrentPages()[getCurrentPages().length - 1].onShow()
+            // this.setData({
+            //   count: newCount
+            // })
+          },
+          fail: err => {
+            icon: 'none',
+            console.error('[数据库] [更新记录] 失败：', err),
+            getCurrentPages()[getCurrentPages().length - 1].onShow()
+          }
+          
+        })
+        }
+      else{
+          wx.showModal({
+            title: '支付提示',
+            content: '微信支付失败，请联系管理员!',
+            showCancel: false
+          })
+          getCurrentPages()[getCurrentPages().length - 1].onShow()
+      }
+       
       }
     })
   }

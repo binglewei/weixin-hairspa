@@ -28,7 +28,36 @@ Page({
    */
   onShow: function() {
     var keywords = [];
-    var product_list = app.globalData.product_list;
+    
+    const db = wx.cloud.database({
+      env: "wxc6c41875b492a9c0-1c74f6" // 环境ID：wxc6c41875b492a9c0-1c74f6
+    });
+    const product_list_data = db.collection('product_list');
+    product_list_data.where({
+      // _openid: this.data.openid
+      // _id:1
+      // type: 2
+    }).get({
+      success: function (res) {
+        console.log('[数据库] [查询product_list_data记录]222 成功: ', res);
+        var product_list = res.data;
+        // console.log('banner_urls_1========== ', banner_urls_1);
+        app.globalData.product_list = product_list;
+        self.setData({
+          product_list: product_list,
+          // product_list: product_list
+        });
+        // console.log('bannerUrls====3333333====== ', self.data);
+      },
+      fail: function (res) {
+        wx.showToast({
+          icon: 'none',
+          title: '查询记录失败'
+        })
+        console.error('[数据库] [查询记录] 失败：', err)
+      }
+    })
+    var product_list = this.data.product_list;
     for (var key in product_list) {
       var title = product_list[key]["title"]
       keywords.push(title);
@@ -71,7 +100,7 @@ Page({
     var results=[];
     var product_list=app.globalData.product_list;
     for (var key in product_list) {
-      var title = product_list[key]["title"];
+      var title = product_list[key]["name"];
       if (title.indexOf(text)>=0){
         results.push(product_list[key]);
 

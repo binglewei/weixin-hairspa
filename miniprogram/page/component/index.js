@@ -29,7 +29,7 @@ Page({
         // console.log('[数据库] [查询banner_urls_data记录] 成功: ', res);
         var banner_urls_1 = res.data;
         // console.log('banner_urls_1========== ', banner_urls_1);
-        app.globalData.bannerUrls = banner_urls_1;
+        // app.globalData.bannerUrls = banner_urls_1;
         self.setData({
           bannerUrls: banner_urls_1,
           // product_list: product_list
@@ -48,7 +48,7 @@ Page({
     product_list_data.where({
       // _openid: this.data.openid
       // _id:1
-      type:2
+      // type:2
     }).get({
       success: function (res) {
         console.log('[数据库] [查询product_list_data记录]222 成功: ', res);
@@ -57,6 +57,30 @@ Page({
         app.globalData.product_list = product_list;
         self.setData({
           product_list: product_list,
+          // product_list: product_list
+        });
+        // console.log('bannerUrls====3333333====== ', self.data);
+      },
+      fail: function (res) {
+        wx.showToast({
+          icon: 'none',
+          title: '查询记录失败'
+        })
+        console.error('[数据库] [查询记录] 失败：', err)
+      }
+    })
+    product_list_data.where({
+      // _openid: this.data.openid
+      // _id:1
+      type:2
+    }).limit(10).get({
+      success: function (res) {
+        console.log('[数据库] [查询product_list_data记录]222 成功: ', res);
+        var project_lists = res.data;
+        // console.log('banner_urls_1========== ', banner_urls_1);
+        // app.globalData.product_list = product_list;
+        self.setData({
+          project_lists: project_lists,
           // product_list: product_list
         });
         // console.log('bannerUrls====3333333====== ', self.data);

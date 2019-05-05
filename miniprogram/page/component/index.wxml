@@ -57,18 +57,18 @@
     <view class="newest-title">
       <navigator url="/page/component/list/list">
         <button class="newest-title-banner">
-          <text class="newest-title-text1">爆品推荐</text>
+          <text class="newest-title-text1">精品套餐</text>
           <text class="newest-title-text2">更多》》</text>
         </button>
         <!-- 地址管理 -->
       </navigator>
     </view>
     <view class="newest-box">
-      <view class="newest-list" wx:for="{{product_list}}" wx:key="{{item.id}}">
+      <view class="newest-list" wx:for="{{project_lists}}" wx:key="{{item.id}}">
         <navigator url="details/details?id={{item.id}}">
           <image class="newest-image" src="{{item.imgUrl}}"></image>
           <view class="newest-text">
-            <text>{{item.name}} ￥{{item.retailPrice}}</text>
+            <text>单次 {{item.name}} ￥{{item.retailPrice}}</text>
           </view>
         </navigator>
 

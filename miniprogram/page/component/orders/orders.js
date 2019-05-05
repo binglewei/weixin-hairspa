@@ -76,7 +76,7 @@ Page({
 
     var resp = {}
     var self = this;
-    resp["total"] = self.data.total;
+    resp["total"] = self.data.total.toFixed(2);
     resp["address"] = self.data.address;
     resp["orders"] = self.data.orders;
     resp["openId"] = self.data.openId;
@@ -102,29 +102,7 @@ Page({
         var out_trade_no = return_xml.getElementsByTagName('out_trade_no')[0].firstChild.nodeValue;
         var total_fee = return_xml.getElementsByTagName('total_fee')[0].firstChild.nodeValue;
         console.log("out_trade_no==openId==22222=", out_trade_no);
-        var orders_list_String = {};
-        orders_list_String.total_fee = total_fee/100;
-        orders_list_String.out_trade_no = out_trade_no;
-        orders_list_String.orders = self.data.orders;
-        orders_list_String.address = self.data.address;
-
-        console.log("orders_list_String=111111111111111111==", orders_list_String)
         
-        // 云数据库初始化
-        const db = wx.cloud.database({
-          env: "wxc6c41875b492a9c0-1c74f6"
-        });
-        const orders_list = db.collection('orders_list');
-        orders_list.add({
-          // data 字段表示需新增的 JSON 数据
-          // data: JSON.parse(orders_list_String)
-          data: orders_list_String
-
-        }).then(res => {
-          console.log("DATASET==res==orders_list_String===", res, orders_list_String)
-        }).catch(err => {
-          console.log("DATASET==res==orders_list_String===", err, orders_list_String)
-        })
         // console.log(' result_xmldata=return_xml=', result_xml, return_xml);
         var nonce_str_s = xml.getElementsByTagName('nonce_str');
         var prepay_id_s = xml.getElementsByTagName('prepay_id');
@@ -139,6 +117,23 @@ Page({
         // var paySign = md5.hexMD5(paysign_temp).toUpperCase();
         var paySign = md5_2.md5(paysign_temp).toUpperCase();
         // console.log("timeStamp, nonceStr, package_valus, paySign==1111===", timeStamp, nonceStr, package_valus, paySign);
+        var orders_list_String = {};
+        orders_list_String.orders = self.data.orders;
+        orders_list_String.address = self.data.address;
+        orders_list_String.total_fee = total_fee / 100;
+        orders_list_String.out_trade_no = out_trade_no;
+        orders_list_String.package_valus = package_valus;
+        // orders_list_String.paySign = paySign;
+        orders_list_String.nonceStr = nonceStr;
+
+        console.log("orders_list_String=111111111111111111==", orders_list_String)
+
+        // 云数据库初始化
+        const db = wx.cloud.database({
+          env: "wxc6c41875b492a9c0-1c74f6"
+        });
+        const orders_list = db.collection('orders_list');
+       
         wx.requestPayment({
           timeStamp: timeStamp,
           nonceStr: nonceStr,
@@ -147,14 +142,39 @@ Page({
           paySign: paySign,
           success: function(res) {
             console.log("res==支付调用成功11==", res)
+            orders_list_String.status_describe = "支付成功";
+            orders_list_String.status = 0;
+            orders_list_String.expense = 1;
+            orders_list_String.expense_describe = "未消费";
+            orders_list_String.expense_time="";
+            orders_list_String.pay_time = util.format_date_5(new Date()) ;
            
           },
           fail: function(res) {
             console.log("res=fail=22==", res);
+            orders_list_String.status_describe = "支付失败";
+            orders_list_String.status = 1;
+            orders_list_String.expense = 0;
+            orders_list_String.expense_describe = "无";
+            orders_list_String.expense_time = "";
+            orders_list_String.pay_time = util.format_date_5(new Date());
             wx.showModal({
               title: '支付提示',
               content: '微信支付失败，请联系管理员!',
               showCancel: false
+            })
+          },
+          complete: function (res) {
+            // self.data.
+            orders_list.add({
+              // data 字段表示需新增的 JSON 数据
+              // data: JSON.parse(orders_list_String)
+              data: orders_list_String
+
+            }).then(res => {
+              console.log("DATASET==res==orders_list_String===", res, orders_list_String)
+            }).catch(err => {
+              console.log("DATASET==res==orders_list_String===", err, orders_list_String)
             })
           }
         })
@@ -178,3 +198,6 @@ Page({
   }
   
 })
+// module.exports = {
+//   toPay: toPay,
+//   }

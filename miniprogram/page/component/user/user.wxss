@@ -121,3 +121,7 @@ font-weight: bold
     background: #b42f2d;
     color: #fff;
 }
+.orders-paytext{
+position: absolute;
+right: 5rpx; 
+}

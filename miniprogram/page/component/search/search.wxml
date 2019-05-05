@@ -7,13 +7,13 @@
   <view class="result" wx:if="{{showResult}}">
     <view class="result-box" wx:if="{{result.length > 0}}">
       <view class="result-list" wx:for="{{result}}" wx:key="index">
-        <navigator url="{{item.url}}">
-          <image src="{{item.image}}"></image>
+        <navigator url="../details/details?id={{item.id}}">
+          <image src="{{item.imgUrl}}"></image>
           <view class="result-text">
-            <text>{{item.title}}</text>
+            <text>{{item.name}}</text>
           </view>
           <view class="result-text">
-            <text>￥ {{item.price}}</text>
+            <text>￥ {{item.retailPrice}}</text>
           </view>
         </navigator>
       </view>
@@ -25,13 +25,14 @@
       </view>
       <view class="recommend-box">
         <view class="result-list" wx:for="{{result}}" wx:key="index">
-          <navigator url="{{item.url}}">
-            <image src="{{item.image}}"></image>
+          <navigator url="../details/details?id={{item.id}}">
+          <!-- <navigator url="../.."> -->
+            <image src="{{item.imgUrl}}"></image>
             <view class="result-text">
-              <text>{{item.title}}</text>
+              <text>{{item.name}}</text>
             </view>
             <view class="result-text">
-              <text>￥ {{item.price}}</text>
+              <text>￥ {{item.retailPrice}}</text>
             </view>
           </navigator>
         </view>
