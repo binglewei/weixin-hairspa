@@ -21,9 +21,9 @@ Page({
     var self = this;
     var shop_names = ['请选择门店'];
     for (var num in shop_list) {
-      console.log("shop====", num);
+      // console.log("shop====", num);
       var shop_name = shop_list[num]["shop_name"];
-      console.log("shop_name====", shop_name);
+      // console.log("shop_name====", shop_name);
       shop_names.push(shop_name);
     };
     self.setData({
@@ -33,7 +33,7 @@ Page({
     wx.getStorage({
       key: 'address',
       success: function(res) {
-        console.log("addressdetail====", res.data),
+        // console.log("addressdetail====", res.data),
           self.setData({
             address: res.data,
             picker_data: res.data.birthday,
@@ -63,7 +63,7 @@ Page({
   },
   formSubmit(e) {
     const value = e.detail.value;
-    console.log("formSubmit_e==", e);
+    // console.log("formSubmit_e==", e);
     var phone = value.phone;
     var name = value.name;
     var detail = value.detail;
@@ -73,7 +73,7 @@ Page({
     value["birthday"] = birthday;
     value["picker1Value"] = picker1Value;
     value["shop"] = shop;
-    console.log("birthday=11shop11=", birthday, shop);
+    // console.log("birthday=11shop11=", birthday, shop);
     var reg = /^1[3|4|5|7|8][0-9]{9}$/
     var flag = reg.test(phone)
     // if (flag) {
@@ -92,14 +92,14 @@ Page({
         content: '手机号不正确哦，请核对！',
         showCancel: false
       })
-      console.log("flag,addressdetail==11==", flag, value);
+      // console.log("flag,addressdetail==11==", flag, value);
     } else if (!birthday) {
       wx.showModal({
         title: '错误提示',
         content: '生日是必填项哦！！',
         showCancel: false
       })
-      console.log("addressdetail==22==", value);
+      // console.log("addressdetail==22==", value);
       
     } else if (!Number(picker1Value)) {
       wx.showModal({
@@ -107,9 +107,9 @@ Page({
         content: '请选择你喜欢的门店！！',
         showCancel: false
       })
-      console.log("addressdetail==333==", value, Number(picker1Value));
+      // console.log("addressdetail==333==", value, Number(picker1Value));
     } else {
-      console.log("addressdetail==else==", value);
+      // console.log("addressdetail==else==", value);
       wx.setStorage({
         key: 'address',
         data: value,

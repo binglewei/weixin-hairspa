@@ -10,8 +10,8 @@
         <input class="form-input" type="number" name="gender" value="{{address.gender}}" placeholder="性别" />
       </view> -->
       <view>
-        <text class="form-test">门店（必填）</text>
-        <picker class="picker" value="{{picker1Value}}" range="{{picker1Range}}" bindchange="normalPickerBindchange">{{picker1Range[picker1Value]}}</picker>
+        <text class="form-test">选择门店（必填）</text>
+        <picker class="picker" value="{{picker1Value}}" range="{{picker1Range}}"range-key="" bindchange="normalPickerBindchange">{{picker1Range[picker1Value]}}</picker>
         <!-- <input class="form-input"  name="shop" value="{{address.shop}}" placeholder="门店" /> -->
       </view>
       <view>

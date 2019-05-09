@@ -24,12 +24,13 @@ Page({
     banner_urls_data.where({
       // _openid: this.data.openid
       // _id:1
+      type:1
     }).get({
       success: function (res) {
         // console.log('[数据库] [查询banner_urls_data记录] 成功: ', res);
         var banner_urls_1 = res.data;
         // console.log('banner_urls_1========== ', banner_urls_1);
-        // app.globalData.bannerUrls = banner_urls_1;
+        app.globalData.bannerUrls = banner_urls_1;
         self.setData({
           bannerUrls: banner_urls_1,
           // product_list: product_list
@@ -41,7 +42,7 @@ Page({
           icon: 'none',
           title: '查询记录失败'
         })
-        console.error('[数据库] [查询记录] 失败：', err)
+        // console.error('[数据库] [查询记录] 失败：', err)
       }
     });
     const product_list_data = db.collection('product_list');
@@ -51,14 +52,40 @@ Page({
       // type:2
     }).get({
       success: function (res) {
-        console.log('[数据库] [查询product_list_data记录]222 成功: ', res);
-        var product_list = res.data;
-        // console.log('banner_urls_1========== ', banner_urls_1);
-        app.globalData.product_list = product_list;
-        self.setData({
-          product_list: product_list,
-          // product_list: product_list
+        // console.log('[数据库] [查询product_list_data记录]222 成功: ', res);
+        var product_list_1 = res.data;
+        wx.request({
+          url: "https://minipgm.siyuhome.net/rest/transmission/getProgramList?name=",
+          data: "",
+          header: {},
+          method: 'GET',
+          success: function (res) {
+            // console.log("res=success=11==", res);
+            var product_list_2 = res.data
+            // var product_list_1=app.globalData.product_list;
+            var product_list_3 = product_list_1.concat(product_list_2);
+            app.globalData.product_list = product_list_3;
+            app.globalData.project_lists = product_list_2;
+            self.setData({
+              product_list: product_list_3,
+              project_lists: product_list_2,
+              // product_list: product_list
+            });
+          },
+          fail: function (res) {
+            // console.log("res=fail=22==", res);
+          },
+          complete: function (res) {
+            // console.log('complete==3333==', res);
+
+          },
         });
+        // console.log('banner_urls_1========== ', banner_urls_1);
+        // app.globalData.product_list = product_list;
+        // self.setData({
+        //   product_list: product_list,
+        //   // product_list: product_list
+        // });
         // console.log('bannerUrls====3333333====== ', self.data);
       },
       fail: function (res) {
@@ -66,16 +93,16 @@ Page({
           icon: 'none',
           title: '查询记录失败'
         })
-        console.error('[数据库] [查询记录] 失败：', err)
+        // console.error('[数据库] [查询记录] 失败：', err)
       }
     })
     product_list_data.where({
       // _openid: this.data.openid
       // _id:1
       type:2
-    }).limit(10).get({
+    }).limit(10).orderBy('_id', 'desc').get({
       success: function (res) {
-        console.log('[数据库] [查询product_list_data记录]222 成功: ', res);
+        // console.log('[数据库] [查询product_list_data记录]222 成功: ', res);
         var project_lists = res.data;
         // console.log('banner_urls_1========== ', banner_urls_1);
         // app.globalData.product_list = product_list;
@@ -90,7 +117,31 @@ Page({
           icon: 'none',
           title: '查询记录失败'
         })
-        console.error('[数据库] [查询记录] 失败：', err)
+        // console.error('[数据库] [查询记录] 失败：', err)
+      }
+    })
+    product_list_data.where({
+      // _openid: this.data.openid
+      // _id:1
+      type:1
+    }).limit(2).orderBy('_id', 'desc').get({
+      success: function (res) {
+        // console.log('[数据库] [查询product_list_data记录]222 成功: ', res);
+        var product_list_index = res.data;
+        // console.log('banner_urls_1========== ', banner_urls_1);
+        // app.globalData.product_list = product_list;
+        self.setData({
+          product_list_index: product_list_index,
+          // product_list: product_list
+        });
+        // console.log('bannerUrls====3333333====== ', self.data);
+      },
+      fail: function (res) {
+        wx.showToast({
+          icon: 'none',
+          title: '查询记录失败'
+        })
+        // console.error('[数据库] [查询记录] 失败：', err)
       }
     })
     // this.setData({

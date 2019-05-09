@@ -1,2 +1,47 @@
 <!--miniprogram/page/component/reservation/reservation.wxml-->
-<text>miniprogram/page/component/reservation/reservation.wxml</text>
+<!-- <text>miniprogram/page/component/reservation/reservation.wxml</text> -->
+<navigator url="../address/address">
+  <view wx:if="{{hasAddress}}" class="orders-address">
+    <!-- <text class="orders-address-name">收货人: {{address.name}}</text> -->
+
+    <view class="orders-address-shop">预约门店：{{address.shop}}</view>
+    <text class="orders-address-phone">电话: {{address.phone}}</text>
+    <!-- <view class="orders-address-detail">门店上班时间：{{address.shop_business_time}}</view> -->
+  </view>
+  <view wx:else class="orders-no-address">请添加门店信息</view>
+</navigator>
+
+<view>
+  <view class="selectemployee_litle">$请选择预约项目：</view>
+  <picker class="picker" value="{{picker_prject_id}}" range="{{picker_prject_Range}}" range-key="name" bindchange="normalPickerBindchange">{{picker_prject_Range[picker_prject_id].name}}：预计服务时长{{picker_prject_Range[picker_prject_id].nursingTime}}分钟</picker>
+  <!-- range-key="{{picker_prject_Range.name}}"" /> -->
+</view>
+<view class='selectemployee_litle'>$请选择护理师:</view>
+<view class='employee'>
+  <view bindtap='selectemployee' wx:for="{{employee_list}}" wx:for-item="item" wx:for-index="index" data-index="{{ index }}" data-employee_name="{{item.employee_name}}" class='listItem {{currentemployee==index? "current":"" }}' wx:key=''>
+    <text>{{ item.employee_name }}</text>
+    <!-- <text>{{ item.employee_number }}</text> -->
+  </view>
+</view>
+<view class='containt'>
+  <scroll-view class="scroll-view_H" scroll-x>
+    <view class='list' style='width:{{ width }}rpx'>
+      <view bindtap="select" wx:for="{{ calendar }}" wx:for-item="item" wx:for-index="index" data-index="{{ index }}" class='listItem {{index==currentIndex? "current":""}}' wx:key='' data-date="{{ item.date}}">
+        <text class='name'>{{ item.week }}</text>
+        <text class='date'>{{ item.date }}</text>
+      </view>
+    </view>
+  </scroll-view>
+  <view class='time'>
+    <view wx:for="{{ timeArr }}" wx:for-item="timeItem" wx:for-index="timeIndex" data-Tindex="{{ timeIndex }}" data-time="{{ timeItem.time}}" bindtap='selectTime' class='listItem {{ currentTime==timeIndex? "current":"" }}' wx:key=''>
+      <text>{{ timeItem.time }}</text>
+      <!-- <text>{{ timeItem.status }}</text> -->
+    </view>
+  </view>
+
+
+  <view class='operate'>
+    <!-- <button class='del'>取消预约</button> -->
+    <button class='save' bindtap='confirm_reservation'>预约服务</button>
+  </view>
+</view>

@@ -7,39 +7,71 @@
   <view class="address-box">
     <view class="address-manage">
       <navigator url="/page/component/address/address">
-        <button class="manage-banner" open-type='getUserInfo'>个人设置</button>
-        <!-- 地址管理 -->
+        <button class="manage-banner" open-type='getUserInfo'>个人设置
+          <!-- <text class="newest-title-text2">更多》》</text> -->
+        </button>
       </navigator>
     </view>
-    <view wx:if="{{hasAddress}}" class="address-list">
+    <!-- <view wx:if="{{hasAddress}}" class="address-list">
       <view>
         <text class='address-test-title'>门店：</text>{{address.shop}}</view>
       <view>
         <text class='address-test-title'>电话：</text>{{address.phone}}</view>
       <view>
         <text class='address-test-title'>生日：</text>{{address.birthday}}</view>
+    </view> -->
+  </view>
+  <view class="address-box">
+    <view class="address-manage">
+      <navigator url="/page/component/cart/cart">
+        <button class="manage-banner" open-type='getUserInfo'>购物车</button>
+      </navigator>
+    </view>
+    <view class="address-manage">
+      <navigator url="/page/component/consumption_records/consumption_records">
+        <button class="manage-banner" open-type='getUserInfo'>预约记录</button>
+      </navigator>
     </view>
   </view>
+  <view class="address-box">
+    <view class="address-manage">
+      <navigator url="/page/component/consumption_records/consumption_records">
+        <button class="manage-banner" open-type='getUserInfo'>消费记录</button>
+      </navigator>
+    </view>
+  </view>
+
+
+  <!-- <navigator url="/page/component/cart/cart">
+        <button class="manage-banner" open-type='getUserInfo'>
+          <text class="newest-title-text1">购物车</text>
+          <text class="newest-title-text2">进入》》</text>
+        </button>
+      </navigator> -->
+  <!-- <view class="orders"> -->
+  <!-- <navigator url="/page/component/consumption_records/consumption_records">
+        <button class="manage-banner" open-type='getUserInfo'>
+          <text class="newest-title-text1">消费记录</text>
+          <text class="newest-title-text2">更多》》</text>
+        </button>
+      </navigator> -->
+  <!-- 我的订单 -->
   <view class="orders-box">
-    <view class="orders">我的订单</view>
     <view class="orders-list" wx:for="{{orders_list}}" wx:key="index">
       <view class="orders-number">订单编号：{{item.out_trade_no}}</view>
       <view class="orders-detail" wx:for="{{item.orders}}" wx:key="index">
-        <!-- wx:for="{{item.orders}}"  wx:key="index"  -->
         <image src="{{item.imgUrl}}"></image>
         <view class="">名称：{{item.name}}</view>
         <view class="">数量：{{item.num}}</view>
       </view>
-      <view class="orders-number">订单支付状态：{{item.status_describe}}<text class="orders-paytext" >支付时间：{{item.pay_time}}</text></view>
-      <view class="orders-number">订单消费状态：{{item.expense_describe}}<text class="orders-paytext" >消费时间：{{item.expense_time}}</text></view>
-       <!-- <view class="orders-footer">
-        <view wx:if="{{item.expense}}" class="address-list">
-          <button size="mini" class="orders-btn" bindtap="expenseOrders" data-index="{{index}}">消费</button>
-        </view>
-        <text>订单消费状态：{{item.total_fee}}</text>
-      </view> -->
+      <view class="orders-number">支付状态：{{item.status_describe}}
+        <text class="orders-paytext">支付时间：{{item.pay_time}}</text>
+      </view>
+      <view class="orders-number">消费状态：{{item.expense_describe}}
+        <text class="orders-paytext">消费时间：{{item.expense_time}}</text>
+      </view>
       <view class="orders-footer">
-       <view wx:if="{{item.expense}}" class="address-list">
+        <view wx:if="{{item.expense}}" class="address-list">
           <button size="mini" class="orders-btn" bindtap="expenseOrders" data-id="{{item._id}}">消费</button>
         </view>
         <view wx:if="{{item.status}}" class="address-list">

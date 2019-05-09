@@ -28,39 +28,36 @@
     </navigator>
   </view>
 
-  <!-- <view class="selected">
-        <view class="select-title"><text>为你推荐</text></view>
-        <view class="select-top">
-            <view class="select-top-small">
-                <navigator url="list/list">
-                    <image src="/image/s1.png"></image>
-                </navigator>
-            </view>
-            <view class="select-top-small">
-                <navigator url="list/list">
-                    <image src="/image/s2.png"></image>
-                </navigator>
-            </view>
-        </view>
-        <view class="select-bottom">
-            <navigator url="list/list">
-                <image src="/image/s3.png"></image>
-            </navigator>
-        </view>
-    </view> -->
+  <view class="newest">
+    <view class="newest-title">
+    <navigator url="/page/component/list/list?type=1">
+        <button class="newest-title-banner">
+          <text class="newest-title-text1">爆品推荐</text>
+          <text class="newest-title-text2">更多》》</text>
+        </button>
+      </navigator>
+      <!-- <button class="newest-title-text">爆品推荐</button> -->
+    </view>
+    <view class="newest-box">
+      <view class="newest-list" wx:for="{{product_list_index}}" wx:key="{{item.id}}">
+        <navigator url="details/details?id={{item.id}}">
+          <image class="newest-image" src="{{item.imgUrl}}"></image>
+          <view class="newest-text">
+            <text>{{item.name}} ￥{{item.retailPrice}}</text>
+          </view>
+        </navigator>
+
+      </view>
+    </view>
+  </view>
 
   <view class="newest">
-    <!-- <avigator url="list/list" class="newest-title">
-      <button class="newest-title-text">爆品推荐</button>
-      <text>更多</text>
-    </avigator> -->
     <view class="newest-title">
-      <navigator url="/page/component/list/list">
+      <navigator url="/page/component/list/list?type=2">
         <button class="newest-title-banner">
           <text class="newest-title-text1">精品套餐</text>
           <text class="newest-title-text2">更多》》</text>
         </button>
-        <!-- 地址管理 -->
       </navigator>
     </view>
     <view class="newest-box">
@@ -75,9 +72,11 @@
       </view>
     </view>
 
-  
+
   </view>
-  <view class="selected">
+  <!-- <button class="newest-title-text">爆品推荐</button> -->
+
+  <!-- <view class="selected">
         <view class="select-title"><text>精选主题</text></view>
         <view class="select-top">
             <view class="select-top-small">
@@ -96,5 +95,5 @@
                 <image src="/image/s3.png"></image>
             </navigator>
         </view>
-    </view>
+    </view> -->
 </view>

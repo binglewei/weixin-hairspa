@@ -2,7 +2,8 @@
   <view class="goods-box">
     <image src="{{goods.imgUrl}}" class="goods-thumb"></image>
 
-    <navigator open-type="switchTab" url="../cart/cart?">
+    <navigator  url="../cart/cart?">
+    <!-- open-type="switchTab" -->
       <view class="carts-icon {{scaleCart?'on':''}}">
         <image src="/image/cart2.png"></image>
         <text class="carts-icon-num" wx:if="{{hasCarts}}">{{totalNum}}</text>
@@ -17,6 +18,9 @@
     </view>
     <image wx:if="{{show}}" src="/image/cart1.png" class="to-carts-icon"></image>
     <!-- <view class="goods-stock">库存：{{goods.stock}}</view> -->
+    <view wx:if="{{goods.type==1}}">
+    <text>规格：{{goods.weights}}</text>
+    </view>
     <view class="goods-title">{{goods.name}}</view>
     <view class="goods-price">￥ {{goods.retailPrice}}</view>
   </view>

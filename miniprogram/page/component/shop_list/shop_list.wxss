@@ -15,7 +15,7 @@ padding:0 40rpx;
 /* table,inline-block */
 display: inline-block;
 width: 100%;
-height: 300rpx;
+height: 280rpx;
 margin:0 20rpx 20rpx 0;
 border-radius: 10px;
 text-align: left; 
@@ -26,14 +26,14 @@ background:#f8fae2e7;
 }
 
 .name{
-height: 90rpx;
+height: 80rpx;
 font-size: 35rpx;
 /* text-align: center; */
 color:#2c2a2a;
 }
 .time{
-height: 70rpx;
-font-size: 25rpx;
+height: 60rpx;
+font-size: 30rpx;
 color:#a19f9f;
 }
 .phone{

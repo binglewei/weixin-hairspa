@@ -5,6 +5,7 @@ App({
     appId: 'wxc6c41875b492a9c0',
     mch_id: "1529712601", //商户号
     hasLogin: false,
+    project_lists:[],
     address: {
       name: '',
       phone: '',
@@ -158,7 +159,7 @@ App({
       // _id:1
     }).get({
       success: function (res){
-        console.log('[数据库] [查询记录] 成功: ', res);
+        // console.log('[数据库] [查询记录] 成功: ', res);
         var requey_data = res.data;
         var seach_hot_1=[];
         for (var list in requey_data){
@@ -167,7 +168,7 @@ App({
         };
         // console.log('seach_hot_1===== ', seach_hot_1);
         self.globalData.seach_hot = seach_hot_1;
-        console.log(' this.globalData===== ', self.globalData);
+        // console.log(' this.globalData===== ', self.globalData);
         
 
         // this.setData({
@@ -181,7 +182,7 @@ App({
           icon: 'none',
           title: '查询记录失败'
         })
-        console.error('[数据库] [查询记录] 失败：', err)
+        // console.error('[数据库] [查询记录] 失败：', err)
       }
     })
   },

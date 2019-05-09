@@ -1,9 +1,11 @@
 
-<view class="shop-title">
-  <text>以下是所有门店列表！！！</text>
-</view>
+<!-- <view class="shop-title"> -->
+ <button color="#AB956D" >以下是我们所有门店列表！</button>
+  <!-- <text>以下是所有门店列表！！！</text> -->
+  
+<!-- </view> -->
 
-<block wx:for='{{shop_list}}'>
+<block wx:for='{{shop_list}}' wx:key="{{item.id}}">
   <!-- data-*属性在触发事件时获取  -->
   <view class='singleTrade' hover-class='item-press' catchtap='showTradeDetail' data-id='{{item.id}}'>
     <!-- <image src='{{item.imageUrl}}' class='img' /> -->

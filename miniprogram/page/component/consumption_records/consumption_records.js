@@ -1,80 +1,42 @@
-// page/component/new-pages/user/user.js
-// var app = getApp();
-// var globalData_address= app.globalData.address;
+// miniprogram/page/component/consumption_records.js
 var app = getApp();
 var md5_2 = require('../../../libs/utils/md5_2.js');
 var util = require('../../../libs/utils/utils.js');
-// var WXBizDataCrypt = require('../../../libs/WXBizDataCrypt/WXBizDataCrypt.js');
 Page({
+
+  /**
+   * 页面的初始数据
+   */
   data: {
-    thumb: '',
-    nickname: '',
-    orders: [],
-    orders_list: [],
-    orders_pay: [],
-    hasAddress: false,
-    address: {}
+    orders_list:[]
   },
-  //加载
-  onLoad() {
-    // var self = this;
-    /**
-     * 获取用户信息
-     */
-    // wx.login({
-    //   success(res) {
-    //     if (res.code) {
-    // 发起网络请求
-    // wx.request({
-    //   url: 'https://test.com/onLogin',
-    //   data: {
-    //     code: res.code
-    //   }
-    // })
-    // console.log('wx.login登录成功===', res);
 
-    // } else {
-    // console.log('登录失败！', res.errMsg)
-    //     }
-    //   }
-    // })
-    // wx.getUserInfo({
-    //   success: function(res){
-    //     console.log('wx.getUserInfo===' ,  res)
-    //     self.setData({
-    //       thumb: res.userInfo.avatarUrl,
-    //       nickname: res.userInfo.nickName,
-
-    //     })
-    // console.log("res.userInfo.avatarUrl==", res.userInfo.avatarUrl),
-    //   },
-    // }),
-
-
-    /**
-     * 发起请求获取订单列表信息
-     */
-    // wx.request({
-    //   url: 'http://www.gdfengshuo.com/api/wx/orders.txt',
-    //   success(res) {
-    //     self.setData({
-    //       orders: res.data
-    //     })
-    //   }
-    // })
-
-
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
 
   },
-  onShow() {
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
     // 云数据库初始化
     const db = wx.cloud.database({
       env: "wxc6c41875b492a9c0-1c74f6"
     });
     const orders_list = db.collection('orders_list');
     orders_list.where({
-      _openid: app.globalData.openid
-    }).limit(2).orderBy('out_trade_no', 'desc').get({
+      // _openid: app.globalData.openid
+    }).orderBy('out_trade_no', 'desc').get({
       success: res => {
         this.setData({
           orders_list: res.data
@@ -89,50 +51,7 @@ Page({
         // console.error('[数据库] [查询记录] 失败：', err)
       }
     });
-    wx.getUserInfo({
-      lang: "zh_CN",
-      withCredentials: true,
-      success: function(res) {
-
-        self.setData({
-          thumb: res.userInfo.avatarUrl,
-          nickname: res.userInfo.nickName,
-
-        });
-        wx.getStorage({
-          key: 'address',
-          success: function(res) {
-            var address = res.data;
-            // address["gender"] = gender;
-            // console.log("address===", address);
-          }
-        })
-
-      },
-      fail: function(res) {
-        wx.showModal({
-          title: '提示',
-          content: "请先点击 “个人设置” 获取授权并完善个人信息哦！！",
-          showCancel: false
-        })
-      }
-    })
-    var self = this;
-    /**
-     * 获取本地缓存 地址信息
-     */
-    wx.getStorage({
-      key: 'address',
-      success: function(res) {
-        // console.log("address22222===", res.data);
-        self.setData({
-          hasAddress: true,
-          address: res.data
-        })
-      }
-    })
   },
-
   //  发起消费请求
   expenseOrders(e) {
     var self = this;
@@ -166,8 +85,8 @@ Page({
             },
             fail: err => {
               icon: 'none',
-              // console.error('[数据库] [更新记录] 失败：', err);
-              getCurrentPages()[getCurrentPages().length - 1].onShow()
+                // console.error('[数据库] [更新记录] 失败：', err);
+                getCurrentPages()[getCurrentPages().length - 1].onShow()
 
             }
 
@@ -231,7 +150,7 @@ Page({
       package: package_valus,
       signType: 'MD5',
       paySign: paySign,
-      success: function(res) {
+      success: function (res) {
         console.log("res==支付调用成功11==", res)
         const db = wx.cloud.database({
           env: "wxc6c41875b492a9c0-1c74f6"
@@ -261,7 +180,7 @@ Page({
 
         })
       },
-      fail: function(res) {
+      fail: function (res) {
 
         var err_code = res.err_code;
         var errMsg = res.errMsg;
@@ -330,10 +249,44 @@ Page({
         }
 
       },
-      complete: function(res) {
+      complete: function (res) {
         // console.log('complete==3333==', res);
         getCurrentPages()[getCurrentPages().length - 1].onShow()
       }
     })
+  },
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
+
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+
   }
 })

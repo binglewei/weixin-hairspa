@@ -3,7 +3,6 @@
     "page/component/index",
     "page/component/address/address",
     "page/component/cart/cart",
-    "page/component/category/category",
     "page/component/details/details",
     "page/component/list/list",
     "page/component/orders/orders",
@@ -11,7 +10,8 @@
     "page/component/user/user",
     "page/component/reservation/reservation",
     "page/component/search/search",
-    "page/component/shop_list/shop_list"
+    "page/component/shop_list/shop_list",
+    "page/component/consumption_records/consumption_records"
   ],
   "window": {
     "navigationBarTextStyle": "white",
@@ -36,13 +36,13 @@
         "pagePath": "page/component/shop_list/shop_list",
         "iconPath": "image/22.png",
         "selectedIconPath": "image/21.png",
-        "text": "门店"
+        "text": "门店列表"
       },
       {
-        "pagePath": "page/component/cart/cart",
+        "pagePath": "page/component/reservation/reservation",
         "iconPath": "image/32.png",
         "selectedIconPath": "image/31.png",
-        "text": "购物车"
+        "text": "预约服务"
       },
       {
         "pagePath": "page/component/user/user",

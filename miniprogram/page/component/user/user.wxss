@@ -125,3 +125,8 @@ font-weight: bold
 position: absolute;
 right: 5rpx; 
 }
+.newest-title-text2{
+position: absolute;
+right: 10rpx;
+color: #ab956d; 
+}

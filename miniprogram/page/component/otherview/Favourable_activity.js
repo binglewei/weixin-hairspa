@@ -6,7 +6,9 @@ Page({
    * 页面的初始数据
    */
   data: {
-    url: ""
+    url: "",
+    url_type:0,
+    jump_imag_height:500
   },
 
   /**
@@ -15,18 +17,23 @@ Page({
   onLoad: function(options) {
     var app = getApp();
     var bannerUrls = app.globalData.bannerUrls;
-    console.log("options===============", options, bannerUrls);
+    // console.log("options===============", options, bannerUrls);
     var url_id = options.url_id;
-    console.log("url_id=========22222==========", url_id);
+    // var url_type = options.url_type;
+    // console.log("url_id=========22222==========", url_id);
     for (var bann in bannerUrls) {
-      console.log("bann=======1111=====", bann, url_id);
+      // console.log("bann=======1111=====", bann, url_id);
       var _id = bannerUrls[bann]["_id"];
       if (_id == url_id) {
         var url = bannerUrls[bann]["url"];
-        console.log("bann..url==22222=============", url);
+        var url_type = bannerUrls[bann]["url_type"];
+        var jump_imag_height = bannerUrls[bann]["jump_imag_height"];
+        console.log("bann..url==22222====url_type====222=====", url, url_type, jump_imag_height);
         this.setData({
           // hasList: true,
-          url: url
+          url: url,
+          url_type: url_type,
+          jump_imag_height: jump_imag_height
         })
       }
     }

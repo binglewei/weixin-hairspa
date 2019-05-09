@@ -155,17 +155,39 @@ Page({
             orders_list_String.status_describe = "支付失败";
             orders_list_String.status = 1;
             orders_list_String.expense = 0;
-            orders_list_String.expense_describe = "无";
+            orders_list_String.expense_describe = "订单未支付";
             orders_list_String.expense_time = "";
             orders_list_String.pay_time = util.format_date_5(new Date());
-            wx.showModal({
-              title: '支付提示',
-              content: '微信支付失败，请联系管理员!',
-              showCancel: false
-            })
+            var errMsg = res.errMsg;
+            var find_text = errMsg.indexOf("cancel");
+            if (find_text>0){
+              orders_list_String.status_describe = "取消失付";
+              wx.showModal({
+                title: '支付提示',
+                content: '你已经取消支付！！!',
+                showCancel: false
+              })
+            }
+            else{
+              wx.showModal({
+                title: '支付提示',
+                content: '微信支付失败，请联系管理员!',
+                showCancel: false
+              })
+            }
+            
           },
           complete: function (res) {
             // self.data.
+            var orders = self.data.orders;
+            // console.log("orderseeee=22222=", orders)
+            for (var ord in orders){
+              var id = orders[ord]["id"]
+              // console.log("cart_totalNums=222222222222222222=", app.globalData.cart_totalNums)
+              delete app.globalData.cart_totalNums[id];
+              // console.log("cart_totalNums=33333333333333333333=", app.globalData.cart_totalNums)
+            }
+            
             orders_list.add({
               // data 字段表示需新增的 JSON 数据
               // data: JSON.parse(orders_list_String)

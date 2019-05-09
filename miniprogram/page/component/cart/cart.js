@@ -89,6 +89,7 @@ Page({
     for (let i = 0; i < carts.length; i++) {
       carts[i].selected = selectAllStatus;
     }
+    app.globalData.cart_totalNums = carts;
     this.setData({
       selectAllStatus: selectAllStatus,
       carts: carts

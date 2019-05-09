@@ -77,7 +77,8 @@ Page({
     })
   },
   searchInput(e) {
-    // console.log("keywords===", e.detail.value);
+    console.log("keywords===", e.detail.value);
+    this.keywordHandle("",e.detail.value);
     if (!e.detail.value) {
       this.setData({
         showKeywords: false
@@ -94,9 +95,14 @@ Page({
     }
   },
   // 处理搜索结果
-  keywordHandle(e) {
-    const text = e.target.dataset.text;
-    // console.log("keywordHandle", text);
+  keywordHandle(e,textinput) {
+    if (e){
+      var text = e.target.dataset.text;
+      
+    }else{
+      var text=textinput;
+    }
+    console.log("keywordHandle", e, text);
     var results=[];
     var product_list=app.globalData.product_list;
     for (var key in product_list) {
@@ -105,8 +111,9 @@ Page({
         results.push(product_list[key]);
 
       };
-      console.log("results", results);
+      
     }
+    console.log("results", results);
 
     this.setData({
       value: text,
