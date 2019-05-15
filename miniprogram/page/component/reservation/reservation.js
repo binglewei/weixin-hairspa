@@ -341,6 +341,7 @@ Page({
           console.log('用户点击确定，立即预约')
           // console.log("====confirm_reservation_data===", confirm_reservation_data);
           confirm_reservation_data.reservation_status = 1;
+          confirm_reservation_data.reservation_describe = "预约成功";
           confirm_reservation_data.update_time = utils.format_date_5(new Date());;
           var date_str = utils.format_date(new Date());
           var out_trade_no = date_str + utils.RandomNumBoth(10000, 99999); // 商户订单号（按自己需要生成）

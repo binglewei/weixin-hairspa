@@ -99,14 +99,40 @@ Page({
           nickname: res.userInfo.nickName,
 
         });
-        wx.getStorage({
-          key: 'address',
-          success: function(res) {
-            var address = res.data;
-            // address["gender"] = gender;
-            // console.log("address===", address);
-          }
-        })
+        const db = wx.cloud.database({
+          env: "wxc6c41875b492a9c0-1c74f6"
+        });
+        const address_list_data = db.collection('address_list');
+        address_list_data.where({
+          _openid: app.globalData.openid
+        }).get({
+          success: res => {
+            console.log("res.data=111=user=", res.data);
+            var data = res.data[0];
+            var len_data = res.data.length;
+            if (len_data > 0) {
+              self.setData({
+                address: data,
+                hasAddress: true
+              })
+            }
+          },
+          fail: err => {
+            wx.showToast({
+              icon: 'none',
+              title: '查询记录失败'
+            });
+          },
+        });
+        // wx.getStorage({
+        //   key: 'address',
+        //   success: function(res) {
+        //     var address = res.data;
+        //     // address["gender"] = gender;
+        //     // console.log("address===", address);
+        //   }
+        // })
+
 
       },
       fail: function(res) {

@@ -1,11 +1,14 @@
-// miniprogram/page/component/reservation_records/reservation_records.js
+// miniprogram/page/component/consumption_records.js
+var app = getApp();
+var md5_2 = require('../../../libs/utils/md5_2.js');
+var util = require('../../../libs/utils/utils.js');
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    reservation_list: []
   },
 
   /**
@@ -26,9 +29,79 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    // 云数据库初始化
+    const db = wx.cloud.database({
+      env: "wxc6c41875b492a9c0-1c74f6"
+    });
+    const reservation_list_data = db.collection('reservation_list');
+    reservation_list_data.where({
+      // _openid: app.globalData.openid
+    }).orderBy('out_trade_no', 'desc').get({
+      success: res => {
+        this.setData({
+          reservation_list: res.data
+        })
+        console.log('[数据库] [查询记录] 成功: ', res.data)
+      },
+      fail: err => {
+        wx.showToast({
+          icon: 'none',
+          title: '查询记录失败'
+        })
+        // console.error('[数据库] [查询记录] 失败：', err)
+      }
+    });
+  },
+  //  发起取消请求
+  cancel_reservation(e) {
+    var self = this;
+    var id = e.target.dataset.id;
+    wx.showModal({
+      title: '取消预约提示',
+      content: '您确定要取消预约服务吗？？？',
+      success(res) {
+        if (res.confirm) {
+          console.log('用户点击确定--取消')
+          const db = wx.cloud.database({
+            env: "wxc6c41875b492a9c0-1c74f6"
+          });
+          const reservation_list_data = db.collection('reservation_list');
+          // console.log("e=e.target.dataset.id=11111111=", id);
 
+          reservation_list_data.doc(id).update({
+            data: {
+              reservation_status: 0,
+              reservation_describe: "已取消预约",
+              // ddxz:22,
+              update_time: util.format_date_5(new Date())
+              // out_trade_no: 66666666666666
+            },
+            success: res => {
+              // console.log('[数据库] [更新记录] 成功：', res);
+              getCurrentPages()[getCurrentPages().length - 1].onShow()
+              // this.setData({
+              //   count: newCount
+              // })
+            },
+            fail: err => {
+              icon: 'none',
+                // console.error('[数据库] [更新记录] 失败：', err);
+                getCurrentPages()[getCurrentPages().length - 1].onShow()
+
+            }
+
+          })
+        } else if (res.cancel) {
+          console.log('用户点击取消---取消')
+        }
+      }
+    })
+    
   },
 
+
+
+ 
   /**
    * 生命周期函数--监听页面隐藏
    */

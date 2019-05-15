@@ -12,14 +12,14 @@
         </button>
       </navigator>
     </view>
-    <!-- <view wx:if="{{hasAddress}}" class="address-list">
+    <view wx:if="{{hasAddress}}" class="address-list">
       <view>
         <text class='address-test-title'>门店：</text>{{address.shop}}</view>
       <view>
         <text class='address-test-title'>电话：</text>{{address.phone}}</view>
       <view>
         <text class='address-test-title'>生日：</text>{{address.birthday}}</view>
-    </view> -->
+    </view>
   </view>
   <view class="address-box">
     <view class="address-manage">
@@ -28,7 +28,7 @@
       </navigator>
     </view>
     <view class="address-manage">
-      <navigator url="/page/component/consumption_records/consumption_records">
+      <navigator url="/page/component/reservation_records/reservation_records">
         <button class="manage-banner" open-type='getUserInfo'>预约记录</button>
       </navigator>
     </view>

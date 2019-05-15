@@ -2,13 +2,6 @@
 <!-- <text>miniprogram/page/component/consumption_records.wxml</text> -->
 <view class="orders-box">
 
-  <!-- <navigator url="/page/component/consumption_records/consumption_records">
-    <button class="manage-banner" open-type='getUserInfo'>
-      <text class="newest-title-text1">消费记录</text>
-      <text class="newest-title-text2">更多》》</text>
-    </button>
-  </navigator>
-  我的订单 -->
 </view>
 <view class="orders-list" wx:for="{{orders_list}}" wx:key="index">
   <view class="orders-number">订单编号：{{item.out_trade_no}}</view>
@@ -24,12 +17,7 @@
   <view class="orders-number">消费状态：{{item.expense_describe}}
     <text class="orders-paytext">消费时间：{{item.expense_time}}</text>
   </view>
-  <!-- <view class="orders-footer">
-        <view wx:if="{{item.expense}}" class="address-list">
-          <button size="mini" class="orders-btn" bindtap="expenseOrders" data-index="{{index}}">消费</button>
-        </view>
-        <text>订单消费状态：{{item.total_fee}}</text>
-      </view> -->
+ 
   <view class="orders-footer">
     <view wx:if="{{item.expense}}" class="address-list">
       <button size="mini" class="orders-btn" bindtap="expenseOrders" data-id="{{item._id}}">消费</button>
