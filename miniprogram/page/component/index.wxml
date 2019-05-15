@@ -61,7 +61,7 @@
       </navigator>
     </view>
     <view class="newest-box">
-      <view class="newest-list" wx:for="{{project_lists}}" wx:key="{{item.id}}">
+      <view class="newest-list" wx:for="{{project_lists_index}}" wx:key="{{item.id}}">
         <navigator url="details/details?id={{item.id}}">
           <image class="newest-image" src="{{item.imgUrl}}"></image>
           <view class="newest-text">

@@ -266,7 +266,7 @@ Page({
         var err_code = res.err_code;
         var errMsg = res.errMsg;
         var find_text = errMsg.indexOf("重新");
-        var find_text_cancel = errMsg.indexOf("cancel");
+        var find_text_cancel = errMsg.indexOf("fail cancel");
         console.log("res=fail=22==", res, err_code, errMsg, find_text);
 
         if (err_code == 2 || find_text > 0) {

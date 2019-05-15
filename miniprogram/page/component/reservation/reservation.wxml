@@ -24,6 +24,7 @@
   </view>
 </view>
 <view class='containt'>
+  <view class="selectemployee_litle">$请选择预约时间：</view>
   <scroll-view class="scroll-view_H" scroll-x>
     <view class='list' style='width:{{ width }}rpx'>
       <view bindtap="select" wx:for="{{ calendar }}" wx:for-item="item" wx:for-index="index" data-index="{{ index }}" class='listItem {{index==currentIndex? "current":""}}' wx:key='' data-date="{{ item.date}}">
@@ -42,6 +43,13 @@
 
   <view class='operate'>
     <!-- <button class='del'>取消预约</button> -->
-    <button class='save' bindtap='confirm_reservation'>预约服务</button>
+    <form bindsubmit="confirm_reservation" report-submit='true'>
+      <button class='save' form-type="submit">预约服务</button>
+      <!-- bindtap='confirm_reservation' -->
+    </form>
+    <!-- <form bindsubmit="submitInfo" report-submit='true'>
+      <button form-type="submit">
+      </button>
+    </form> -->
   </view>
 </view>

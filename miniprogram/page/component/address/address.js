@@ -5,7 +5,7 @@ Page({
   data: {
     // address: globalData_address
     picker1Value: 0,
-    region:"",
+    region: "",
     picker_data: '出生日期',
     // picker1Range: shop_list,
     picker1Range: ['请选择门店'],
@@ -29,18 +29,41 @@ Page({
     self.setData({
       picker1Range: shop_names,
     });
-
-    wx.getStorage({
-      key: 'address',
-      success: function(res) {
-        // console.log("addressdetail====", res.data),
-          self.setData({
-            address: res.data,
-            picker_data: res.data.birthday,
-            picker1Value: res.data.picker1Value
-          })
+    // 云数据库初始化
+    const db = wx.cloud.database({
+      env: "wxc6c41875b492a9c0-1c74f6"
+    });
+    const address_list_data = db.collection('address_list');
+    address_list_data.where({
+      _openid: app.globalData.openid
+    }).get({
+      success: res => {
+        // console.log("res.data===", res.data[0]);
+        self.setData({
+          address: res.data[0],
+          picker_data: res.data[0].birthday,
+          picker1Value: res.data[0].picker1Value
+        })
+      },
+      fail: err => {
+        wx.showToast({
+          icon: 'none',
+          title: '查询记录失败'
+        })
+        // console.error('[数据库] [查询记录] 失败：', err)
       }
-    })
+    });
+    // wx.getStorage({
+    //   key: 'address',
+    //   success: function(res) {
+    //     // console.log("addressdetail====", res.data),
+    //     self.setData({
+    //       address: res.data,
+    //       picker_data: res.data.birthday,
+    //       picker1Value: res.data.picker1Value
+    //     })
+    //   }
+    // })
   },
   normalPickerBindchange: function(e) {
     this.setData({
@@ -56,7 +79,7 @@ Page({
 
     })
   },
-  bindRegionChange: function (e) {
+  bindRegionChange: function(e) {
     this.setData({
       region: e.detail.value
     })
@@ -100,7 +123,7 @@ Page({
         showCancel: false
       })
       // console.log("addressdetail==22==", value);
-      
+
     } else if (!Number(picker1Value)) {
       wx.showModal({
         title: '错误提示',
@@ -110,31 +133,70 @@ Page({
       // console.log("addressdetail==333==", value, Number(picker1Value));
     } else {
       // console.log("addressdetail==else==", value);
-      wx.setStorage({
-        key: 'address',
-        data: value,
-        success() {
-          wx.navigateBack();
+      // 云数据库初始化
+      const db = wx.cloud.database({
+        env: "wxc6c41875b492a9c0-1c74f6"
+      });
+      const address_list_data = db.collection('address_list');
+      address_list_data.where({
+        _openid: app.globalData.openid
+      }).get({
+        success: res => {
+          // this.setData({
+          //   orders_list: res.data
+          // })
+          var len_data = res.data.length;
+          // console.log("len_data====", res.data);
+          if (len_data > 0) {
+            // console.log('[数据库] update: ')
+            var id = res.data[0]["_id"]
+            address_list_data.doc(id).update({
+              // data 字段表示需新增的 JSON 数据
+              // data: JSON.parse(orders_list_String)
+              data: value
+
+            }).then(res => {
+              // console.log("DATASET==res==update=sus==", res, value)
+            }).catch(err => {
+              // console.error("DATASET==res==value===", err, value)
+            })
+          } else {
+            // console.log('[数据库] add: ');
+            address_list_data.add({
+              // data 字段表示需新增的 JSON 数据
+              // data: JSON.parse(orders_list_String)
+              data: value
+
+            }).then(res => {
+              // console.log("DATASET==res==value===", res, value)
+            }).catch(err => {
+              // console.error("DATASET==res==value===", err, value)
+            })
+          }
+          // console.log('[数据库] [查询记录] 成功: ', res.data)
+        },
+        fail: err => {
+          wx.showToast({
+            icon: 'none',
+            title: '查询记录失败'
+          })
+          // console.error('[数据库] [查询记录] 失败：', err)
         }
-      })
+      });
+
+
+
+
+
+      // wx.setStorage({
+      //   key: 'address',
+      //   data: value,
+      //   success() {
+      //     wx.navigateBack();
+      //   }
+      // })
+      wx.navigateBack();
     }
   }
-  // getVerificationCode (e) {
-  //   var reg = /^1[3|4|5|7|8][0-9]{9}$/
-  //   var phone = this.data.phone
-  //   var flag = reg.test(phone)
-  //   if (flag) {
-  //     var that = this
-  //     var code
-  //     this.setData({
-  //       isValated: true
-  //     })
-  //   } else {
-  //     Toast({
-  //       message: '请输入正确的手机号',
-  //       selector: '#zan-toast-test'
-  //     });
-
-  //   }
-  // }
+  
 })

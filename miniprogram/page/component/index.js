@@ -61,14 +61,14 @@ Page({
           method: 'GET',
           success: function (res) {
             // console.log("res=success=11==", res);
-            var product_list_2 = res.data
+            var project_lists_sy = res.data
             // var product_list_1=app.globalData.product_list;
-            var product_list_3 = product_list_1.concat(product_list_2);
+            var product_list_3 = product_list_1.concat(project_lists_sy);
             app.globalData.product_list = product_list_3;
-            app.globalData.project_lists = product_list_2;
+            app.globalData.project_lists = project_lists_sy;
             self.setData({
               product_list: product_list_3,
-              project_lists: product_list_2,
+              // project_lists: product_list_2,
               // product_list: product_list
             });
           },
@@ -103,11 +103,11 @@ Page({
     }).limit(10).orderBy('_id', 'desc').get({
       success: function (res) {
         // console.log('[数据库] [查询product_list_data记录]222 成功: ', res);
-        var project_lists = res.data;
+        var project_lists_index = res.data;
         // console.log('banner_urls_1========== ', banner_urls_1);
         // app.globalData.product_list = product_list;
         self.setData({
-          project_lists: project_lists,
+          project_lists_index: project_lists_index,
           // product_list: product_list
         });
         // console.log('bannerUrls====3333333====== ', self.data);

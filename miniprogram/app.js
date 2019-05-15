@@ -113,13 +113,23 @@ App({
     wx.cloud.callFunction({
       name: 'get_openid',
       complete: res => {
-
-        var openId = res.result.userInfo.openId;
+        // console.log('云函数在APP获取到的res111= ', res);
+        var openId = res.result.openId;
 
         this.globalData.openId = openId;
-        // console.log('云函数在APP获取到的openid ', openId, res.result.userInfo, this.globalData.openId)
+        // console.log('云函数在APP获取到的openid ', openId, res.result.event, this.globalData.openId);//result.event.userInfo.openId
       }
     });
+    // wx.cloud.callFunction({
+    //   name: 'get_AccessToken',
+    //   complete: res => {
+    //     console.log('云函数在APP获取到的res=22222== ', res, res.event);
+    //     // var access_token = res.event.access_token;
+
+    //     // this.globalData.openId = openId;
+    //     // console.log('云函数在APP获取到的access_token=== ', access_token,res)
+    //   }
+    // });
     // 云数据库初始化
     const db = wx.cloud.database({
       env: "wxc6c41875b492a9c0-1c74f6"// 环境ID：wxc6c41875b492a9c0-1c74f6

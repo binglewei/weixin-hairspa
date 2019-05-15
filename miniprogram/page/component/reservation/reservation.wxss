@@ -30,7 +30,7 @@
     position: relative;
     height: 90rpx;
     line-height: 90rpx;
-    color: #adadad;
+    /* color: #adadad; */
     border-bottom: 20rpx solid #ededed;
     text-align: center;
 }
@@ -62,7 +62,7 @@ scroll-view .listItem{
   text-align: center;
   width: 186rpx;
   height: 128rpx;
-  background-color: #f1f2f6;
+  /* background-color: #f1f2f6; */
   padding-top: 30rpx;
   box-sizing: border-box;
   /* float: left; */

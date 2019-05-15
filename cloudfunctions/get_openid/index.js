@@ -9,8 +9,8 @@ exports.main = async (event, context) => {
 
   return {
     event,
-    openid: wxContext.OPENID,
-    appid: wxContext.APPID,
+    openId: wxContext.OPENID,
+    appId: wxContext.APPID,
     unionid: wxContext.UNIONID,
   }
 }
