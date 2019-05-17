@@ -137,6 +137,7 @@ Page({
       const db = wx.cloud.database({
         env: "wxc6c41875b492a9c0-1c74f6"
       });
+      value.update_date = new Date();
       const address_list_data = db.collection('address_list');
       address_list_data.where({
         _openid: app.globalData.openid
@@ -162,6 +163,7 @@ Page({
             })
           } else {
             // console.log('[数据库] add: ');
+            
             address_list_data.add({
               // data 字段表示需新增的 JSON 数据
               // data: JSON.parse(orders_list_String)
@@ -195,7 +197,13 @@ Page({
       //     wx.navigateBack();
       //   }
       // })
-      wx.navigateBack();
+      // new Date().t
+      // sleep(3000);  //睡眠5秒
+      setTimeout(function () {
+        //要延时执行的代码
+        wx.navigateBack();
+      }, 1000) //延迟时间 这里是1秒
+      
     }
   }
   

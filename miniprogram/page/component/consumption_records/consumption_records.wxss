@@ -76,3 +76,8 @@ position: absolute;
 right: 10rpx;
 color: #ab956d; 
 }
+.no-data{
+    padding:40rpx 0;
+    color: #999;
+    text-align: center;
+}

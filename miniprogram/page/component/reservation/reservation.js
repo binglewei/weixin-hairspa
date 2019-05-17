@@ -352,7 +352,7 @@ Page({
 
           var send_even = {};
           // send_even.template_id = "iRNJNzEqz3Tt3ObtSR-9gSjHi5T6ZEJdmvuFxo7Fj3Y"; //服务预约成功通知 4个字段
-          send_even.template_id = "iRNJNzEqz3Tt3ObtSR-9gYnMZ-du_mnfbkg034uUBp0"; //服务预约成功通知 9个字段
+          send_even.template_id = "iRNJNzEqz3Tt3ObtSR-9gYnMZ-du_mnfbkg034uUBp0"; //服务预约成功通知 7q ww usr 个字段
 
           send_even.msgData = {
             // 订单号
@@ -400,6 +400,7 @@ Page({
           // var openids = [app.globalData.openId, app.globalData.openId]
           var openid = app.globalData.openId;
           send_even.openid = openid;
+          send_even.employee_openid = reservation_employee.employee_openid
 
           const publicField = db.collection('publicField')
 
@@ -476,7 +477,7 @@ Page({
                     wx.showModal({
                       title: '预约服务提示2',
                       showCancel: true,
-                      content: "数据库好像有点问题哦，请从新提交，谢谢！",
+                      content: "唉呀，提交失败了，请从新提交，谢谢！",
                       // content: '第一行内容\r\n第二行内容\r\n第三行内容\r\n第四行内容',
                       success: function(res) {
                         if (res.confirm) {

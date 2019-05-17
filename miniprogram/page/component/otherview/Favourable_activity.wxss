@@ -3,3 +3,39 @@ image {
   width: 100%;
   /* height: 9000rpx; */
 }
+/* orders-footer{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 95rpx;
+    line-height: 95rpx;
+    border-top: 1rpx solid #ededed;
+} */
+.orders-footer{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100rpx;
+    line-height: 90rpx;
+    /* padding:0 100rpx 0 80rpx; */
+    box-sizing: border-box;
+    /* background: #AB956D; */
+    /* color: #fff; */
+}
+.orders-footer .orders-footer-total{
+    display: inline-block;
+    width: 510rpx;
+    padding-left: 30rpx;
+    box-sizing: border-box;
+    background: rgba(170, 171, 109, 0.397);
+    color: rgb(238, 9, 9);
+}
+.orders-footer .orders-footer-btn{
+    display: inline-block;
+    width: 240rpx;
+    text-align: center;
+    color: #fff;
+    background: #AB956D;
+}

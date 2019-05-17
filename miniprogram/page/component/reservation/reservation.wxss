@@ -92,6 +92,7 @@ scroll-view .current text{
   justify-content: flex-start;
   margin: 0 auto;
   margin-top: 30rpx;
+  margin-bottom: 50rpx;
 }
 .time .listItem{
   width: 20%;

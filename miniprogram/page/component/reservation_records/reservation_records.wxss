@@ -80,3 +80,8 @@ position: absolute;
  color: #2f2f2f;
 right: 20rpx; 
 }
+.no-data{
+    padding:40rpx 0;
+    color: #999;
+    text-align: center;
+}

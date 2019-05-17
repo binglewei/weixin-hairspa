@@ -5,7 +5,7 @@
 <!-- <block class="block"> -->
 <!-- <view wx:if="{{url_type==1}}" class="banner-list"> -->
 <view class="image-list">
-  <image src="{{url}}" class="image" mode="widthFix"></image>
+  <image src="{{imgUrl}}" class="image" mode="widthFix"></image>
   <!-- widthFix	缩放模式，宽度不变，高度自动变化，保持原图宽高比不变 -->
 </view>
 <!-- </view> -->
@@ -17,3 +17,9 @@
 <!-- </block> -->
 
 <!-- <web-view src="https://mp.weixin.qq.com/s?__biz=MzU3Mzg2MzMxNA==&mid=100000032&idx=1&sn=4beb02fe49d0e7b3138cf79cfe55cad0&chksm=7d3a65dd4a4deccbe19988514126068c102d8061f89abafbb7e048b9e1cf342888b5813be19a#rd&aa=%22ha%22"></web-view> -->
+<view class="orders-footer">
+  <view wx:if="{{retailPrice}}" class="orders-footer-1">
+    <view class="orders-footer-total">惊喜价：￥{{retailPrice}}</view>
+    <view class="orders-footer-btn" bindtap="toPay">去付款</view>
+  </view>
+</view>

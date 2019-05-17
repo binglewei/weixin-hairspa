@@ -8,7 +8,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    orders_list:[]
+    orders_list:[],
+    hasList: true          // 列表是否有数据
   },
 
   /**
@@ -38,10 +39,20 @@ Page({
       // _openid: app.globalData.openid
     }).orderBy('out_trade_no', 'desc').get({
       success: res => {
-        this.setData({
-          orders_list: res.data
-        })
-        // console.log('[数据库] [查询记录] 成功: ', res.data)
+        var data=res.data;
+        if (data.length>0){
+          this.setData({
+            orders_list: res.data,
+            hasList: true,          // 列表是否有数据
+          })
+        } else {
+          this.setData({
+            // reservation_list: data,
+            hasList: false
+          })
+        }
+       
+        console.log('[数据库] [查询记录] 成功: ', res.data)
       },
       fail: err => {
         wx.showToast({
@@ -96,27 +107,7 @@ Page({
         }
       }
     })
-    // var orders_list_values = {};
 
-    // orders_list.where({
-    //   // _openid: app.globalData.openid,
-    //   out_trade_no: e.target.dataset.out_trade_no,
-    // }).update({
-    //   success: res => {
-    //     self.setData({
-    //       orders_pay: res.data
-    //     })
-    //     // orders_list_values = res.data;
-    //     console.log('[数据库] [查询记录] 222成功: ', res.data, self.data.orders_pay)
-    //   },
-    //   fail: err => {
-    //     wx.showToast({
-    //       icon: 'none',
-    //       title: '查询记录失败'
-    //     })
-    //     console.error('[数据库] [查询记录] 失败：', err)
-    //   }
-    // });
   },
 
 

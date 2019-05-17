@@ -19,32 +19,38 @@
 </view> -->
 <!--miniprogram/page/component/consumption_records.wxml-->
 <!-- <text>miniprogram/page/component/consumption_records.wxml</text> -->
+<view class="main">
+  <view wx:if="{{hasList}}">
+    <view class="reservation-box">
+      <view class="reservation-list" wx:for="{{reservation_list}}" wx:key="index">
+        <view class="reservation-number">预约编号：{{item.out_trade_no}}</view>
+        <view class="reservation-detail">
+          <!-- <image src="{{item.thumb}}"></image> -->
+          <view class="">预约项目：{{item.reservation_prject.name}}</view>
+          <view class="">预约服务时间：{{item.reservation_time}}</view>
+          <view class="">预约门店：{{item.reservation_shop}}</view>
+          <!-- <text class="reservation-status">{{item.status}}</text> -->
+        </view>
+        <view class="reservation-footer">
+          <!-- <button size="mini" class="reservation-btn" bindtap="payOrders">取消预约</button> -->
+          <view wx:if="{{item.reservation_status==1}}">
+            <button size="mini" class="reservation-btn" bindtap="cancel_reservation" data-id="{{item._id}}">取消预约</button>
+            <text>更新时间：{{item.update_time}}</text>
+          </view>
+          <view wx:elif="{{item.reservation_status==0}}">
+            <text>更新时间：{{item.update_time}}</text>
+            <text class="reservation-footer-text">{{item.reservation_describe}}</text>
+          </view>
+          <view wx:else>
+            <text>更新时间：{{item.update_time}}</text>
+            <text class="reservation-footer-text">{{item.reservation_describe}}</text>
+          </view>
 
-<view class="reservation-box">
-  <view class="reservation-list" wx:for="{{reservation_list}}" wx:key="index">
-    <view class="reservation-number">预约编号：{{item.out_trade_no}}</view>
-    <view class="reservation-detail">
-      <!-- <image src="{{item.thumb}}"></image> -->
-      <view class="">预约项目：{{item.reservation_prject.name}}</view>
-      <view class="">预约服务时间：{{item.reservation_time}}</view>
-      <view class="">预约门店：{{item.reservation_shop}}</view>
-      <!-- <text class="reservation-status">{{item.status}}</text> -->
-    </view>
-    <view class="reservation-footer">
-      <!-- <button size="mini" class="reservation-btn" bindtap="payOrders">取消预约</button> -->
-      <view wx:if="{{item.reservation_status==1}}">
-        <button size="mini" class="reservation-btn" bindtap="cancel_reservation" data-id="{{item._id}}">取消预约</button>
-        <text>更新时间：{{item.update_time}}</text>
+        </view>
       </view>
-        <view wx:elif="{{item.reservation_status==0}}">
-       <text>更新时间：{{item.update_time}}</text>
-        <text class="reservation-footer-text">{{item.reservation_describe}}</text>
-       </view>
-      <view wx:else>
-       <text>更新时间：{{item.update_time}}</text>
-        <text class="reservation-footer-text">{{item.reservation_describe}}</text>
-       </view>
-
     </view>
+  </view>
+  <view wx:else>
+    <view class="no-data">预约记录是空的哦~~</view>
   </view>
 </view>

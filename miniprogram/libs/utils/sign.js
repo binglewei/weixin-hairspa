@@ -7,7 +7,6 @@ var utils = require("../utils/utils.js");
 var parser = require("../xmldom/dom-parser.js");
 
 
-
 function wxpay_getbodyData(req) {
 
   // var timestamp = Math.round(new Date().getTime() / 1000); // 当前时间10位
@@ -20,7 +19,11 @@ function wxpay_getbodyData(req) {
   var phone = req.address.phone;
   var shop = req.address.shop;
   // var store_info = req.address;
+  if (req.orders){
   var body = req.orders[0]["title"]+"..."; // 商品描述/// req.address.shop +
+  }else{
+    var body = req.bannerdata["name"]
+  }
   if (shop) {
     body = shop +"："+ body;
   }

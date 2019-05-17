@@ -1,30 +1,36 @@
 <!--miniprogram/page/component/consumption_records.wxml-->
 <!-- <text>miniprogram/page/component/consumption_records.wxml</text> -->
-<view class="orders-box">
+<view class="main">
+  <view wx:if="{{hasList}}">
+    <view class="orders-box">
+    </view>
+    <view class="orders-list" wx:for="{{orders_list}}" wx:key="index">
+      <view class="orders-number">订单编号：{{item.out_trade_no}}</view>
+      <view class="orders-detail" wx:for="{{item.orders}}" wx:key="index">
+        <!-- wx:for="{{item.orders}}"  wx:key="index"  -->
+        <image class="image" src="{{item.imgUrl}}"></image>
+        <view class="orders-detail-text">名称：{{item.name}}</view>
+        <view class="orders-detail-text">数量：{{item.num}}</view>
+      </view>
+      <view class="orders-number">支付状态：{{item.status_describe}}
+        <text class="orders-paytext">支付时间：{{item.pay_time}}</text>
+      </view>
+      <view class="orders-number">消费状态：{{item.expense_describe}}
+        <text class="orders-paytext">消费时间：{{item.expense_time}}</text>
+      </view>
 
-</view>
-<view class="orders-list" wx:for="{{orders_list}}" wx:key="index">
-  <view class="orders-number">订单编号：{{item.out_trade_no}}</view>
-  <view class="orders-detail" wx:for="{{item.orders}}" wx:key="index">
-    <!-- wx:for="{{item.orders}}"  wx:key="index"  -->
-    <image  class="image" src="{{item.imgUrl}}"></image>
-    <view class="orders-detail-text">名称：{{item.name}}</view>
-    <view class="orders-detail-text">数量：{{item.num}}</view>
-  </view>
-  <view class="orders-number">支付状态：{{item.status_describe}}
-    <text class="orders-paytext">支付时间：{{item.pay_time}}</text>
-  </view>
-  <view class="orders-number">消费状态：{{item.expense_describe}}
-    <text class="orders-paytext">消费时间：{{item.expense_time}}</text>
-  </view>
- 
-  <view class="orders-footer">
-    <view wx:if="{{item.expense}}" class="address-list">
-      <button size="mini" class="orders-btn" bindtap="expenseOrders" data-id="{{item._id}}">消费</button>
+      <view class="orders-footer">
+        <view wx:if="{{item.expense}}" class="address-list">
+          <button size="mini" class="orders-btn" bindtap="expenseOrders" data-id="{{item._id}}">消费</button>
+        </view>
+        <view wx:if="{{item.status}}" class="address-list">
+          <button size="mini" class="orders-btn" bindtap="payOrders" data-id="{{item._id}}" data-index="{{index}}">付款</button>
+        </view>
+        <text>实付：￥{{item.total_fee}}</text>
+      </view>
     </view>
-    <view wx:if="{{item.status}}" class="address-list">
-      <button size="mini" class="orders-btn" bindtap="payOrders" data-id="{{item._id}}" data-index="{{index}}">付款</button>
-    </view>
-    <text>实付：￥{{item.total_fee}}</text>
+  </view>
+  <view wx:else>
+    <view class="no-data">消费记录是空的哦~~</view>
   </view>
 </view>

@@ -78,7 +78,7 @@ Page({
       // _openid: this.data.openid
       // _id:1,
       type: 2,
-    }).get({
+    }).orderBy('_id', 'desc').get({
       success: function (res) {
         // console.log('[数据库] [查询banner_urls_data记录] 成功: ', res);
         var banner_urls_1 = res.data;

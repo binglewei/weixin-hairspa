@@ -15,6 +15,23 @@ Page({
    */
   onLoad: function(options) {
     var self = this;
+    var openid = app.globalData.openId;
+    if (openid == "") {
+      wx.cloud.init();
+      wx.cloud.callFunction({
+        name: 'get_openid',
+        complete: res => {
+          // console.log('云函数获取到的openid: ', res, res.result.openId)
+          var openId = res.result.openId;
+          // console.log('云函数获取到的openid:==222222222= ', res, openId)
+          app.globalData.openId = openId;
+          // self.setdata({
+          //   openId: openId
+          // })
+        }
+      })
+
+    };
     const db = wx.cloud.database({
       env: "wxc6c41875b492a9c0-1c74f6" // 环境ID：wxc6c41875b492a9c0-1c74f6
     });
@@ -24,9 +41,9 @@ Page({
     banner_urls_data.where({
       // _openid: this.data.openid
       // _id:1
-      type:1
-    }).get({
-      success: function (res) {
+      type: 1
+    }).orderBy("_id","desc").get({
+      success: function(res) {
         // console.log('[数据库] [查询banner_urls_data记录] 成功: ', res);
         var banner_urls_1 = res.data;
         // console.log('banner_urls_1========== ', banner_urls_1);
@@ -37,7 +54,7 @@ Page({
         });
         // console.log('bannerUrls====3333333====== ', self.data);
       },
-      fail: function (res) {
+      fail: function(res) {
         wx.showToast({
           icon: 'none',
           title: '查询记录失败'
@@ -51,7 +68,7 @@ Page({
       // _id:1
       // type:2
     }).get({
-      success: function (res) {
+      success: function(res) {
         // console.log('[数据库] [查询product_list_data记录]222 成功: ', res);
         var product_list_1 = res.data;
         wx.request({
@@ -59,7 +76,7 @@ Page({
           data: "",
           header: {},
           method: 'GET',
-          success: function (res) {
+          success: function(res) {
             // console.log("res=success=11==", res);
             var project_lists_sy = res.data
             // var product_list_1=app.globalData.product_list;
@@ -72,10 +89,10 @@ Page({
               // product_list: product_list
             });
           },
-          fail: function (res) {
+          fail: function(res) {
             // console.log("res=fail=22==", res);
           },
-          complete: function (res) {
+          complete: function(res) {
             // console.log('complete==3333==', res);
 
           },
@@ -88,7 +105,7 @@ Page({
         // });
         // console.log('bannerUrls====3333333====== ', self.data);
       },
-      fail: function (res) {
+      fail: function(res) {
         wx.showToast({
           icon: 'none',
           title: '查询记录失败'
@@ -99,9 +116,9 @@ Page({
     product_list_data.where({
       // _openid: this.data.openid
       // _id:1
-      type:2
+      type: 2
     }).limit(10).orderBy('_id', 'desc').get({
-      success: function (res) {
+      success: function(res) {
         // console.log('[数据库] [查询product_list_data记录]222 成功: ', res);
         var project_lists_index = res.data;
         // console.log('banner_urls_1========== ', banner_urls_1);
@@ -112,7 +129,7 @@ Page({
         });
         // console.log('bannerUrls====3333333====== ', self.data);
       },
-      fail: function (res) {
+      fail: function(res) {
         wx.showToast({
           icon: 'none',
           title: '查询记录失败'
@@ -123,9 +140,9 @@ Page({
     product_list_data.where({
       // _openid: this.data.openid
       // _id:1
-      type:1
+      type: 1
     }).limit(2).orderBy('_id', 'desc').get({
-      success: function (res) {
+      success: function(res) {
         // console.log('[数据库] [查询product_list_data记录]222 成功: ', res);
         var product_list_index = res.data;
         // console.log('banner_urls_1========== ', banner_urls_1);
@@ -136,7 +153,7 @@ Page({
         });
         // console.log('bannerUrls====3333333====== ', self.data);
       },
-      fail: function (res) {
+      fail: function(res) {
         wx.showToast({
           icon: 'none',
           title: '查询记录失败'
@@ -151,19 +168,8 @@ Page({
     //   url = encodeURI(urls.url);
     //   urls.url = urls;
     // }
-    // wx.cloud.init();
-    // wx.cloud.callFunction({
-    //   name: 'get_openid',
-    //   complete: res => {
-    // console.log('云函数获取到的openid: ', res.result.userInfo.openId)
-    // console.log('bannerUrls===: ', bannerUrls)
-    //     var openId = res.result.openId;
-    //     // app.globalData.openId = openId;
-    //     // this.setdata({
-    //     //   openId: openId
-    //     // })
-    //   }
-    // })
+    
+    // 
   },
 
   /**
@@ -187,8 +193,8 @@ Page({
   //   }
   //   },
   onShow: function() {
-    
-    
+
+
     // wx.getSetting({
     //   success(res) {
     //     if (!res.authSetting['scope.userInfo']) {

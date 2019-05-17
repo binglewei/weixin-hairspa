@@ -8,7 +8,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    reservation_list: []
+    reservation_list: [],
+    hasList: true          // 列表是否有数据
   },
 
   /**
@@ -38,10 +39,20 @@ Page({
       // _openid: app.globalData.openid
     }).orderBy('out_trade_no', 'desc').get({
       success: res => {
-        this.setData({
-          reservation_list: res.data
-        })
-        console.log('[数据库] [查询记录] 成功: ', res.data)
+        var data=res.data;
+        if (data.length>0){
+          this.setData({
+            reservation_list: data,
+            hasList: true 
+          })
+        }else{
+          this.setData({
+            // reservation_list: data,
+            hasList: false
+          })
+        }
+        
+        // console.log('[数据库] [查询记录] 成功: ', res.data)
       },
       fail: err => {
         wx.showToast({
