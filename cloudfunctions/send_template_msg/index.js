@@ -12,9 +12,10 @@ exports.main = async(event, context) => {
   var template_id = event.template_id;
   var msgData = event.msgData;
   var openid = event.openid;
-  var form_id = event.form_id;
+  // var form_id = event.form_id;
+  var form_ids = event.form_ids;
   var page = event.page;
-  // var employee_openid = event.employee_openid;
+  var employee_openid = event.employee_openid;
   // console.log(" console.log(employee_openid)==222==", employee_openid, typeof (employee_openid));
   // console.log(" console.log(access_token)==222==", access_token);
   // console.log(" console.log(template_id)==222==", template_id);
@@ -22,7 +23,7 @@ exports.main = async(event, context) => {
   // console.log(" console.log(openid)==222==", openid);
   // console.log(" console.log(form_id)==222==", form_id);
   // console.log(" console.log(page)==222==", page);
-  if (event.employee_openid) {
+  if (employee_openid) {
     // console.log(" console.log(page)==222==", page);
     res2 = await rp({
       json: true,
@@ -32,26 +33,29 @@ exports.main = async(event, context) => {
         touser: employee_openid,
         template_id: template_id,
         page: page,
-        form_id: form_id,
+        form_id: form_ids[0],
         data: msgData
       }
     })
     console.log(" console.log(res2222222)=222==res2=", res2);
   };
-  res=await rp({
-      json: true,
-      method: 'POST',
-      uri: 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' + access_token,
-      body: {
-        touser: openid,
-        template_id: template_id,
-        page: page,
-        form_id: form_id,
-        data: msgData
-      }
-    })
-  
-  console.log(" console.log(res)=111===",res);
- 
-  return { res, event};
+  res = await rp({
+    json: true,
+    method: 'POST',
+    uri: 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' + access_token,
+    body: {
+      touser: openid,
+      template_id: template_id,
+      page: page,
+      form_id: form_ids[1],
+      data: msgData
+    }
+  })
+
+  console.log(" console.log(res)=111===", res);
+
+  return {
+    res,
+    event
+  };
 }

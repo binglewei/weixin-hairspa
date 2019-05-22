@@ -66,6 +66,14 @@ Page({
 
 
   },
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function (ops) {
+    wx.showShareMenu({
+      withShareTicket: true
+    })
+  },
   onShow() {
     // 云数据库初始化
     const db = wx.cloud.database({

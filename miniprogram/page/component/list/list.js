@@ -9,6 +9,14 @@ Page({
     interval: 3000,
     duration: 800,
   },
+  /**
+ * 用户点击右上角分享
+ */
+  onShareAppMessage: function () {
+    wx.showShareMenu({
+      withShareTicket: true
+    })
+  },
   onLoad: function(options) {
     // 页面初始化 options为页面跳转所带来的参数
     var type = options.type;

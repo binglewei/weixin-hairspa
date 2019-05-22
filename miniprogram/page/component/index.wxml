@@ -62,10 +62,11 @@
     </view>
     <view class="newest-box">
       <view class="newest-list" wx:for="{{project_lists_index}}" wx:key="{{item.id}}">
-        <navigator url="details/details?id={{item.id}}">
+        <navigator url="/page/component/reservation/reservation?id={{item.id}}">
           <image class="newest-image" src="{{item.imgUrl}}"></image>
           <view class="newest-text">
-            <text>单次 {{item.name}} ￥{{item.retailPrice}}</text>
+          <text>{{item.name}}</text>
+            <!-- <text>单次 {{item.name}} ￥{{item.retailPrice}}</text> -->
           </view>
         </navigator>
 

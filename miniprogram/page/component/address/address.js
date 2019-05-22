@@ -1,6 +1,6 @@
 // page/component/new-pages/user/address/address.js
 var app = getApp();
-var shop_list = app.globalData.shop_list;
+
 Page({
   data: {
     // address: globalData_address
@@ -18,6 +18,7 @@ Page({
     }
   },
   onLoad() {
+    var shop_list = app.globalData.shop_list;
     var self = this;
     var shop_names = ['请选择门店'];
     for (var num in shop_list) {
@@ -64,6 +65,16 @@ Page({
     //     })
     //   }
     // })
+  },
+  onShow(e) {
+    wx.showLoading({
+      title: '加载中',
+    })
+
+    setTimeout(function () {
+      wx.hideLoading()
+      // wx.navigateBack();
+    }, 1000)
   },
   normalPickerBindchange: function(e) {
     this.setData({
@@ -199,10 +210,18 @@ Page({
       // })
       // new Date().t
       // sleep(3000);  //睡眠5秒
+      wx.showLoading({
+        title: '保存中',
+      })
+
       setTimeout(function () {
-        //要延时执行的代码
+        wx.hideLoading()
         wx.navigateBack();
-      }, 1000) //延迟时间 这里是1秒
+      }, 1000)
+      // setTimeout(function () {
+      //   //要延时执行的代码
+      //   wx.navigateBack();
+      // }, 1000) //延迟时间 这里是1秒
       
     }
   }

@@ -102,7 +102,7 @@ Page({
     }else{
       var text=textinput;
     }
-    console.log("keywordHandle", e, text);
+    console.log("keywordHandle====", e, text);
     var results=[];
     var product_list=app.globalData.product_list;
     for (var key in product_list) {

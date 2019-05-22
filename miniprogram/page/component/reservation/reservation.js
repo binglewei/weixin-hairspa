@@ -8,6 +8,7 @@ Page({
    */
   data: {
     calendar: [],
+    formIdArray:[],
     access_tokens: [],
     send_even: "",
     width: 0,
@@ -18,9 +19,9 @@ Page({
     currentTime: 0,
     currentemployee: 0,
     employee_list: [],
-    picker_prject_id: 0,
-    picker_prject_Range: ["请选择你要预约的项目"],
-    // picker_prject_Range: app.globalData.project_lists,
+    picker_project_id: 0,
+    picker_project_Range: ["请选择你要预约的项目"],
+    // picker_project_Range: app.globalData.project_lists,
     timeArr: [{
         "time": "10:00",
         "status": ""
@@ -86,7 +87,13 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    var picker_project_id = options.id;
+    // console.error("picker_project_id====", this.data);
+    this.setData({
+      picker_project_id: picker_project_id
+    })
 
+    
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -98,9 +105,9 @@ Page({
   onShow: function() {
     var that = this;
     that.setData({
-      picker_prject_Range: app.globalData.project_lists
+      picker_project_Range: app.globalData.project_lists
     });
-    if (that.data.picker_prject_Range.length < 2) {
+    if (that.data.picker_project_Range.length < 2) {
       // /刷新当前页面的数据
       console.log("=刷新当前页面的数据====");
       wx.request({
@@ -114,7 +121,7 @@ Page({
           // var product_list_1=app.globalData.product_list;
           app.globalData.project_lists = project_lists_sy;
           that.setData({
-            picker_prject_Range: project_lists_sy,
+            picker_project_Range: project_lists_sy,
             // project_lists: product_list_2,
             // product_list: product_list
           });
@@ -129,7 +136,20 @@ Page({
       });
       // getCurrentPages()[getCurrentPages().length - 1].onShow()//onShow()
     }
-
+    // console.error('complete==3333==', that.data.picker_project_Range, that.data.picker_project_id);
+    var picker_project_id=that.data.picker_project_id;
+    var picker_project_Range = that.data.picker_project_Range;
+    for (var id in picker_project_Range ){
+      var picker_project = picker_project_Range[id]
+      var project_id = picker_project["id"]
+      if (picker_project_id == project_id){
+        that.setData({
+          picker_project: picker_project
+        })
+        // console.log('picker_project==111111111111111==', picker_project,picker_project_id)
+      }
+    };
+    // console.error('picker_project_Range==3333==', picker_project_id, picker_project_Range, picker_project_Range[picker_project_id]);
     const db = wx.cloud.database({
       env: "wxc6c41875b492a9c0-1c74f6"
     });
@@ -255,7 +275,7 @@ Page({
     //  var self=this;
     //   var picker_shop_id = self.data.picker_shop_id;
     //   var shop = self.data.shop_list[picker_shop_id-1];
-    console.log("this.data==this.data====", this.data)
+    // console.log("this.data==this.data====", this.data)
   },
   /**
    * 生命周期函数--监听页面隐藏
@@ -298,23 +318,37 @@ Page({
     })
     console.log(event, event.currentTarget.dataset.employee_name)
   },
-  normalPickerBindchange: function(e) {
-    console.log("==normalPickerBindchange===", e, e.detail.value);
-    this.setData({
-      picker_prject_id: e.detail.value
-    })
-  },
+  // normalPickerBindchange: function(e) {
+  //   console.log("==normalPickerBindchange===", e, e.detail.value);
+  //   this.setData({
+  //     picker_project_id: e.detail.value
+  //   })
+  // },
   // submitInfo: function (e) {
   //   console.log('GG 敌方军团已同意投降 4票赞成 0票反对')
   //   console.log(e.detail.formId);
   // },
+  saveFormId: function (v) {
+    console.log("vvvvvvv===", v)
+    if (v.detail.formId != 'the formId is a mock one') {
+      this.data.formIdArray.push(v.detail.formId);
+    }
+    console.log("formIdArray===", this.data.formIdArray)
+  },
+
   confirm_reservation: function(e) {
+    wx.showLoading({
+      title: '加载中',
+    });
+    setTimeout(function () {
+      wx.hideLoading()
+    }, 1500)
     var self = this;
     var data = self.data;
-    var form_id = e.detail.formId;
-
+    this.saveFormId(e);
+    var form_ids = data.formIdArray;
     var reservation_shop = data.address.shop;
-    var reservation_prject = data.picker_prject_Range[data.picker_prject_id];
+    var reservation_prject = data.picker_project;
     var reservation_employee = data.employee_list[data.currentemployee];
     var reservation_time = data.calendar[data.currentIndex].date + " " + data.timeArr[data.currentTime].time;
     var nn = "\r\n";
@@ -338,7 +372,12 @@ Page({
       success: function(res) {
 
         if (res.confirm) {
-          console.log('用户点击确定，立即预约')
+          wx.showLoading({
+            title: '预约中',
+          });
+          
+          console.log('用户点击确定，立即预约');
+          
           // console.log("====confirm_reservation_data===", confirm_reservation_data);
           confirm_reservation_data.reservation_status = 1;
           confirm_reservation_data.reservation_describe = "预约成功";
@@ -395,8 +434,9 @@ Page({
               "value": data.address.phone
             }
           }
-          send_even.page = "page/component/user/user";
-          send_even.form_id = form_id;
+          // send_even.page = "page/component/user/user";
+          send_even.page = "page/component/reservation_records/reservation_records";
+          send_even.form_ids = form_ids;
           // var openids = [app.globalData.openId, app.globalData.openId]
           var openid = app.globalData.openId;
           send_even.openid = openid;
@@ -414,7 +454,7 @@ Page({
               // console.log('[数据库] [查询记录] 成功: ', res.data)
               var expires_time = res.data[0].expires_time;
               var now_timestamp = Math.round(new Date().getTime() / 1000);
-              console.log('expires_time====now_timestamp====', res, expires_time, now_timestamp);
+              // console.log('expires_time====now_timestamp====', res, expires_time, now_timestamp);
 
               if (expires_time > now_timestamp + 60) {
                 console.log('if ================IFIFIF');
@@ -455,6 +495,7 @@ Page({
                   // handle error
                 })
               }
+              console.log('res======befor===self.data.send_even===', self.data.send_even);
               wx.cloud.callFunction({
                 name: 'send_template_msg',
                 data: self.data.send_even,
@@ -469,6 +510,12 @@ Page({
                       data: confirm_reservation_data
 
                     }).then(res => {
+                      wx.showToast({
+                        title: '预约成功!',
+                        icon: 'success',
+                        duration: 2000
+                      })
+                      
                       // console.log("DATASET==res==confirm_reservation_data===", res, confirm_reservation_data)
                     }).catch(err => {
                       // console.error("DATASET==res==confirm_reservation_data===", err, confirm_reservation_data)
@@ -500,9 +547,12 @@ Page({
               })
               console.error('[数据库] [查询记录] 失败：', err)
             }
+          
           });
-
-
+         setTimeout(function () {
+            wx.hideLoading()
+          }, 2000)
+        // wx.hideLoading();
         } else if (res.cancel) {
           console.log('用户点击取消，取消预约')
         }

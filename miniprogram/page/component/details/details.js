@@ -1,10 +1,5 @@
 // page/component/details/details.js
 var app = getApp();
-// var cart_totalNums = app.globalData.cart_totalNums;
-
-// var cart_totalNums = ;
-// var totalNum=0;
-
 Page({
   data: {
     goods: {},
@@ -43,6 +38,14 @@ Page({
     num++;
     this.setData({
       num: num
+    })
+  },
+  /**
+ * 用户点击右上角分享
+ */
+  onShareAppMessage: function () {
+    wx.showShareMenu({
+      withShareTicket: true
     })
   },
   //增加到购物车

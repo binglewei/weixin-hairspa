@@ -26,16 +26,29 @@ image {
 }
 .orders-footer .orders-footer-total{
     display: inline-block;
-    width: 510rpx;
+    width: 350rpx;
     padding-left: 30rpx;
+    text-align: center;
     box-sizing: border-box;
     background: rgba(170, 171, 109, 0.397);
     color: rgb(238, 9, 9);
 }
 .orders-footer .orders-footer-btn{
     display: inline-block;
-    width: 240rpx;
+    width: 200rpx;
     text-align: center;
     color: #fff;
     background: #AB956D;
 }
+.orders-footer .orders-footer-btn2{
+    display: inline-block;
+    width: 200rpx;
+    text-align: center;
+    color: #fff;
+    background: #AB956D;
+}
+.orders-footer-btn2::after {
+  border: none;
+      }
+
+ 

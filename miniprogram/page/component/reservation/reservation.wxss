@@ -100,10 +100,11 @@ scroll-view .current text{
   text-align: center;
   box-sizing: border-box;
   background-color: #fff;
-  padding-top: 35rpx;
+  padding-top: 20rpx;
   /* border: 1px solid #b9c1c8; */
 }
 .time .listItem text{
+  text-align: center;
   display: block;
   font-size: 30rpx;
 }
@@ -229,6 +230,19 @@ scroll-view .current text{
   /* text-align: center; */
   margin:30rpx 30rpx 0 0;
   border-bottom: 1rpx solid #ededed;
-  color: #999;
+  color: rgb(32, 45, 235);
   /* padding-left: 30rpx; */
+}
+.form_class {
+  width: 100%;
+}
+.form_button {
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+ 
+.form_button::after {
+  border: 0px;
 }

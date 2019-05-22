@@ -14,6 +14,15 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    wx.showLoading({
+      title: '加载中',
+    })
+   
+
+    setTimeout(function () {
+      wx.hideLoading()
+      // wx.navigateBack();
+    }, 3000);
     var self = this;
     var openid = app.globalData.openId;
     if (openid == "") {
@@ -47,7 +56,7 @@ Page({
         // console.log('[数据库] [查询banner_urls_data记录] 成功: ', res);
         var banner_urls_1 = res.data;
         // console.log('banner_urls_1========== ', banner_urls_1);
-        app.globalData.bannerUrls = banner_urls_1;
+        // app.globalData.bannerUrls = banner_urls_1;
         self.setData({
           bannerUrls: banner_urls_1,
           // product_list: product_list
@@ -194,7 +203,7 @@ Page({
   //   },
   onShow: function() {
 
-
+   
     // wx.getSetting({
     //   success(res) {
     //     if (!res.authSetting['scope.userInfo']) {

@@ -24,6 +24,7 @@
 
   <!-- <view class="list-box"> -->
   <view class="newest-box">
+   <view wx:if="{{type==1}}">
     <view class="newest-list" wx:for="{{project_lists}}" wx:key="{{item.id}}">
       <navigator url="../details/details?id={{item.id}}">
         <image class="newest-image" src="{{item.imgUrl}}"></image>
@@ -31,27 +32,18 @@
           <text>{{item.name}} ￥{{item.retailPrice}}</text>
         </view>
       </navigator>
-      <!-- <view class="newest-list">
-            <navigator url="../details/details">
-                <image src="/image/s4.png"></image>
-                <view class="newest-text"><text>瓜子 100g</text></view>
-                <view class="newest-text"><text>￥ 0.01</text></view>
-            </navigator>
-        </view>
-        <view class="newest-list">
-            <navigator url="../details/details">
-                <image src="/image/sy_list/list_1.jpg"></image>
-                <view class="newest-text"><text>草本养发</text></view>
-                <view class="newest-text"><text>￥ 0.01</text></view>
-            </navigator>
-        </view>
-        <view class="newest-list">
-            <navigator url="../details/details">
-                <image src="/image/s6.png"></image>
-                <view class="newest-text"><text>素米 375g</text></view>
-                <view class="newest-text"><text>￥ 0.03</text></view>
-            </navigator>
-        </view> -->
+    </view>
+     </view>
+    <view wx:else >
+    <view class="newest-list" wx:for="{{project_lists}}" wx:key="{{item.id}}">
+     <navigator url="/page/component/reservation/reservation?id={{item.id}}">
+          <image class="newest-image" src="{{item.imgUrl}}"></image>
+          <view class="newest-text">
+          <text>{{item.name}}</text>
+            <!-- <text>单次 {{item.name}} ￥{{item.retailPrice}}</text> -->
+          </view>
+        </navigator>
+       </view>
     </view>
   </view>
 </view>

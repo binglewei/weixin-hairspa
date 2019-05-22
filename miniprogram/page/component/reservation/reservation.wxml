@@ -13,10 +13,18 @@
 
 <view>
   <view class="selectemployee_litle">$请选择预约项目：</view>
-  <picker class="picker" value="{{picker_prject_id}}" range="{{picker_prject_Range}}" range-key="name" bindchange="normalPickerBindchange">{{picker_prject_Range[picker_prject_id].name}}：预计服务时长{{picker_prject_Range[picker_prject_id].nursingTime}}分钟</picker>
+  <navigator url="/page/component/list/list?type=2">
+          <!-- <image class="newest-image" src="{{item.imgUrl}}"></image> -->
+          <!-- <view > -->
+          <view class="picker">{{picker_project.name}}：预计服务时长{{picker_project.nursingTime}}分钟</view>
+            <!-- <text>单次 {{item.name}} ￥{{item.retailPrice}}</text> -->
+          <!-- </view> -->
+        </navigator>
+  <!-- <picker class="picker" value="{{picker_prject_id}}" range="{{picker_prject_Range}}" range-key="name" bindchange="normalPickerBindchange">{{picker_prject_Range[picker_prject_id].name}}：预计服务时长{{picker_prject_Range[picker_prject_id].nursingTime}}分钟</picker> -->
   <!-- range-key="{{picker_prject_Range.name}}"" /> -->
 </view>
 <view class='selectemployee_litle'>$请选择护理师:</view>
+
 <view class='employee'>
   <view bindtap='selectemployee' wx:for="{{employee_list}}" wx:for-item="item" wx:for-index="index" data-index="{{ index }}" data-employee_name="{{item.employee_name}}" class='listItem {{currentemployee==index? "current":"" }}' wx:key=''>
     <text>{{ item.employee_name }}</text>
@@ -33,9 +41,15 @@
       </view>
     </view>
   </scroll-view>
+  
   <view class='time'>
+  
     <view wx:for="{{ timeArr }}" wx:for-item="timeItem" wx:for-index="timeIndex" data-Tindex="{{ timeIndex }}" data-time="{{ timeItem.time}}" bindtap='selectTime' class='listItem {{ currentTime==timeIndex? "current":"" }}' wx:key=''>
-      <text>{{ timeItem.time }}</text>
+    <form bindsubmit="saveFormId" report-submit="{{true}}" class='form_class'>
+      <button formType="submit" class='form_button'>
+      <text class='time-text'>{{ timeItem.time }}</text>
+      </button>
+    </form>
       <!-- <text>{{ timeItem.status }}</text> -->
     </view>
   </view>

@@ -11,9 +11,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-    bannerdata:[],
+    banner_urls:[],
+    bannerdata: [],
     imgUrl: "",
-    retailPrice:"",
+    retailPrice: "",
     // url_type:0,
     // jump_imag_height:500
   },
@@ -22,21 +23,51 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    var app = getApp();
-    var bannerUrls = app.globalData.bannerUrls;
+    
+    wx.showLoading({
+      title: '加载中',
+    })
+
+    setTimeout(function() {
+      wx.hideLoading()
+      // wx.navigateBack();
+    }, 3000);
     var url_id = options.url_id;
-    for (var bann in bannerUrls) {
-      var _id = bannerUrls[bann]["_id"];
-      if (_id == url_id) {
-        var imgUrl = bannerUrls[bann]["jumpUrl"];
-        var retailPrice = bannerUrls[bann]["retailPrice"];
-        this.setData({
-          imgUrl: imgUrl,
-          bannerdata: bannerUrls[bann],
-          retailPrice: retailPrice,
+    var self=this;
+    const db = wx.cloud.database({
+      env: "wxc6c41875b492a9c0-1c74f6" // 环境ID：wxc6c41875b492a9c0-1c74f6
+    });
+    //拿到表
+    const banner_urls_data = db.collection('banner_urls');
+    banner_urls_data.get({
+      success: function (res) {
+        var banner_urls_1 = res.data;
+        for (var bann in banner_urls_1) {
+          var id = banner_urls_1[bann]["_id"];
+          if (id == url_id) {
+            var imgUrl = banner_urls_1[bann]["jumpUrl"];
+            var retailPrice = banner_urls_1[bann]["retailPrice"];
+            // console.log('imgUrl, retailPrice, banner_urls_1=ifif = ', imgUrl, retailPrice);
+            self.setData({
+              banner_urls: banner_urls_1,
+              imgUrl: imgUrl,
+              bannerdata: banner_urls_1[bann],
+              retailPrice: retailPrice,
+            })
+            // console.log('banner_urls=====22/2222===22222/22== ', self.data);
+          }
+        }
+        
+      },
+      fail: function (res) {
+        wx.showToast({
+          icon: 'none',
+          title: '查询记录失败'
         })
+        // console.error('[数据库] [查询记录] 失败：', err)
       }
-    }
+    });
+    
 
   },
 
@@ -85,13 +116,47 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function() {
-
+  onShareAppMessage: function (res) {
+    var self=this;
+    var bannerdata = self.data.bannerdata;
+    console.log("bannerdata===", self.data, bannerdata);
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res.target.id)
+      console.log(res.from)
+      //区分按钮分享
+      if (res.target.id === "btn") {
+        return {
+          title: bannerdata.name,
+          // path: '/pages/title/title',
+          success: function (res) {
+            // 转发成功
+          },
+          fail: function (res) {
+            // 转发失败
+          }
+        }
+      }
+    }
+    //右上角分享
+    return {
+      title: bannerdata.name,
+      // path: `pages/index/index`,
+      // imageUrl: ``,
+      success: function (res) {
+        // 转发成功
+        console.log("转发成功:" + JSON.stringify(res));
+      },
+      fail: function (res) {
+        // 转发失败
+        console.log("转发失败:" + JSON.stringify(res));
+      }
+    }
   },
   /**
-  * 发起支付请求
-  */
-  toPay() {
+   * 发起支付请求
+   */
+  toPay(e) {
 
     var resp = {}
     var self = this;
@@ -112,7 +177,7 @@ Page({
       method: 'POST',
       // dataType: 'xml',
       // responseType: 'text',
-      success: function (res) {
+      success: function(res) {
         console.log(' wx.request=unifiedorder=成功了111==', res);
         var result_xml = res.data;
         var xml_parser = new parser.DOMParser();
@@ -159,7 +224,7 @@ Page({
           package: package_valus,
           signType: 'MD5',
           paySign: paySign,
-          success: function (res) {
+          success: function(res) {
             console.log("res==支付调用成功11==", res)
             orders_list_String.status_describe = "支付成功";
             orders_list_String.status = 0;
@@ -169,7 +234,7 @@ Page({
             orders_list_String.pay_time = util.format_date_5(new Date());
 
           },
-          fail: function (res) {
+          fail: function(res) {
             console.log("res=fail=22==", res);
             orders_list_String.status_describe = "支付失败";
             orders_list_String.status = 1;
@@ -186,8 +251,7 @@ Page({
                 content: '你已经取消支付！！!',
                 showCancel: false
               })
-            }
-            else {
+            } else {
               wx.showModal({
                 title: '支付提示',
                 content: '微信支付失败，请联系管理员!',
@@ -196,7 +260,7 @@ Page({
             }
 
           },
-          complete: function (res) {
+          complete: function(res) {
             // self.data.
             var orders = self.data.orders;
             // console.log("orderseeee=22222=", orders)
@@ -221,7 +285,7 @@ Page({
         })
 
       },
-      fail: function (res) {
+      fail: function(res) {
         console.log(' wx.request==出错了22==', res);
         wx.showModal({
           title: '支付提示',
@@ -229,12 +293,122 @@ Page({
           showCancel: false
         })
       },
-      complete: function (res) {
+      complete: function(res) {
         // console.log('complete==3333==', res);
 
       },
     });
 
 
+  },
+  get_qrcode(){
+    
+  },
+  initCanvas() {
+    var self = this;
+    var ctx = wx.createCanvasContext('poster')
+    ctx.drawImage(self.data.bannerdata.imgUrl, 0, 0, 241, 368)   //画海报
+    ctx.drawImage(qrCodeUrl, 70, 240, 120, 120) //画二维码
+    ctx.draw()
+    self.save()  //生成微信临时模板文件path
+  },
+  save() {
+    var self = this;
+    setTimeout(() => {
+      wx.canvasToTempFilePath({
+        x: 0,
+        y: 0,
+        width: 241,
+        height: 368,
+        destWidth: 241,
+        destHeight: 368,
+        canvasId: 'poster',
+        success: function (res) {
+          console.log('save', res.tempFilePath)
+          self.saveUrl = res.tempFilePath  //保存临时模板文件路径
+        },
+        fail: function (res) {
+          wx.showToast({
+          	title:'网络繁忙',
+          	icon:'none'
+          })
+          return
+        }
+      })
+    }, 500)
+  },
+
+  toShare(e) {
+    var self = this;
+    wx.showActionSheet({
+      itemList: ['点右上角转发给好友', '生成本地分享海报'],
+      success(res) {
+        var tapIndex = res.tapIndex;
+        if (tapIndex == 0) {
+          console.log("success(res)=ifififififif=", tapIndex)
+          wx.showShareMenu({
+            withShareTicket: true
+          })
+        } else if (tapIndex == 1) {
+          // saveImageToPhotosAlbum() {
+          self.initCanvas();
+          console.log("self.saveUrl=========",self.saveUrl);
+            wx.showLoading({
+              title: '下载中...'
+            })
+            
+            wx.downloadFile({
+              url: self.saveUrl,
+              success: function (res) {
+                // 只要服务器有响应数据，就会把响应内容写入文件并进入 success 回调，业务需要自行判断是否下载到了想要的内容
+                if (res.statusCode === 200) {
+                  wx.saveImageToPhotosAlbum({
+                    filePath: res.tempFilePath,
+                    success(result) {
+                      wx.hideLoading()
+                      wx.showToast({
+                        title: '已保存至相册',
+                        icon: 'none',
+
+                      })
+
+                    },
+                    fail(result) {
+                      wx.hideLoading()
+                      wx.showToast({
+                        title: '下载失败',
+                        icon: 'none',
+
+                      })
+
+                    }
+                  })
+                }
+              },
+              fail(result) {
+                wx.hideLoading()
+                wx.showToast({
+                  title: '下载失败',
+                  icon: 'none',
+
+                })
+
+              }
+            })
+          // }
+          // console.log("success(res)=elseelse=", tapIndex)
+          // wx.showLoading({
+          //   title: '加载中',
+          // })
+
+          // setTimeout(function () {
+          //   wx.hideLoading()
+          // }, 2000)
+        }
+      },
+      fail(res) {
+        console.log(res.errMsg)
+      }
+    })
   }
 })

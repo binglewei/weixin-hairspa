@@ -16,12 +16,46 @@ Page({
    * 页面的初始数据
    */
   data: {
-    
+
     // shop_list: ""
-    shop_list: app.globalData.shop_list
-    
+    shop_list: [],
+
   },
-  
+
+  onShow: function() {
+    // var shaa=a
+    this.setData({
+      shop_list: app.globalData.shop_list,
+        });
+    // const db = wx.cloud.database({
+    //   env: "wxc6c41875b492a9c0-1c74f6" // 环境ID：wxc6c41875b492a9c0-1c74f6
+    // });
+    // //拿到表
+    // const shop_list_data = db.collection('shop_list');
+    // self = this;
+    // shop_list_data.where({
+    //   // _openid: this.data.openid
+    //   // _id:1
+    // }).get({
+    //   success: function(res) {
+    //     var shop_list = res.data;
+       
+    //     self.setData({
+    //       shop_list: shop_list
+    //     });
+    //     app.globalData.shop_list = shop_list;
+    //     // console.log('[数据库] [查询记录shop_list_data] 成功: ', shop_list, app.globalData);
+    //   },
+    //   fail: function(res) {
+    //     wx.showToast({
+    //       icon: 'none',
+    //       title: '查询记录失败'
+    //     })
+    //     // console.error('[数据库] [查询记录] 失败：', err)
+    //   }
+    // })
+  },
+
   phoneCall: function(e) {
 
     wx.makePhoneCall({
@@ -81,7 +115,7 @@ Page({
           longitude: longitude,
           scale: 28,
           name: e.currentTarget.dataset.address,
-          address: e.currentTarget.dataset.address +"丝域养发馆"
+          address: e.currentTarget.dataset.address + "丝域养发馆"
         })
 
       },
@@ -154,6 +188,14 @@ Page({
 
       url: "/pages/map/map"
 
+    })
+  },
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function(ops) {
+    wx.showShareMenu({
+      withShareTicket: true
     })
   },
   /**

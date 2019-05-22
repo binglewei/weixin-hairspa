@@ -40,10 +40,10 @@
         "text": "门店列表"
       },
       {
-        "pagePath": "page/component/reservation/reservation",
+        "pagePath": "page/component/cart/cart",
         "iconPath": "image/32.png",
         "selectedIconPath": "image/31.png",
-        "text": "预约服务"
+        "text": "购物车"
       },
       {
         "pagePath": "page/component/user/user",

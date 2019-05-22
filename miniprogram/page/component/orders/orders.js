@@ -20,6 +20,14 @@ Page({
       // { id: 0, title: '新鲜芹菜 半斤', image: '/image/s5.png', num: 4, price: 0.01, selected: true }
     ]
   },
+  /**
+ * 用户点击右上角分享
+ */
+  onShareAppMessage: function () {
+    wx.showShareMenu({
+      withShareTicket: true
+    })
+  },
 
   onReady() {
     this.getTotalPrice();

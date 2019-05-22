@@ -59,49 +59,50 @@ App({
     // }
     // ],
     bannerUrls: [],
-    shop_list: [{
-      id: 1,
-      shop_name: '广州市-海珠区-丝域养发馆-翠城花园店',
-      shop_phone: '020-89667567',
-      shop_business_time: '10：30-22：30',
-      shop_address: '广州市海珠区宝岗大道南翠宝路182号(翠城花园)1015A号铺'
-    },
-    {
-      id: 2,
-      shop_name: '广州市-海珠区-丝域养发馆-昌岗店',
-      shop_phone: '020-34248872',
-      shop_business_time: '10：00-22：00',
-      shop_address: '广州市海珠区昌岗中路188号合生生活天地二楼212铺'
-    },
-    {
-      id: 3,
-      shop_name: '佛山市-南海区-丝域养发馆',
-      shop_phone: '0757-86323969',
-      shop_business_time: '10：00-22：00',
-      shop_address: '佛山市南海区桂城镇中海锦城南门商业街1座10号OUT-L2-217'
-    },
-    {
-      id: 4,
-      shop_name: '佛山市-顺德区-丝域养发馆',
-      shop_phone: '0757-23617171',
-      shop_business_time: '10：00-22：00',
-      shop_address: '佛山市顺德区容桂华夏新城北门5号铺'
-    },
-    {
-      id: 5,
-      shop_name: '佛山市-南海区-丝域养发馆',
-      shop_phone: '0757-86082511',
-      shop_business_time: '10：00-22：00',
-      shop_address: '佛山市南海区桂城万锦豪园北门建行旁'
-    },
-    {
-      id: 6,
-      shop_name: '上海市-闵行区-丝域养发馆',
-      shop_phone: '021-34293663',
-      shop_business_time: '10:00-22:00',
-      shop_address: '上海市闵行区万源南路99弄中庚漫游城OUT-L2-217'
-    }
-    ]
+    shop_list:[],
+    // shop_list: [{
+    //   id: 1,
+    //   shop_name: '广州市-海珠区-丝域养发馆-翠城花园店',
+    //   shop_phone: '020-89667567',
+    //   shop_business_time: '10：30-22：30',
+    //   shop_address: '广州市海珠区宝岗大道南翠宝路182号(翠城花园)1015A号铺'
+    // },
+    // {
+    //   id: 2,
+    //   shop_name: '广州市-海珠区-丝域养发馆-昌岗店',
+    //   shop_phone: '020-34248872',
+    //   shop_business_time: '10：00-22：00',
+    //   shop_address: '广州市海珠区昌岗中路188号合生生活天地二楼212铺'
+    // },
+    // {
+    //   id: 3,
+    //   shop_name: '佛山市-南海区-丝域养发馆',
+    //   shop_phone: '0757-86323969',
+    //   shop_business_time: '10：00-22：00',
+    //   shop_address: '佛山市南海区桂城镇中海锦城南门商业街1座10号OUT-L2-217'
+    // },
+    // {
+    //   id: 4,
+    //   shop_name: '佛山市-顺德区-丝域养发馆',
+    //   shop_phone: '0757-23617171',
+    //   shop_business_time: '10：00-22：00',
+    //   shop_address: '佛山市顺德区容桂华夏新城北门5号铺'
+    // },
+    // {
+    //   id: 5,
+    //   shop_name: '佛山市-南海区-丝域养发馆',
+    //   shop_phone: '0757-86082511',
+    //   shop_business_time: '10：00-22：00',
+    //   shop_address: '佛山市南海区桂城万锦豪园北门建行旁'
+    // },
+    // {
+    //   id: 6,
+    //   shop_name: '上海市-闵行区-丝域养发馆',
+    //   shop_phone: '021-34293663',
+    //   shop_business_time: '10:00-22:00',
+    //   shop_address: '上海市闵行区万源南路99弄中庚漫游城OUT-L2-217'
+    // }
+    // ]
   },
 
   /**
@@ -113,57 +114,35 @@ App({
     wx.cloud.callFunction({
       name: 'get_openid',
       complete: res => {
-        // console.log('云函数在APP获取到的res111= ', res);
         var openId = res.result.openId;
-
         this.globalData.openId = openId;
-        // console.log('云函数在APP获取到的openid ', openId, res.result.event, this.globalData.openId);//result.event.userInfo.openId
       }
     });
-    // wx.cloud.callFunction({
-    //   name: 'get_AccessToken',
-    //   complete: res => {
-    //     console.log('云函数在APP获取到的res=22222== ', res, res.event);
-    //     // var access_token = res.event.access_token;
 
-    //     // this.globalData.openId = openId;
-    //     // console.log('云函数在APP获取到的access_token=== ', access_token,res)
-    //   }
-    // });
-    // 云数据库初始化
     const db = wx.cloud.database({
       env: "wxc6c41875b492a9c0-1c74f6"// 环境ID：wxc6c41875b492a9c0-1c74f6
     });
     //拿到表
     const seach_hot_data = db.collection('seach_hot');
-    // const banner_urls_data = db.collection('banner_urls');
-    // #操作表
-    // 增加记录
-    // orders_list.add({
-    //   // data 字段表示需新增的 JSON 数据
-    //   // data: JSON.parse(orders_list_String)
-    //   data: orders_list_String
-
-    // }).then(res => {
-    //   console.log("DATASET==res==orders_list_String===", res, orders_list_String)
-    // }).catch(err => {
-    //   console.log("DATASET==res==orders_list_String===", err, orders_list_String)
-    // })
-    // 获取
-    // orders_list.where({
-    // }).get({ // get 方法会触发网络请求，往数据库取数据
-    //   success: function (res) {
-    //     console.log("resorders_lis=====", res)
-    //   }
-    // })
-    // var aaa = { "hot_text": "养发" }
-    // seach_hot.add({
-    //   // data 字段表示需新增的 JSON 数据
-    //   // data: JSON.parse(orders_list_String)
-    //   data: aaa
-
-    // });
+    const shop_list_data = db.collection('shop_list');
     self=this;
+    shop_list_data.where({
+      // _openid: this.data.openid
+      // _id:1
+    }).get({
+      success: function (res) {
+
+        self.globalData.shop_list = res.data;
+        // console.log('[数据库] [查询记录shop_list_data] 成功: ', self.globalData);
+      },
+      fail: function (res) {
+        wx.showToast({
+          icon: 'none',
+          title: '查询记录失败'
+        })
+        // console.error('[数据库] [查询记录] 失败：', err)
+      }
+    });
     seach_hot_data.where({
       // _openid: this.data.openid
       // _id:1
@@ -173,19 +152,9 @@ App({
         var requey_data = res.data;
         var seach_hot_1=[];
         for (var list in requey_data){
-          // console.log('seach_hot===== ', list);
           seach_hot_1.push(requey_data[list]["hot_text"])
         };
-        // console.log('seach_hot_1===== ', seach_hot_1);
         self.globalData.seach_hot = seach_hot_1;
-        // console.log(' this.globalData===== ', self.globalData);
-        
-
-        // this.setData({
-          // queryResult: JSON.stringify(res.data, null, 2)
-        //   seach_hot: seach_hot
-        // })
-        // console.log('[数据库] [查询记录] 成功: ', res)
       },
       fail: function (res){
         wx.showToast({
@@ -195,6 +164,7 @@ App({
         // console.error('[数据库] [查询记录] 失败：', err)
       }
     })
+    
   },
 
   /**
