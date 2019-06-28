@@ -20,6 +20,8 @@ Page({
   onLoad: function(options) {
     // 页面初始化 options为页面跳转所带来的参数
     var type = options.type;
+    var action = options.action;
+    var reservation_id = options.reservation_id;
     console.log('type=========== ', options, type);
     var self = this;
     const db = wx.cloud.database({
@@ -39,6 +41,9 @@ Page({
           // app.globalData.product_list = product_list_2;
           self.setData({
             project_lists: project_lists,
+            action: action,
+            reservation_id: reservation_id,
+            type: type
             // product_list: product_list
           });
         },
@@ -65,6 +70,7 @@ Page({
           // app.globalData.product_list = project_lists;
           self.setData({
             project_lists: project_lists,
+            type: type
             // product_list: product_list
           });
           // console.log('bannerUrls====3333333====== ', banner_urls_1);

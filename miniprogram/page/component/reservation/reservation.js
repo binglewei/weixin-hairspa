@@ -8,7 +8,8 @@ Page({
    */
   data: {
     calendar: [],
-    formIdArray:[],
+    // action: "",
+    formIdArray: [],
     access_tokens: [],
     send_even: "",
     width: 0,
@@ -87,13 +88,22 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    var picker_project_id = options.id;
-    // console.error("picker_project_id====", this.data);
-    this.setData({
-      picker_project_id: picker_project_id
+    console.error("options==1111111111111==", options);
+    var self = this;
+    var picker_project_id = options.project_id;
+    var out_trade_no = options.out_trade_no;
+    var reservation_id = options.reservation_id;
+    var action = options.action;
+    // var picker_project_id = options.project_id;
+    // if (out_trade_no) {
+    self.setData({
+      picker_project_id: picker_project_id,
+      out_trade_no: out_trade_no,
+      reservation_id: reservation_id,
+      action: action
     })
+   
 
-    
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -104,6 +114,8 @@ Page({
    */
   onShow: function() {
     var that = this;
+    var db = wx.cloud.database();
+
     that.setData({
       picker_project_Range: app.globalData.project_lists
     });
@@ -122,8 +134,6 @@ Page({
           app.globalData.project_lists = project_lists_sy;
           that.setData({
             picker_project_Range: project_lists_sy,
-            // project_lists: product_list_2,
-            // product_list: product_list
           });
         },
         fail: function(res) {
@@ -134,36 +144,72 @@ Page({
 
         },
       });
-      // getCurrentPages()[getCurrentPages().length - 1].onShow()//onShow()
     }
-    // console.error('complete==3333==', that.data.picker_project_Range, that.data.picker_project_id);
-    var picker_project_id=that.data.picker_project_id;
-    var picker_project_Range = that.data.picker_project_Range;
-    for (var id in picker_project_Range ){
-      var picker_project = picker_project_Range[id]
-      var project_id = picker_project["id"]
-      if (picker_project_id == project_id){
-        that.setData({
-          picker_project: picker_project
-        })
-        // console.log('picker_project==111111111111111==', picker_project,picker_project_id)
-      }
-    };
+    
+    if (that.data.reservation_id) {
+      var reservation_list = db.collection('reservation_list');
+      reservation_list.where({
+        _id: that.data.reservation_id
+      }).get({
+        success: function(res) {
+          var res_data = res.data[0]
+          // console.error("res.data[0].=ifififif==",res.data[0]);
+          var picker_project_id = that.data.picker_project_id;
+          if (!picker_project_id){
+            picker_project_id = res.data[0].reservation_prject["id"]
+          }
+         
+          var currentemployee_name = res_data.reservation_employee.employee_number;
+          var currentTime_from = res_data.reservation_time.split(" ");
+        
+          console.error("res.data[0].=ifififif==", res.data[0], picker_project_id,currentemployee_name, currentTime_from)
+          var picker_project_Range = that.data.picker_project_Range;
+          for (var id in picker_project_Range) {
+            var picker_project = picker_project_Range[id]
+            var project_id = picker_project["id"]
+            if (picker_project_id == project_id) {
+              that.setData({
+                picker_project: picker_project,
+                currentemployee_name: currentemployee_name,
+                currentTime_from: currentTime_from
+                // currentTime: currentTime
+              })
+            }
+          };
+        }
+      });
+    } else {
+      var picker_project_id = that.data.picker_project_id;
+      console.error("picker_project_id==8888=else==", picker_project_id)
+      var picker_project_Range = that.data.picker_project_Range;
+      for (var id in picker_project_Range) {
+        var picker_project = picker_project_Range[id]
+        var project_id = picker_project["id"]
+        if (picker_project_id == project_id) {
+          that.setData({
+            picker_project: picker_project,
+            // currentTime: currentTime
+          })
+          // console.log('picker_project==111111111111111==', picker_project,picker_project_id)
+        }
+      };
+    }
+    
     // console.error('picker_project_Range==3333==', picker_project_id, picker_project_Range, picker_project_Range[picker_project_id]);
-    const db = wx.cloud.database({
-      env: "wxc6c41875b492a9c0-1c74f6"
-    });
+    // const db = wx.cloud.database({
+    //   // env: "wxc6c41875b492a9c0-1c74f6"
+    // });
     const address_list_data = db.collection('address_list');
     address_list_data.where({
-      _openid: app.globalData.openid
+      _openid: app.globalData.openId
     }).get({
       success: res => {
         console.log("res.data=111=rederbsyion=", res.data);
         var data = res.data[0];
         var len_data = res.data.length;
-        if (len_data>0) {
+        if (len_data > 0) {
           var picker_shop_id = Number(data.picker1Value);
-          console.log('picker1Value=====：', picker_shop_id);
+          console.log('picker_shop_id=====：', picker_shop_id);
           that.setData({
             address: data,
             picker_shop_id: picker_shop_id,
@@ -172,7 +218,7 @@ Page({
           //拿到表
           // const seach_hot_data = db.collection('seach_hot');
           const employee_list_data = db.collection('employee_list');
-          // console.log('picker1Value===2222==：', picker_shop_id);
+          // console.log('picker_shop_id===2222==：', picker_shop_id);
           employee_list_data.where({
             shop_id: picker_shop_id
           }).get({
@@ -195,13 +241,13 @@ Page({
               console.error('[数据库] [查询记录] 失败：', err)
             }
           });
-        }else{
+        } else {
           wx.showModal({
             title: '门店信息为空',
             showCancel: true,
             content: "请您先选择要预约的门店，谢谢！",
             // content: '第一行内容\r\n第二行内容\r\n第三行内容\r\n第四行内容',
-            success: function (res) {
+            success: function(res) {
               if (res.confirm) {
                 console.log('门店信息为空,用户点击确定')
 
@@ -302,7 +348,7 @@ Page({
     this.setData({
       currentIndex: event.currentTarget.dataset.index
     })
-    console.log(event.currentTarget.dataset.date)
+    console.log(event,event.currentTarget.dataset.date)
   },
   selectTime: function(event) {
     //为下半部分的点击事件
@@ -328,19 +374,21 @@ Page({
   //   console.log('GG 敌方军团已同意投降 4票赞成 0票反对')
   //   console.log(e.detail.formId);
   // },
-  saveFormId: function (v) {
+  saveFormId: function(v) {
     console.log("vvvvvvv===", v)
     if (v.detail.formId != 'the formId is a mock one') {
       this.data.formIdArray.push(v.detail.formId);
     }
     console.log("formIdArray===", this.data.formIdArray)
   },
+  get_reservation_mag: function (e) {
 
+  },
   confirm_reservation: function(e) {
     wx.showLoading({
       title: '加载中',
     });
-    setTimeout(function () {
+    setTimeout(function() {
       wx.hideLoading()
     }, 1500)
     var self = this;
@@ -375,9 +423,9 @@ Page({
           wx.showLoading({
             title: '预约中',
           });
-          
+
           console.log('用户点击确定，立即预约');
-          
+
           // console.log("====confirm_reservation_data===", confirm_reservation_data);
           confirm_reservation_data.reservation_status = 1;
           confirm_reservation_data.reservation_describe = "预约成功";
@@ -504,7 +552,44 @@ Page({
                   var send_statusmsg = res.result.res.errmsg
                   var send_status = send_statusmsg.indexOf("ok")
                   if (send_status >= 0) {
-                    // console.log("send_statusmsg======send_statuss===", send_statusmsg, send_status)
+                    console.log("send_statusmsg======send_statuss===", send_statusmsg, send_status);
+                    var action = self.data.action;
+                    if (action=="update"){
+                      var reservation_id = self.data.reservation_id;
+                      console.log("self.data.action==ifififif ==", action, confirm_reservation_data);
+                      console.log("reservation_id=ifififif ==22222==", reservation_id);
+                      reservation_list.doc(reservation_id).update({
+                        data: confirm_reservation_data,
+                        success: res => {
+                          
+                          console.log('[数据库] [更新记录] 成功：===', res);
+                          wx.showToast({
+                            title: '修改预约成功!',
+                            icon: 'success',
+                            duration: 2000
+                          });
+                          // wx.reLaunch({
+                          wx.navigateTo({
+                            // url: 'test?id=1'
+                            url: "/page/component/reservation_records/reservation_records"
+                          })
+                          // self.setData({
+                          //   action: "",
+                          // });
+                          // console.log('刷新下页面========', self.data);
+                          // getCurrentPages()[getCurrentPages().length - 1].onShow()
+
+                        },
+                        fail: err => {
+                          // icon: 'none',
+                          console.error('[数据库] [更新记录] 失败：===', err);
+                          getCurrentPages()[getCurrentPages().length - 1].onShow()
+
+                        }
+
+                      })
+                    }else{
+                      console.log("self.data.action==else ==", action)
                     reservation_list.add({
                       // data 字段表示需新增的 JSON 数据
                       data: confirm_reservation_data
@@ -515,11 +600,17 @@ Page({
                         icon: 'success',
                         duration: 2000
                       })
-                      
+                      wx.navigateTo({
+                      // wx.reLaunch({
+                        // url: 'test?id=1'
+                        url: "/page/component/reservation_records/reservation_records"
+                      })
+
                       // console.log("DATASET==res==confirm_reservation_data===", res, confirm_reservation_data)
                     }).catch(err => {
                       // console.error("DATASET==res==confirm_reservation_data===", err, confirm_reservation_data)
                     });
+                    }
                   } else {
                     wx.showModal({
                       title: '预约服务提示2',
@@ -547,14 +638,71 @@ Page({
               })
               console.error('[数据库] [查询记录] 失败：', err)
             }
-          
+
           });
-         setTimeout(function () {
+          setTimeout(function() {
             wx.hideLoading()
           }, 2000)
-        // wx.hideLoading();
+          // wx.hideLoading();
         } else if (res.cancel) {
           console.log('用户点击取消，取消预约')
+        }
+      }
+    })
+
+  },
+  //  发起取消请求
+  cancel_reservation(e) {
+    var self = this;
+    var id = self.data.reservation_id;
+    wx.showModal({
+      title: '取消预约提示',
+      content: '您确定要取消预约服务吗？？？',
+      success(res) {
+        if (res.confirm) {
+          console.log('用户点击确定--取消')
+          const db = wx.cloud.database();
+          const reservation_list_data = db.collection('reservation_list');
+          console.log("e=e.target.dataset.id=11111111=", id);
+          //self.data.reservation_id;
+          reservation_list_data.doc(id).update({
+            data: {
+              reservation_status: 0,
+              reservation_describe: "已取消预约",
+              // ddxz:22,
+              update_time: utils.format_date_5(new Date()),
+              // out_trade_no: 66666666666666
+            },
+            success: res => {
+              console.log('[数据库] [更新记录] 成功：', res);
+              wx.showToast({
+                title: '取消预约成功!',
+                icon: 'success',
+                duration: 1000
+              });
+              wx.navigateTo({
+              // wx.reLaunch({
+                // url: 'test?id=1'
+                url:"/page/component/reservation_records/reservation_records"
+              })
+
+              // self.setData({
+              //   action: "",
+              // });
+              // console.log('刷新下页面========', self.data);
+              // getCurrentPages()[getCurrentPages().length - 1].onShow()
+              
+            },
+            fail: err => {
+              // icon: 'none',
+                console.error('[数据库] [更新记录] 失败：', err);
+                getCurrentPages()[getCurrentPages().length - 1].onShow()
+
+            }
+
+          })
+        } else if (res.cancel) {
+          console.log('用户点击取消---取消')
         }
       }
     })

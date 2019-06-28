@@ -69,7 +69,7 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function (ops) {
+  onShareAppMessage: function(ops) {
     wx.showShareMenu({
       withShareTicket: true
     })
@@ -77,11 +77,11 @@ Page({
   onShow() {
     // 云数据库初始化
     const db = wx.cloud.database({
-      env: "wxc6c41875b492a9c0-1c74f6"
+      // env: "wxc6c41875b492a9c0-1c74f6"
     });
     const orders_list = db.collection('orders_list');
     orders_list.where({
-      _openid: app.globalData.openid
+      _openid: app.globalData.openId
     }).limit(2).orderBy('out_trade_no', 'desc').get({
       success: res => {
         this.setData({
@@ -101,70 +101,136 @@ Page({
       lang: "zh_CN",
       withCredentials: true,
       success: function(res) {
-
+        var userInfo = res.userInfo;
+        app.globalData.userInfo = userInfo;
+        
         self.setData({
-          thumb: res.userInfo.avatarUrl,
-          nickname: res.userInfo.nickName,
+          userInfo: userInfo,
+          thumb: userInfo.avatarUrl,
+          nickname: userInfo.nickName,
 
-        });
-        const db = wx.cloud.database({
-          env: "wxc6c41875b492a9c0-1c74f6"
         });
         const address_list_data = db.collection('address_list');
+        var value={};
+        value.userInfo = userInfo;
+        console.log('[数据库] 操作前数据===: ', value);
         address_list_data.where({
-          _openid: app.globalData.openid
+          _openid: app.globalData.openId
         }).get({
           success: res => {
-            console.log("res.data=111=user=", res.data);
-            var data = res.data[0];
+           
             var len_data = res.data.length;
-            if (len_data > 0) {
-              self.setData({
-                address: data,
-                hasAddress: true
+            console.log("len_data====", res.data);
+            if (!len_data) {
+              
+              console.log('[数据库] add: ', value);
+
+              address_list_data.add({
+                data: value
+
+              }).then(res => {
+                // console.log("DATASET==res==value===", res, value)
+              }).catch(err => {
+                // console.error("DATASET==res==value===", err, value)
               })
             }
+            // console.log('[数据库] [查询记录] 成功: ', res.data)
           },
           fail: err => {
             wx.showToast({
               icon: 'none',
               title: '查询记录失败'
-            });
-          },
+            })
+            // console.error('[数据库] [查询记录] 失败：', err)
+          }
         });
-        // wx.getStorage({
-        //   key: 'address',
-        //   success: function(res) {
-        //     var address = res.data;
-        //     // address["gender"] = gender;
-        //     // console.log("address===", address);
-        //   }
-        // })
-
-
       },
       fail: function(res) {
         wx.showModal({
           title: '提示',
-          content: "请先点击 “个人设置” 获取授权并完善个人信息哦！！",
+          content: "请先点击 “我的》个人设置” 获取授权并完善个人信息哦！！",
           showCancel: false
         })
       }
-    })
+    });
     var self = this;
+    var _openid = app.globalData.openId;
+    var manager_list_data = db.collection('manager_list');
+    manager_list_data.get({
+      success: res => {
+        console.log("manager_list_data=111=user=", res.data,app.globalData);
+        var data = res.data;
+        var len_data = res.data.length;
+        for (var ii in data) {
+          var manage_openid = data[ii]["manage_openid"];
+          if (manage_openid == _openid) {
+
+            self.setData({
+              // address: data,
+              is_manager: true
+            })
+            console.log("manage_openid===222==", manage_openid, res.data, self.data);
+
+          }
+        }
+        // if (len_data > 0) {
+        //   // self.setData({
+        //   //   address: data,
+        //   //   hasAddress: true
+        //   // })
+        // }
+      },
+      fail: err => {
+        wx.showToast({
+          icon: 'none',
+          title: '查询记录失败'
+        });
+      },
+    })
+    var address_list_data = db.collection('address_list');
+    address_list_data.where({
+      _openid: app.globalData.openId
+    }).get({
+      success: res => {
+        console.log("res.data=111=user=", res.data);
+        var data = res.data[0];
+        var len_data = res.data.length;
+        if (len_data > 0) {
+          self.setData({
+            address: data,
+            hasAddress: true
+          })
+        }
+      },
+      fail: err => {
+        wx.showToast({
+          icon: 'none',
+          title: '查询记录失败'
+        });
+      },
+    })
+    // wx.getStorage({
+    //   key: 'address',
+    //   success: function(res) {
+    //     var address = res.data;
+    //     // address["gender"] = gender;
+    //     // console.log("address===", address);
+    //   }
+    // })
     /**
      * 获取本地缓存 地址信息
      */
-    wx.getStorage({
-      key: 'address',
-      success: function(res) {
-        // console.log("address22222===", res.data);
-        self.setData({
-          hasAddress: true,
-          address: res.data
-        })
-      }
-    })
+
+    // wx.getStorage({
+    //   key: 'address',
+    //   success: function(res) {
+    //     // console.log("address22222===", res.data);
+    //     self.setData({
+    //       hasAddress: true,
+    //       address: res.data
+    //     })
+    //   }
+    // })
   },
 
   //  发起消费请求
@@ -214,7 +280,7 @@ Page({
     // var orders_list_values = {};
 
     // orders_list.where({
-    //   // _openid: app.globalData.openid,
+    //   // _openid: app.globalData.openId,
     //   out_trade_no: e.target.dataset.out_trade_no,
     // }).update({
     //   success: res => {

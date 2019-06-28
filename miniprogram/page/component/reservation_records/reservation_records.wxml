@@ -20,10 +20,20 @@
 <!--miniprogram/page/component/consumption_records.wxml-->
 <!-- <text>miniprogram/page/component/consumption_records.wxml</text> -->
 <view class="main">
+  <view class="goods-tab-nav {{curIndex === 0 ?'on':''}}" bindtap="bindTap" data-index="0">未使用预约记录{{list_lens["list_len_0"]}}</view>
+  <view class="goods-tab-nav {{curIndex === 1 ?'on':''}}" bindtap="bindTap" data-index="1">所有预约记录{{list_lens["list_len_1"]}}</view>
+  <!-- <view class="goods-tab-nav {{curIndex === 2 ?'on':''}}" bindtap="bindTap" data-index="2">所有记录{{list_lens["list_len_2"]}}</view> -->
   <view wx:if="{{hasList}}">
     <view class="reservation-box">
       <view class="reservation-list" wx:for="{{reservation_list}}" wx:key="index">
-        <view class="reservation-number">预约编号：{{item.out_trade_no}}</view>
+
+        <view wx:if="{{item.reservation_status==1}}">
+          <navigator url="/page/component/reservation/reservation?action=update&reservation_id={{item._id}}&out_trade_no={{item.out_trade_no}}">
+            <button size="mini" class="toper-button">更改预约时间</button>
+            <view class="reservation-number">{{index+1}}.编号：{{item.out_trade_no}}</view>
+          </navigator>
+        </view>
+        <view wx:else class="reservation-number">{{index+1}}.编号：{{item.out_trade_no}}</view>
         <view class="reservation-detail">
           <!-- <image src="{{item.thumb}}"></image> -->
           <view class="">预约项目：{{item.reservation_prject.name}}</view>
@@ -31,6 +41,10 @@
           <view class="">预约门店：{{item.reservation_shop}}</view>
           <!-- <text class="reservation-status">{{item.status}}</text> -->
         </view>
+        <view wx:if="{{from_page}}">
+          <view class="reservation-number">预约客户：{{item._openid}}</view>
+        </view>
+
         <view class="reservation-footer">
           <!-- <button size="mini" class="reservation-btn" bindtap="payOrders">取消预约</button> -->
           <view wx:if="{{item.reservation_status==1}}">
@@ -47,6 +61,7 @@
           </view>
 
         </view>
+
       </view>
     </view>
   </view>

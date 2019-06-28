@@ -1,10 +1,8 @@
 var app = getApp();
-// var bannerUrls = app.globalData.bannerUrls;
-// var product_list = app.globalData.product_list;
 Page({
   data: {
     bannerUrls: "",
-    product_list: "app.globalData.product_list",
+    product_list: "",
     indicatorDots: false,
     autoplay: false,
     interval: 3000,
@@ -41,9 +39,7 @@ Page({
       })
 
     };
-    const db = wx.cloud.database({
-      env: "wxc6c41875b492a9c0-1c74f6" // 环境ID：wxc6c41875b492a9c0-1c74f6
-    });
+    const db = wx.cloud.database();
     //拿到表
     // const seach_hot_data = db.collection('seach_hot');
     const banner_urls_data = db.collection('banner_urls');
@@ -56,7 +52,6 @@ Page({
         // console.log('[数据库] [查询banner_urls_data记录] 成功: ', res);
         var banner_urls_1 = res.data;
         // console.log('banner_urls_1========== ', banner_urls_1);
-        // app.globalData.bannerUrls = banner_urls_1;
         self.setData({
           bannerUrls: banner_urls_1,
           // product_list: product_list
@@ -88,7 +83,6 @@ Page({
           success: function(res) {
             // console.log("res=success=11==", res);
             var project_lists_sy = res.data
-            // var product_list_1=app.globalData.product_list;
             var product_list_3 = product_list_1.concat(project_lists_sy);
             app.globalData.product_list = product_list_3;
             app.globalData.project_lists = project_lists_sy;
@@ -106,13 +100,6 @@ Page({
 
           },
         });
-        // console.log('banner_urls_1========== ', banner_urls_1);
-        // app.globalData.product_list = product_list;
-        // self.setData({
-        //   product_list: product_list,
-        //   // product_list: product_list
-        // });
-        // console.log('bannerUrls====3333333====== ', self.data);
       },
       fail: function(res) {
         wx.showToast({
@@ -131,7 +118,6 @@ Page({
         // console.log('[数据库] [查询product_list_data记录]222 成功: ', res);
         var project_lists_index = res.data;
         // console.log('banner_urls_1========== ', banner_urls_1);
-        // app.globalData.product_list = product_list;
         self.setData({
           project_lists_index: project_lists_index,
           // product_list: product_list
@@ -154,8 +140,6 @@ Page({
       success: function(res) {
         // console.log('[数据库] [查询product_list_data记录]222 成功: ', res);
         var product_list_index = res.data;
-        // console.log('banner_urls_1========== ', banner_urls_1);
-        // app.globalData.product_list = product_list;
         self.setData({
           product_list_index: product_list_index,
           // product_list: product_list

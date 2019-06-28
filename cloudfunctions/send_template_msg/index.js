@@ -16,6 +16,8 @@ exports.main = async(event, context) => {
   var form_ids = event.form_ids;
   var page = event.page;
   var employee_openid = event.employee_openid;
+  const wxContext = cloud.getWXContext()
+  console.log("wxContext=11111=", wxContext);
   // console.log(" console.log(employee_openid)==222==", employee_openid, typeof (employee_openid));
   // console.log(" console.log(access_token)==222==", access_token);
   // console.log(" console.log(template_id)==222==", template_id);

@@ -5,9 +5,15 @@
 <!-- <block class="block"> -->
 <!-- <view wx:if="{{url_type==1}}" class="banner-list"> -->
 <view class="image-list">
-  <image src="{{imgUrl}}" class="image" mode="widthFix"></image>
+  <image src="{{jumpUrl}}" class="image" mode="widthFix"></image>
   <!-- widthFix	缩放模式，宽度不变，高度自动变化，保持原图宽高比不变 -->
 </view>
+  <!-- <canvas class="poster" canvas-id="poster" style="width:300rpx;height:300rpx;"></canvas> -->
+  <!-- <canvas class="poster" canvas-id="poster" style="width:300rpx;height:300rpx;"></canvas> -->
+  <!-- <canvas class="generate" canvas-id="generate" style="width:1500rpx;height:2296rpx;"></canvas> -->
+<poster id="poster" hide-loading="{{true}}" preload="{{false}}" config="{{posterConfig}}" bind:success="onPosterSuccess" bind:fail="onPosterFail">
+    <!-- <button>生成海报</button> -->
+</poster>
 <!-- </view> -->
 <!-- <view wx:elif="{{url_type==0}}" class="banner-list">
   <view>
@@ -22,6 +28,8 @@
    <view class="orders-footer-btn2" open-type='share'bindtap="toShare" >分享</view>
     <view class="orders-footer-total">惊喜价￥{{retailPrice}}</view>
     <view class="orders-footer-btn" bindtap="toPay">去付款</view>
-   
   </view>
+   <view wx:else class="orders-footer-1">
+   <view class="orders-footer-share" open-type='share'bindtap="toShare" >分享</view>
+   </view>
 </view>

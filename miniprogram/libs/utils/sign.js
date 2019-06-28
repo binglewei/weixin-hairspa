@@ -20,15 +20,18 @@ function wxpay_getbodyData(req) {
   var shop = req.address.shop;
   // var store_info = req.address;
   if (req.orders){
-  var body = req.orders[0]["title"]+"..."; // 商品描述/// req.address.shop +
+    var body = req.orders[0]["name"]+"..."; // 商品描述/// req.address.shop +
   }else{
     var body = req.bannerdata["name"]
   }
   if (shop) {
-    body = shop +"："+ body;
+    var shop_splits = shop.split("-");
+    var shop_end = shop_splits[shop_splits.length-1];
+    console.log("shop,shop_end=shop.split()==", shop, shop_splits,shop_end)
+    body = shop_end +"："+ body;
   }
   else{
-    body = "没有选择门店：" + body;
+    body = "无门店：" + body;
   }
   // console.log("body=bodybodybodybodybody=========", body);
   var notify_url = 'https://apis.map.qq.com/api/wxpay' // 支付成功的回调地址  可访问 不带参数

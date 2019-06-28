@@ -1,17 +1,33 @@
 <!--miniprogram/page/component/consumption_records.wxml-->
 <!-- <text>miniprogram/page/component/consumption_records.wxml</text> -->
 <view class="main">
+<!-- <view class="goods-tab-box"> -->
+    <view class="goods-tab-nav {{curIndex === 0 ?'on':''}}" bindtap="bindTap" data-index="0">待消费记录{{list_lens["list_len_0"]}}</view>
+    <view class="goods-tab-nav {{curIndex === 1 ?'on':''}}" bindtap="bindTap" data-index="1">待支付订单{{list_lens["list_len_1"]}}</view>
+    <view class="goods-tab-nav {{curIndex === 2 ?'on':''}}" bindtap="bindTap" data-index="2">所有记录{{list_lens["list_len_2"]}}</view>
+    <!-- <view class="goods-content">
+      <view wx:if="{{curIndex === 0}}">{{goods.shortDescription}}</view> -->
+      <!-- <view wx:if="{{curIndex === 1}}">{{goods.parameter}}</view>
+      <view wx:if="{{curIndex === 2}}">{{goods.service}}</view> -->
+    <!-- </view> -->
+  <!-- </view> -->
   <view wx:if="{{hasList}}">
     <view class="orders-box">
     </view>
     <view class="orders-list" wx:for="{{orders_list}}" wx:key="index">
-      <view class="orders-number">订单编号：{{item.out_trade_no}}</view>
+      <view class="orders-number">{{index+1}}.订单编号：{{item.out_trade_no}}</view>
       <view class="orders-detail" wx:for="{{item.orders}}" wx:key="index">
         <!-- wx:for="{{item.orders}}"  wx:key="index"  -->
         <image class="image" src="{{item.imgUrl}}"></image>
         <view class="orders-detail-text">名称：{{item.name}}</view>
         <view class="orders-detail-text">数量：{{item.num}}</view>
       </view>
+       <view wx:if="{{item.address.shop}}">
+      <view class="orders-number">选择门店：{{item.address.shop}}</view>
+      </view>
+       <view wx:else>
+       <view class="orders-number">选择门店：没有选择任何门店！</view>
+       </view>
       <view class="orders-number">支付状态：{{item.status_describe}}
         <text class="orders-paytext">支付时间：{{item.pay_time}}</text>
       </view>

@@ -1,4 +1,6 @@
 {
   "navigationBarTitleText": "详情",
-  "usingComponents": {}
+  "usingComponents": {
+    "poster": "/miniprogram_dist/poster/index"
+  }
 }

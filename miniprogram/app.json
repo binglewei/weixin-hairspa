@@ -12,7 +12,8 @@
     "page/component/search/search",
     "page/component/shop_list/shop_list",
     "page/component/consumption_records/consumption_records",
-    "page/component/reservation_records/reservation_records"
+    "page/component/reservation_records/reservation_records",
+    "page/component/manage/manage"
   ],
   "window": {
     "navigationBarTextStyle": "white",

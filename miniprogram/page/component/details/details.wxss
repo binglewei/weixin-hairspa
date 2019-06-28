@@ -127,6 +127,7 @@
 .goods-price{
     font-size: 40rpx;
 }
+
 .goods-tab-nav{
     display: inline-block;
     width: 33.33%;

@@ -37,7 +37,8 @@ exports.main = async(event, context) => {
   var access_token = res.access_token;
   // 10位当前时间
   var now_timestamp = Math.round(new Date().getTime() / 1000);
-  var expires_time = res.expires_in + now_timestamp;
+  var expires_in = res.expires_in;
+  var expires_time = expires_in + now_timestamp;
   // console.log("/now_timestamp===", res,now_timestamp);
   const db = cloud.database();
   var publicField = db.collection("publicField");
@@ -48,6 +49,7 @@ exports.main = async(event, context) => {
         // 表示将 done 字段置为 true
         access_token: access_token,
         expires_time: expires_time,
+        expires_in: expires_in,
         update_date: new Date()
       }
     })

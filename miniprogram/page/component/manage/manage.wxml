@@ -1,0 +1,51 @@
+<!--miniprogram/page/component/manage/manage.wxml-->
+<!-- <text>miniprogram/page/component/manage/manage.wxml</text> -->
+<view class="main">
+<!-- <view>111111111111111111111</view> -->
+  <swiper indicator-dots="true" autoplay="true" interval="{{interval}}" duration="{{duration}}" circular="true">
+    <block wx:for="{{bannerUrls}}" wx:key="{{index}}">
+      <view wx:if="{{item.jumpUrl}}" class="address-list">
+        <navigator url="otherview/Favourable_activity?url_id={{item._id}}">
+          <swiper-item>
+            <image src="{{item.imgUrl}}" class="slide-image" width="100%" />
+            <!-- <image bindtap='goUrl' data-url="{{item.url}}" src="{{item.pic}}" class="slide-image"/> -->
+          </swiper-item>
+        </navigator>
+      </view>
+      <view wx:else class="address-list">
+        <swiper-item>
+          <image src="{{item.imgUrl}}" class="slide-image" width="100%" />
+          <!-- <image bindtap='goUrl' data-url="{{item.url}}" src="{{item.pic}}" class="slide-image"/> -->
+        </swiper-item>
+      </view>
+    </block>
+  </swiper>
+      
+  <view class="address-box">
+  <view wx:if="{{is_super_admin}}">
+      <view class="address-manage">
+        <!-- <navigator url="/page/component/manage/manage"> -->
+          <button class="manage-banner" open-type='getUserInfo'>超级权限管理</button>
+        <!-- </navigator> -->
+      </view>
+    </view>
+    <view class="address-manage">
+      <navigator url="/page/component/reservation_records/reservation_records?from_page=manage&shop_name={{shop_name}}">
+        <button class="manage-banner" open-type='getUserInfo'>门店预约记录</button>
+      </navigator>
+    </view>
+    <view class="address-manage">
+      <navigator url="/page/component/consumption_records/consumption_records?from_page=manage&shop_name={{shop_name}}">
+        <button class="manage-banner" open-type='getUserInfo'>门店消费记录</button>
+      </navigator>
+    </view>
+    <view wx:if="{{manage_type<4}}">
+     <view class="address-manage">
+      <navigator url="/page/component/consumption_records/consumption_records?from_page=manage&shop_name={{shop_name}}">
+        <button class="manage-banner" open-type='getUserInfo'>门店会员管理</button>
+      </navigator>
+    </view>
+     </view>
+  </view>
+  <!-- </view> -->
+  </view>

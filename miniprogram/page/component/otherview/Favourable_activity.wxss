@@ -50,5 +50,12 @@ image {
 .orders-footer-btn2::after {
   border: none;
       }
+.orders-footer-share{
+  display: inline-block;
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    background: #AB956D;
+}
 
  

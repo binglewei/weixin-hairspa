@@ -39,25 +39,25 @@ exports.main = async (event, context) => {
   var access_token = res.access_token;
   // 10位当前时间
   var now_timestamp = Math.round(new Date().getTime() / 1000);
-  var expires_in = res.expires_in + now_timestamp;
+  var expires_in = res.expires_in;
+  var expires_time = expires_in + now_timestamp;
   // console.log("/now_timestamp===", res,now_timestamp);
   var publicField = db.collection("publicField")
-  var res_update = publicField.where(
-    {
-      type: 0
-    }
-  ).update({
+  var res_update = await publicField.where({
+    type: 0,
+  }).update({
     data: {
       // 表示将 done 字段置为 true
       access_token: access_token,
       expires_in: expires_in,
+      expires_time: expires_time,
       update_date: new Date(),
     }
   })
     .then(console.log)
     .catch(console.error)
+  res.res_update = res_update;
   console.log("res=33333==", res);
-  // res.res_update = JSON.parse(res_update);
   return res;
   // return {
   //   event,

@@ -41,7 +41,7 @@ exports.main = async(event, context) => {
     var datum = new Date(Date.UTC(arr[0], arr[1] - 1, arr[2], arr[3] - 8, arr[4]));
     var reservation_timestamp = datum.getTime() / 1000;
     var out_trade_no = reservation_datas[aa].out_trade_no;
-    console.log('==aaaaaaaaaa=', out_trade_no, reservation_time, reservation_timestamp, date_str);
+    console.log('==aaaaaaaaaa=', out_trade_no, reservation_time, now_timestamp,reservation_timestamp, date_str);
 
     if (reservation_timestamp < now_timestamp) {
       await reservation_list_data.where({

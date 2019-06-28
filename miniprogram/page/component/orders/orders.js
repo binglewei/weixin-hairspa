@@ -10,7 +10,7 @@ var app = getApp();
 
 Page({
   data: {
-    openId: "app.globalData.openId",
+    openId: "",
     address: {},
     returnValue: '',
     hasAddress: false,
@@ -53,15 +53,38 @@ Page({
         // hasAddress: true
       })
     };
-    wx.getStorage({
-      key: 'address',
-      success(res) {
+    // 云数据库初始化
+    const db = wx.cloud.database({
+      env: "wxc6c41875b492a9c0-1c74f6"
+    });
+    const address_list_data = db.collection('address_list');
+    address_list_data.where({
+      _openid: app.globalData.openId
+    }).get({
+      success: res => {
+        // console.log("res.data===", res.data[0]);
         self.setData({
-          address: res.data,
+          address: res.data[0],
           hasAddress: true
         })
+      },
+      fail: err => {
+        wx.showToast({
+          icon: 'none',
+          title: '查询记录失败'
+        })
+        // console.error('[数据库] [查询记录] 失败：', err)
       }
-    })
+    });
+    // wx.getStorage({
+    //   key: 'address',
+    //   success(res) {
+    //     self.setData({
+    //       address: res.data,
+    //       hasAddress: true
+    //     })
+    //   }
+    // })
   },
 
   /**
@@ -161,7 +184,7 @@ Page({
           fail: function(res) {
             console.log("res=fail=22==", res);
             orders_list_String.status_describe = "支付失败";
-            orders_list_String.status = 1;
+            orders_list_String.status = 1;//"支付失败";
             orders_list_String.expense = 0;
             orders_list_String.expense_describe = "订单未支付";
             orders_list_String.expense_time = "";
@@ -202,9 +225,9 @@ Page({
               data: orders_list_String
 
             }).then(res => {
-              console.log("DATASET==res==orders_list_String===", res, orders_list_String)
+              console.log("DATASET==res==orders_list_String==1111=", res, orders_list_String)
             }).catch(err => {
-              console.log("DATASET==res==orders_list_String===", err, orders_list_String)
+              console.log("DATASET==res==orders_list_String==2222=", err, orders_list_String)
             })
           }
         })

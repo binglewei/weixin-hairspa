@@ -1,5 +1,6 @@
 App({
   globalData: {
+    userInfo: "userInfo",
     openId: '',
     Apikey: "symeiyu1357048216039688322766666", //不同于AppSecret(小程序密钥)#sy89667567	#api 密钥
     appId: 'wxc6c41875b492a9c0',
@@ -114,6 +115,7 @@ App({
     wx.cloud.callFunction({
       name: 'get_openid',
       complete: res => {
+        console.log("get_openid====res=unionid==", res, res.unionid);
         var openId = res.result.openId;
         this.globalData.openId = openId;
       }

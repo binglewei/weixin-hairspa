@@ -36,7 +36,7 @@ Page({
     });
     const address_list_data = db.collection('address_list');
     address_list_data.where({
-      _openid: app.globalData.openid
+      _openid: app.globalData.openId
     }).get({
       success: res => {
         // console.log("res.data===", res.data[0]);
@@ -96,6 +96,7 @@ Page({
     })
   },
   formSubmit(e) {
+    var self = this;
     const value = e.detail.value;
     // console.log("formSubmit_e==", e);
     var phone = value.phone;
@@ -149,18 +150,31 @@ Page({
         env: "wxc6c41875b492a9c0-1c74f6"
       });
       value.update_date = new Date();
+      // wx.getUserInfo({
+      //   lang: "zh_CN",
+      //   withCredentials: true,
+      //   success: function (res) {
+      //     value.userinfo = res.userInfo;
+      //     app.globalData.userInfo = res.userInfo;
+      //     self.setData({
+      //       userInfo: res.userInfo,
+      //     });
+      //   },
+      // });
+      value.userInfo = app.globalData.userInfo;
+      console.log("addressdetail==value, app.globalData==", value.userInfo,value);
       const address_list_data = db.collection('address_list');
       address_list_data.where({
-        _openid: app.globalData.openid
+        _openid: app.globalData.openId
       }).get({
         success: res => {
           // this.setData({
           //   orders_list: res.data
           // })
           var len_data = res.data.length;
-          // console.log("len_data====", res.data);
+          console.log("len_data====", res.data);
           if (len_data > 0) {
-            // console.log('[数据库] update: ')
+            console.log('[数据库] update: ', value)
             var id = res.data[0]["_id"]
             address_list_data.doc(id).update({
               // data 字段表示需新增的 JSON 数据
@@ -168,12 +182,12 @@ Page({
               data: value
 
             }).then(res => {
-              // console.log("DATASET==res==update=sus==", res, value)
+              console.log("DATASET==res==update=sus==", res, value)
             }).catch(err => {
-              // console.error("DATASET==res==value===", err, value)
+              console.error("DATASET==res==value===", err, value)
             })
           } else {
-            // console.log('[数据库] add: ');
+            console.log('[数据库] add: ',value);
             
             address_list_data.add({
               // data 字段表示需新增的 JSON 数据

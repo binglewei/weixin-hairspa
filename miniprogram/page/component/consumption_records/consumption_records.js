@@ -2,6 +2,8 @@
 var app = getApp();
 var md5_2 = require('../../../libs/utils/md5_2.js');
 var util = require('../../../libs/utils/utils.js');
+
+
 Page({
 
   /**
@@ -9,6 +11,10 @@ Page({
    */
   data: {
     orders_list:[],
+    // openid:app.globalData.openId,
+    expense:"",
+    status:"",
+    curIndex: 2,
     hasList: true          // 列表是否有数据
   },
 
@@ -16,6 +22,13 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    // this.bindTap();
+    var from_page = options.from_page;
+    this.setData({
+      from_page: from_page,
+      shop_name: options.shop_name
+      
+    })
 
   },
 
@@ -30,38 +43,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    // 云数据库初始化
-    const db = wx.cloud.database({
-      env: "wxc6c41875b492a9c0-1c74f6"
-    });
-    const orders_list = db.collection('orders_list');
-    orders_list.where({
-      // _openid: app.globalData.openid
-    }).orderBy('out_trade_no', 'desc').get({
-      success: res => {
-        var data=res.data;
-        if (data.length>0){
-          this.setData({
-            orders_list: res.data,
-            hasList: true,          // 列表是否有数据
-          })
-        } else {
-          this.setData({
-            // reservation_list: data,
-            hasList: false
-          })
-        }
-       
-        console.log('[数据库] [查询记录] 成功: ', res.data)
-      },
-      fail: err => {
-        wx.showToast({
-          icon: 'none',
-          title: '查询记录失败'
-        })
-        // console.error('[数据库] [查询记录] 失败：', err)
-      }
-    });
+    this.bindTap();
   },
   //  发起消费请求
   expenseOrders(e) {
@@ -89,6 +71,11 @@ Page({
             },
             success: res => {
               // console.log('[数据库] [更新记录] 成功：', res);
+              wx.showToast({
+                title: '消费成功!',
+                icon: 'success',
+                duration: 2000
+              })
               getCurrentPages()[getCurrentPages().length - 1].onShow()
               // this.setData({
               //   count: newCount
@@ -158,7 +145,12 @@ Page({
           },
           success: res => {
             // console.log('[数据库] [更新记录] 成功：', res)
-            // getCurrentPages()[getCurrentPages().length - 1].onShow()
+            wx.showToast({
+              title: '支付成功!',
+              icon: 'success',
+              duration: 2000
+            })
+            getCurrentPages()[getCurrentPages().length - 1].onShow()
             // this.setData({
             //   count: newCount
             // })
@@ -166,7 +158,7 @@ Page({
           fail: err => {
             // icon: 'none',
             // console.error('[数据库] [更新记录] 失败：', err)
-            // getCurrentPages()[getCurrentPages().length - 1].onShow()
+            getCurrentPages()[getCurrentPages().length - 1].onShow()
           }
 
         })
@@ -177,9 +169,13 @@ Page({
         var errMsg = res.errMsg;
         var find_text = errMsg.indexOf("重新");
         var find_text_cancel = errMsg.indexOf("cancel");
-        console.log("res=fail=22==", res, err_code, errMsg, find_text);
-
-        if (err_code == 2 || find_text > 0) {
+        var out_trade_no_prefix = String(out_trade_no).slice(0,17);
+        console.log("rres, err_code, errMsg, find_text=2222222222222222==", res, err_code, errMsg, find_text, find_text_cancel, out_trade_no_prefix);
+        
+        var out_trade_no_time=Number(out_trade_no_prefix)+20000000;
+        var date_str = util.format_date(new Date()); //// 当前时间，年月日时分秒毫秒201704151043256
+        console.log("out_trade_no_time, date_str===========", out_trade_no, out_trade_no_time, date_str)
+        if (date_str > out_trade_no_time) {
 
           // wx.showModal({
           //   title: '支付提示',
@@ -210,6 +206,11 @@ Page({
               // getCurrentPages()[getCurrentPages().length - 1].onShow()
               // this.setData({
               //   count: newCount
+              // })
+              // wx.showModal({
+              //   title: '支付提示',
+              //   content: 'w！！!',
+              //   showCancel: false
               // })
             },
             fail: err => {
@@ -279,5 +280,81 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+  bindTap(e) {
+    var from_page=this.data.from_page;
+    if (from_page){
+      var select_data = {
+        from_page: from_page,
+        shop_name: this.data.shop_name
+        // _openid: this.data.openid
+      }
+    }else{
+      var select_data = {
+        // _openid: this.data.openid
+      }
+    }
+    
+    if (e){
+      var index = parseInt(e.currentTarget.dataset.index); 
+    }else{
+      var  index=0;
+    }
+    // const index = parseInt(e.currentTarget.dataset.index);
+    var bindTap_expense = 0;
+    var bindTap_status = 1
+    if (index==0){
+      bindTap_expense=1;
+      bindTap_status=0;
+      // bindTap_expense_describe = "未消费";
+      select_data.expense = bindTap_expense;
+      select_data.status = bindTap_status;
+
+    }else if (index == 1){
+    bindTap_expense = 0;
+    bindTap_status = 1;
+    select_data.expense = bindTap_expense;
+    select_data.status = bindTap_status;
+    };
+    // console.log('index, bindTap_expense, bindTap_status=select_data=', index, bindTap_expense, bindTap_status, select_data, select_data.length)
+    // 云数据库初始化
+    wx.cloud.init();
+    wx.cloud.callFunction({
+      // 要调用的云函数名称
+      name: 'select_orderlists',
+      // name:"test"
+      data: select_data
+    }).then(res => {
+      // console.log("data=wx.cloud.callFunction--=",res)
+      var data = res.result;
+      if (data.length > 0) {
+        var len_name ="list_len_"+index;
+        var list_lens ={}; 
+        // list_lens[len_name] = data.length;
+        list_lens[len_name] = " " + String(data.length);
+        // console.log(" list_lens =",list_lens );
+        this.setData({
+          orders_list: data,
+          list_lens: list_lens,
+          curIndex: index,
+          hasList: true,          // 列表是否有数据
+        })
+      } else {
+        this.setData({
+          // reservation_list: data,
+          curIndex: index,
+          hasList: false
+        })
+      }
+      }).catch(err => {
+        // handle error
+        console.error("data=wx.cloud.callFunction--=", err)
+      })
+    // this.setData({
+    //   expense: bindTap_expense,
+    //   status: bindTap_status,
+    //   curIndex: index
+      
+    // })
   }
 })
