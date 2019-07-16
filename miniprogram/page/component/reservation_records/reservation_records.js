@@ -37,38 +37,7 @@ Page({
    */
   onShow: function () {
     this.bindTap();
-    // // 云数据库初始化
-    // const db = wx.cloud.database({
-    //   env: "wxc6c41875b492a9c0-1c74f6"
-    // });
-    // const reservation_list_data = db.collection('reservation_list');
-    // reservation_list_data.where({
-    //   // _openid: app.globalData.openid
-    // }).orderBy('out_trade_no', 'desc').get({
-    //   success: res => {
-    //     var data=res.data;
-    //     if (data.length>0){
-    //       this.setData({
-    //         reservation_list: data,
-    //         hasList: true 
-    //       })
-    //     }else{
-    //       this.setData({
-    //         // reservation_list: data,
-    //         hasList: false
-    //       })
-    //     }
-        
-    //     // console.log('[数据库] [查询记录] 成功: ', res.data)
-    //   },
-    //   fail: err => {
-    //     wx.showToast({
-    //       icon: 'none',
-    //       title: '查询记录失败'
-    //     })
-    //     // console.error('[数据库] [查询记录] 失败：', err)
-    //   }
-    // });
+    
   },
   //  发起取消请求
   cancel_reservation(e) {
@@ -80,9 +49,7 @@ Page({
       success(res) {
         if (res.confirm) {
           console.log('用户点击确定--取消')
-          const db = wx.cloud.database({
-            env: "wxc6c41875b492a9c0-1c74f6"
-          });
+          const db = wx.cloud.database();
           const reservation_list_data = db.collection('reservation_list');
           // console.log("e=e.target.dataset.id=11111111=", id);
 
@@ -159,12 +126,13 @@ Page({
 
   },
   bindTap(e) {
-    
-    var from_page = this.data.from_page;
+ 
+    var self=this;
+    var from_page = self.data.from_page;
     if (from_page) {
       var select_data = {
         from_page: from_page,
-        shop_name: this.data.shop_name
+        shop_name: self.data.shop_name
         // _openid: this.data.openid
       }
     } else {
@@ -176,6 +144,20 @@ Page({
       var index = parseInt(e.currentTarget.dataset.index);
     } else {
       var index = 0;
+    }
+    wx.showLoading({
+      title: '加载中',
+    })
+    if (index == 0) {
+      setTimeout(function () {
+        wx.hideLoading()
+        // wx.navigateBack();
+      }, 1000);
+    } else {
+      setTimeout(function () {
+        wx.hideLoading()
+        // wx.navigateBack();
+      }, 3000);
     }
     // const index = parseInt(e.currentTarget.dataset.index);
     // var bindTap_expense = 0;
@@ -194,7 +176,7 @@ Page({
       // select_data.expense = bindTap_expense;
       // select_data.status = bindTap_status;
     // };
-    console.log('index, bindTap_reservation_status, select_data, select_data.length====', index, bindTap_reservation_status, select_data)
+    // console.log('index, bindTap_reservation_status, select_data, select_data.length====', index, bindTap_reservation_status, select_data)
     // 云数据库初始化
     wx.cloud.init();
     wx.cloud.callFunction({
@@ -203,27 +185,31 @@ Page({
       // name:"test"
       data: select_data
     }).then(res => {
-      // console.log("data=wx.cloud.callFunction--=",res)
+      console.log("data=wx.cloud.callFunction--=",res)
       var data = res.result;
       if (data.length > 0) {
         var len_name = "list_len_" + index;
         var list_lens = {};
         list_lens[len_name] = "："+String(data.length)+"条";
-        // console.log(" list_lens =",list_lens );
-        this.setData({
-          reservation_list: data,
-          list_lens: list_lens,
-          curIndex: index,
-          hasList: true,          // 列表是否有数据
-        });
-        for (var li in data){
-          var _openid = data[li]["_openid"]
-          console.log(" _openid =", li, _openid);
-
-        }
+        // wx.cloud.callFunction({
+        //   // 要调用的云函数名称
+        //   name: 'update_reservationlist',
+        //   data: data
+        // }).then(res => {
+        //   reservation_list = res.result;
+          self.setData({
+            reservation_list: data,
+            list_lens: list_lens,
+            curIndex: index,
+            hasList: true,          // 列表是否有数据
+          });
+        //   console.log("address_list_data===d=3333333333333===", self.data);
+        //   });
+        
+        
+        
       } else {
-        this.setData({
-          // reservation_list: data,
+        self.setData({
           curIndex: index,
           hasList: false
         })

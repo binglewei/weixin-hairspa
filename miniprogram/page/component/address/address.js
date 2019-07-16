@@ -31,9 +31,7 @@ Page({
       picker1Range: shop_names,
     });
     // 云数据库初始化
-    const db = wx.cloud.database({
-      env: "wxc6c41875b492a9c0-1c74f6"
-    });
+    const db = wx.cloud.database();
     const address_list_data = db.collection('address_list');
     address_list_data.where({
       _openid: app.globalData.openId
@@ -98,9 +96,10 @@ Page({
   formSubmit(e) {
     var self = this;
     const value = e.detail.value;
-    // console.log("formSubmit_e==", e);
+    console.log(" e.detail.value=formSubmit=", e);
     var phone = value.phone;
     var name = value.name;
+    var remark = value.remark;
     var detail = value.detail;
     var picker1Value = this.data.picker1Value;
     var shop = this.data.picker1Range[picker1Value]; //shop
@@ -108,6 +107,7 @@ Page({
     value["birthday"] = birthday;
     value["picker1Value"] = picker1Value;
     value["shop"] = shop;
+    value["remark"] = remark;
     // console.log("birthday=11shop11=", birthday, shop);
     var reg = /^1[3|4|5|7|8][0-9]{9}$/
     var flag = reg.test(phone)
@@ -162,7 +162,8 @@ Page({
       //   },
       // });
       value.userInfo = app.globalData.userInfo;
-      console.log("addressdetail==value, app.globalData==", value.userInfo,value);
+      value.unionid = app.globalData.unionid;
+      // console.log("addressdetail==value, app.globalData==", value.userInfo,value);
       const address_list_data = db.collection('address_list');
       address_list_data.where({
         _openid: app.globalData.openId
@@ -172,7 +173,7 @@ Page({
           //   orders_list: res.data
           // })
           var len_data = res.data.length;
-          console.log("len_data====", res.data);
+          // console.log("len_data====", res.data);
           if (len_data > 0) {
             console.log('[数据库] update: ', value)
             var id = res.data[0]["_id"]
@@ -182,7 +183,7 @@ Page({
               data: value
 
             }).then(res => {
-              console.log("DATASET==res==update=sus==", res, value)
+              // console.log("DATASET==res==update=su、s==", res, value)
             }).catch(err => {
               console.error("DATASET==res==value===", err, value)
             })

@@ -20,8 +20,8 @@
 <!--miniprogram/page/component/consumption_records.wxml-->
 <!-- <text>miniprogram/page/component/consumption_records.wxml</text> -->
 <view class="main">
-  <view class="goods-tab-nav {{curIndex === 0 ?'on':''}}" bindtap="bindTap" data-index="0">未使用预约记录{{list_lens["list_len_0"]}}</view>
-  <view class="goods-tab-nav {{curIndex === 1 ?'on':''}}" bindtap="bindTap" data-index="1">所有预约记录{{list_lens["list_len_1"]}}</view>
+  <view class="goods-tab-nav {{curIndex === 0 ?'on':''}}" bindtap="bindTap" data-index="0">未使用预约{{list_lens["list_len_0"]}}</view>
+  <view class="goods-tab-nav {{curIndex === 1 ?'on':''}}" bindtap="bindTap" data-index="1">所有预约{{list_lens["list_len_1"]}}</view>
   <!-- <view class="goods-tab-nav {{curIndex === 2 ?'on':''}}" bindtap="bindTap" data-index="2">所有记录{{list_lens["list_len_2"]}}</view> -->
   <view wx:if="{{hasList}}">
     <view class="reservation-box">
@@ -42,7 +42,7 @@
           <!-- <text class="reservation-status">{{item.status}}</text> -->
         </view>
         <view wx:if="{{from_page}}">
-          <view class="reservation-number">预约客户：{{item._openid}}</view>
+          <view class="reservation-number">预约客户：{{item.user_magess}}</view>
         </view>
 
         <view class="reservation-footer">

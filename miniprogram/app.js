@@ -1,6 +1,6 @@
 App({
   globalData: {
-    userInfo: "userInfo",
+    userInfo: {},
     openId: '',
     Apikey: "symeiyu1357048216039688322766666", //不同于AppSecret(小程序密钥)#sy89667567	#api 密钥
     appId: 'wxc6c41875b492a9c0',
@@ -16,94 +16,9 @@ App({
     },
     seach_hot: "",
     cart_totalNums: {},
-    // cart_totalNums: { 0: { id: 0, title: '新鲜芹菜 半斤', image: '/image/s5.png', num: 4, price: 0.01, selected: true }},
     product_list: [],
-    // product_list: [{
-    //   id: 0,
-    //   image: '/image/sy_list/list_1.jpg',
-    //   title: '草本养发',
-    //   price: 0.01,
-    //   stock: 10,
-    //   detail: '这里是草本养发详情。',
-    //   parameter: '好多好多钱！！！！！',
-    //   service: '不支持退货'
-    // },
-    // {
-    //   id: 1,
-    //   image: '/image/sy_list/list_2.jpg',
-    //   title: '净安养发',
-    //   price: 0.02,
-    //   stock: 200,
-    //   detail: '',
-    //   parameter: '',
-    //   service: ''
-    // },
-    // {
-    //   id: 2,
-    //   image: '/image/sy_list/list_3.jpg',
-    //   title: '舒缓调理',
-    //   price: 0.03,
-    //   stock: 300,
-    //   detail: '这里是舒缓调理详情。',
-    //   parameter: '舒缓调理舒缓调理舒缓调理好多好多钱！！！！！',
-    //   service: '舒缓调理舒缓调理舒缓调理不支持退货,舒缓调理舒缓调理舒缓调理不支持退货,舒缓调理舒缓调理舒缓调理不支持退货,舒缓调理舒缓调理舒缓调理不支持退货,舒缓调理舒缓调理舒缓调理不支持退货'
-    // },
-    // {
-    //   id: 3,
-    //   image: '/image/sy_list/list_4.jpg',
-    //   title: '密罗木头皮保湿',
-    //   price: 0.04,
-    //   stock: 400,
-    //   detail: '这里是密罗木头皮保湿详情。',
-    //   parameter: '密罗木头皮保湿好多好多钱！！！！！',
-    //   service: '舒密罗木头皮保湿不支持退货'
-    // }
-    // ],
     bannerUrls: [],
     shop_list:[],
-    // shop_list: [{
-    //   id: 1,
-    //   shop_name: '广州市-海珠区-丝域养发馆-翠城花园店',
-    //   shop_phone: '020-89667567',
-    //   shop_business_time: '10：30-22：30',
-    //   shop_address: '广州市海珠区宝岗大道南翠宝路182号(翠城花园)1015A号铺'
-    // },
-    // {
-    //   id: 2,
-    //   shop_name: '广州市-海珠区-丝域养发馆-昌岗店',
-    //   shop_phone: '020-34248872',
-    //   shop_business_time: '10：00-22：00',
-    //   shop_address: '广州市海珠区昌岗中路188号合生生活天地二楼212铺'
-    // },
-    // {
-    //   id: 3,
-    //   shop_name: '佛山市-南海区-丝域养发馆',
-    //   shop_phone: '0757-86323969',
-    //   shop_business_time: '10：00-22：00',
-    //   shop_address: '佛山市南海区桂城镇中海锦城南门商业街1座10号OUT-L2-217'
-    // },
-    // {
-    //   id: 4,
-    //   shop_name: '佛山市-顺德区-丝域养发馆',
-    //   shop_phone: '0757-23617171',
-    //   shop_business_time: '10：00-22：00',
-    //   shop_address: '佛山市顺德区容桂华夏新城北门5号铺'
-    // },
-    // {
-    //   id: 5,
-    //   shop_name: '佛山市-南海区-丝域养发馆',
-    //   shop_phone: '0757-86082511',
-    //   shop_business_time: '10：00-22：00',
-    //   shop_address: '佛山市南海区桂城万锦豪园北门建行旁'
-    // },
-    // {
-    //   id: 6,
-    //   shop_name: '上海市-闵行区-丝域养发馆',
-    //   shop_phone: '021-34293663',
-    //   shop_business_time: '10:00-22:00',
-    //   shop_address: '上海市闵行区万源南路99弄中庚漫游城OUT-L2-217'
-    // }
-    // ]
   },
 
   /**
@@ -111,23 +26,28 @@ App({
    */
   onLaunch: function() {
 
-    wx.cloud.init();
-    wx.cloud.callFunction({
-      name: 'get_openid',
-      complete: res => {
-        console.log("get_openid====res=unionid==", res, res.unionid);
-        var openId = res.result.openId;
-        this.globalData.openId = openId;
-      }
-    });
+  },
 
-    const db = wx.cloud.database({
-      env: "wxc6c41875b492a9c0-1c74f6"// 环境ID：wxc6c41875b492a9c0-1c74f6
-    });
+  /**
+   * 当小程序启动，或从后台进入前台显示，会触发 onShow
+   */
+  onShow: function(options) {
+    wx.cloud.init();
+    // wx.cloud.callFunction({
+    //   name: 'get_openid',
+    //   complete: res => {
+    //     // console.log("get_openid====res=unionid==", res, res.result.unionid);
+    //     var unionid = res.result.unionid;
+    //     this.globalData.openId = unionid;
+    //     var openId = res.result.openId;
+    //     this.globalData.openId = openId;
+    //   }
+    // });
+    const db = wx.cloud.database();
     //拿到表
     const seach_hot_data = db.collection('seach_hot');
     const shop_list_data = db.collection('shop_list');
-    self=this;
+    self = this;
     shop_list_data.where({
       // _openid: this.data.openid
       // _id:1
@@ -138,42 +58,116 @@ App({
         // console.log('[数据库] [查询记录shop_list_data] 成功: ', self.globalData);
       },
       fail: function (res) {
-        wx.showToast({
-          icon: 'none',
-          title: '查询记录失败'
-        })
-        // console.error('[数据库] [查询记录] 失败：', err)
+        // wx.showToast({
+        //   icon: 'none',
+        //   title: '查询记录失败'
+        // })
+        console.error('[数据库] [查询记录] 失败：', err)
       }
     });
     seach_hot_data.where({
       // _openid: this.data.openid
       // _id:1
     }).get({
-      success: function (res){
+      success: function (res) {
         // console.log('[数据库] [查询记录] 成功: ', res);
         var requey_data = res.data;
-        var seach_hot_1=[];
-        for (var list in requey_data){
+        var seach_hot_1 = [];
+        for (var list in requey_data) {
           seach_hot_1.push(requey_data[list]["hot_text"])
         };
         self.globalData.seach_hot = seach_hot_1;
       },
-      fail: function (res){
-        wx.showToast({
-          icon: 'none',
-          title: '查询记录失败'
-        })
-        // console.error('[数据库] [查询记录] 失败：', err)
+      fail: function (res) {
+        // wx.showToast({
+        //   icon: 'none',
+        //   title: '查询记录失败'
+        // })
+        console.error('[数据库] [查询记录] 失败：', err)
       }
-    })
-    
-  },
+    });
+    wx.getUserInfo({
+      lang: "zh_CN",
+      withCredentials: true,
+      success: function (res) {
+        var userInfo = res.userInfo;
+        self.globalData.userInfo = userInfo;
+        // wx.cloud.init();
+        wx.cloud.callFunction({
+          name: 'get_openid',
+          complete: res => {
+            console.log("get_openid====res=unionid==", res, res.result.unionid);
+            var openId = res.result.openId;
+            var unionid = res.result.unionid;
+            self.globalData.openId = openId;
+            self.globalData.unionid = unionid;
+            const address_list_data = db.collection('address_list');
+            var add_value = {};
+            add_value.userInfo = userInfo;
+            add_value.unionid = unionid;
+            add_value.update_date = new Date();
+            console.log('[数据库] 操作前数据===: ', add_value);
+            address_list_data.where({
+              _openid: openId
+            }).get({
+              success: res => {
+                var len_data = res.data.length;
+                console.log("len_data==len_data==", len_data, res.data);
+                if (len_data == 0) {
+                  console.log('[数据库] add: ', add_value);
+                  address_list_data.add({
+                    data: add_value
 
-  /**
-   * 当小程序启动，或从后台进入前台显示，会触发 onShow
-   */
-  onShow: function(options) {
+                  }).then(res => {
+                    console.log("DATASET==res==value===", res, add_value)
+                  }).catch(err => {
+                    console.error("DATASET==res==value===", err, add_value)
+                  })
+                }
+                else {
+                  var unionid_from = res.data[0].unionid;
+                  if (!unionid_from) {
+                    console.log("unionid_from======", unionid_from)
 
+                    console.log('[数据库] update:===在app.js= ', add_value)
+                    var id = res.data[0]["_id"]
+                    address_list_data.doc(id).update({
+                      // data 字段表示需新增的 JSON 数据
+                      // data: JSON.parse(orders_list_String)
+                      data: add_value
+
+                    }).then(res => {
+                      // console.log("DATASET==res==update=su、s==", res, add_value)
+                    }).catch(err => {
+                      console.error("DATASET==res==value===", err, add_value)
+                    })
+
+                  }
+
+                }
+                // console.log('[数据库] [查询记录] 成功: ', res.data)
+              },
+              fail: err => {
+                wx.showToast({
+                  icon: 'none',
+                  title: '查询记录失败'
+                })
+              }
+            });
+
+            // console.error('[数据库] [查询记录] 失败：', err)
+          }
+        });
+      },
+      fail: function (res) {
+        console.error("wx.getUserInfo=====error===", res);
+        wx.showModal({
+          title: '提示',
+          content: "请先点击 “我的》个人设置” 获取授权并完善个人信息哦！！",
+          showCancel: false
+        })
+      }
+    }); 
 
   },
 

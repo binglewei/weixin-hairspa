@@ -5,6 +5,10 @@
         <text class="form-test">姓名</text>
         <input class="form-input" value="{{address.name}}" name="name" placeholder="姓名" />
       </view>
+       <view>
+        <text class="form-test">会员档案编号</text>
+        <input class="form-input" value="{{address.remark}}" name="remark" placeholder="编号ID" />
+      </view>
       <!-- <view>
         <text class="form-test">性别</text>
         <input class="form-input" type="number" name="gender" value="{{address.gender}}" placeholder="性别" />

@@ -11,6 +11,38 @@
   <view wx:else class="orders-no-address">请添加门店信息</view>
 </navigator>
 
+
+
+<view class='containt'>
+  <!-- <view class="selectemployee_litle">$请选择预约时间：</view> -->
+  <scroll-view class="scroll-view_H" scroll-x>
+    <view class='list' style='width:{{ width }}rpx'>
+      <view bindtap="select" wx:for="{{ calendar }}" wx:for-item="item" wx:for-index="index" data-index="{{ index }}" class='listItem {{index==currentIndex? "current":""}}' wx:key='' data-date="{{ item.date}}">
+        <text class='name'>{{ item.week }}</text>
+        <text class='date'>{{ item.date }}</text>
+      </view>
+    </view>
+  </scroll-view>
+
+  <view class='time'>
+
+    <view wx:for="{{ timeArr }}" wx:for-item="timeItem" wx:for-index="timeIndex" data-Tindex="{{ timeIndex }}" data-time="{{ timeItem.time}}" data-status="{{ timeItem.status}}" bindtap='selectTime' class='listItem {{ currentTime==timeIndex? "current":"" }}' wx:key=''>
+      <!-- <form bindsubmit="saveFormId" report-submit="{{true}}" class='form_class'> -->
+        <button   class='form_button' disabled="{{timeItem.status}}"  formType="submit" >
+          <text  class='time-text'>{{ timeItem.time }}</text>
+        </button>
+      <!-- </form> -->
+      <!-- <text>{{ timeItem.status }}</text> -->
+    </view>
+  </view>
+  <view class='selectemployee_litle'>$请选择护理师:</view>
+
+<view class='employee'>
+  <view bindtap='selectemployee' wx:for="{{employee_list}}" wx:for-item="item" wx:for-index="index" data-index="{{ index }}" data-employee_name="{{item.employee_name}}" class='listItem {{currentemployee==index? "current":"" }}' wx:key=''>
+    <text>{{ item.employee_name }}</text>
+    <!-- <text>{{ item.employee_number }}</text> -->
+  </view>
+</view>
 <view>
   <view class="selectemployee_litle">$请选择预约项目：</view>
   <navigator url="/page/component/list/list?type=2&action={{action}}&reservation_id={{reservation_id}}">
@@ -23,36 +55,6 @@
   <!-- <picker class="picker" value="{{picker_prject_id}}" range="{{picker_prject_Range}}" range-key="name" bindchange="normalPickerBindchange">{{picker_prject_Range[picker_prject_id].name}}：预计服务时长{{picker_prject_Range[picker_prject_id].nursingTime}}分钟</picker> -->
   <!-- range-key="{{picker_prject_Range.name}}"" /> -->
 </view>
-<view class='selectemployee_litle'>$请选择护理师:</view>
-
-<view class='employee'>
-  <view bindtap='selectemployee' wx:for="{{employee_list}}" wx:for-item="item" wx:for-index="index" data-index="{{ index }}" data-employee_name="{{item.employee_name}}" class='listItem {{currentemployee==index? "current":"" }}' wx:key=''>
-    <text>{{ item.employee_name }}</text>
-    <!-- <text>{{ item.employee_number }}</text> -->
-  </view>
-</view>
-<view class='containt'>
-  <view class="selectemployee_litle">$请选择预约时间：</view>
-  <scroll-view class="scroll-view_H" scroll-x>
-    <view class='list' style='width:{{ width }}rpx'>
-      <view bindtap="select" wx:for="{{ calendar }}" wx:for-item="item" wx:for-index="index" data-index="{{ index }}" class='listItem {{index==currentIndex? "current":""}}' wx:key='' data-date="{{ item.date}}">
-        <text class='name'>{{ item.week }}</text>
-        <text class='date'>{{ item.date }}</text>
-      </view>
-    </view>
-  </scroll-view>
-
-  <view class='time'>
-
-    <view wx:for="{{ timeArr }}" wx:for-item="timeItem" wx:for-index="timeIndex" data-Tindex="{{ timeIndex }}" data-time="{{ timeItem.time}}" bindtap='selectTime' class='listItem {{ currentTime==timeIndex? "current":"" }}' wx:key=''>
-      <form bindsubmit="saveFormId" report-submit="{{true}}" class='form_class'>
-        <button formType="submit" class='form_button'>
-          <text class='time-text'>{{ timeItem.time }}</text>
-        </button>
-      </form>
-      <!-- <text>{{ timeItem.status }}</text> -->
-    </view>
-  </view>
   <view class="selectemployee_litle">----------底部---------</view>
 
 
@@ -60,10 +62,10 @@
     <view wx:if="{{action}}" class='reservation-footer-1'>
       <button class="save2" bindtap="cancel_reservation" data-out_trade_no="{{out_trade_no}}">取消预约</button>
       <!-- <view class="orders-footer-total">惊喜价￥{{retailPrice}}</view> -->
-      <form bindsubmit="confirm_reservation" report-submit='true'>
+      <!-- <form bindsubmit="confirm_reservation" report-submit='true'> -->
       <button class='save3' form-type="submit">修改预约</button>
       <!-- <button class="save3" bindtap="confirm_reservation">修改预约</button> -->
-      </form>
+      <!-- </form> -->
     </view>
     <view wx:else class="reservation-footer-2">
     <form bindsubmit="confirm_reservation" report-submit='true'>

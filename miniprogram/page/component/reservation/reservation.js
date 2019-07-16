@@ -16,79 +16,118 @@ Page({
     address: {},
     shop_list: app.globalData.shop_list,
     hasAddress: false,
-    currentIndex: 0,
-    currentTime: 0,
-    currentemployee: 0,
+    currentIndex: 1,
+    currentTime: null,
+    currentemployee: null,
     employee_list: [],
     picker_project_id: 0,
+    // timeArr:[],
+    timeArr:[{
+      "time": "10:00",
+      "status": false
+    },
+    {
+      "time": "10:30",
+      "status": false
+    },
+    {
+      "time": "11:00",
+      "status": false
+    },
+    {
+      "time": "11:30",
+      "status": false
+    },
+    {
+      "time": "12:00",
+      "status": false
+    },
+    {
+      "time": "12:30",
+      "status": false
+    },
+    {
+      "time": "13:00",
+      "status": false
+    },
+    {
+      "time": "13:30",
+      "status": false
+    },
+    {
+      "time": "14:00",
+      "status": false
+    },
+    {
+      "time": "14:30",
+      "status": false
+    },
+    {
+      "time": "15:00",
+      "status": false
+    },
+    {
+      "time": "15:30",
+      "status": false
+    },
+    {
+      "time": "16:00",
+      "status": false
+    },
+    {
+      "time": "16:30",
+      "status": false
+    },
+    {
+      "time": "17:00",
+      "status": false
+    },
+    {
+      "time": "17:30",
+      "status": false
+    },
+    {
+      "time": "18:00",
+      "status": false
+    },
+    {
+      "time": "18:30",
+      "status": false
+    },
+    {
+      "time": "19:00",
+      "status": false
+    },
+    {
+      "time": "19:30",
+      "status": false
+    },
+    {
+      "time": "20:00",
+      "status": false
+    },
+    {
+      "time": "20:30",
+      "status": false
+    },
+    {
+      "time": "21:00",
+      "status": false
+    },
+    {
+      "time": "21:30",
+      "status": false
+    }],
     picker_project_Range: ["请选择你要预约的项目"],
     // picker_project_Range: app.globalData.project_lists,
-    timeArr: [{
-        "time": "10:00",
-        "status": ""
-      },
-      {
-        "time": "10:30",
-        "status": ""
-      },
-      {
-        "time": "11:00",
-        "status": ""
-      },
-      {
-        "time": "12:00",
-        "status": ""
-      },
-      {
-        "time": "13:00",
-        "status": ""
-      },
-      {
-        "time": "14:00",
-        "status": ""
-      },
-      {
-        "time": "15:00",
-        "status": ""
-      },
-      {
-        "time": "16:00",
-        "status": ""
-      },
-      {
-        "time": "17:00",
-        "status": ""
-      },
-      {
-        "time": "18:00",
-        "status": ""
-      },
-      {
-        "time": "19:00",
-        "status": ""
-      },
-      {
-        "time": "20:00",
-        "status": ""
-      },
-      {
-        "time": "21:00",
-        "status": ""
-      },
-      {
-        "time": "22:00",
-        "status": ""
-      },
-      // { "time": "21:00", "status": "" },
-
-      // { "time": "8:00-22:00", "status": "约满" }
-    ]
+   
   },
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    console.error("options==1111111111111==", options);
+    console.log("options==1111111111111==", options);
     var self = this;
     var picker_project_id = options.project_id;
     var out_trade_no = options.out_trade_no;
@@ -117,34 +156,35 @@ Page({
     var db = wx.cloud.database();
 
     that.setData({
-      picker_project_Range: app.globalData.project_lists
+      picker_project_Range: app.globalData.project_lists,
+      // timeArr: app.globalData.timeArr
     });
-    if (that.data.picker_project_Range.length < 2) {
-      // /刷新当前页面的数据
-      console.log("=刷新当前页面的数据====");
-      wx.request({
-        url: "https://minipgm.siyuhome.net/rest/transmission/getProgramList?name=",
-        data: "",
-        header: {},
-        method: 'GET',
-        success: function(res) {
-          // console.log("res=success=11==", res);
-          var project_lists_sy = res.data
-          // var product_list_1=app.globalData.product_list;
-          app.globalData.project_lists = project_lists_sy;
-          that.setData({
-            picker_project_Range: project_lists_sy,
-          });
-        },
-        fail: function(res) {
-          // console.log("res=fail=22==", res);
-        },
-        complete: function(res) {
-          // console.log('complete==3333==', res);
+    // if (that.data.picker_project_Range.length < 2) {
+    //   // /刷新当前页面的数据
+    //   console.log("=刷新当前页面的数据====");
+    //   wx.request({
+    //     url: "https://minipgm.siyuhome.net/rest/transmission/getProgramList?name=",
+    //     data: "",
+    //     header: {},
+    //     method: 'GET',
+    //     success: function(res) {
+    //       // console.log("res=success=11==", res);
+    //       var project_lists_sy = res.data
+    //       // var product_list_1=app.globalData.product_list;
+    //       app.globalData.project_lists = project_lists_sy;
+    //       that.setData({
+    //         picker_project_Range: project_lists_sy,
+    //       });
+    //     },
+    //     fail: function(res) {
+    //       // console.log("res=fail=22==", res);
+    //     },
+    //     complete: function(res) {
+    //       // console.log('complete==3333==', res);
 
-        },
-      });
-    }
+    //     },
+    //   });
+    // }
     
     if (that.data.reservation_id) {
       var reservation_list = db.collection('reservation_list');
@@ -162,7 +202,7 @@ Page({
           var currentemployee_name = res_data.reservation_employee.employee_number;
           var currentTime_from = res_data.reservation_time.split(" ");
         
-          console.error("res.data[0].=ifififif==", res.data[0], picker_project_id,currentemployee_name, currentTime_from)
+          // console.log("res.data[0].=ifififif==", res.data[0], picker_project_id,currentemployee_name, currentTime_from)
           var picker_project_Range = that.data.picker_project_Range;
           for (var id in picker_project_Range) {
             var picker_project = picker_project_Range[id]
@@ -275,16 +315,23 @@ Page({
       return new Date(Date.UTC(year, month - 1, 1)).getDay();
     }
     const date = new Date();
-    // const date = new Date("Wed May 29 2019 13:40:31");
-    // console.log("当前时间是===", date)
+    // const date = new Date("Wed May 2 2019 13:40:31");
+    console.log("当前时间是===", date);
     const cur_year = date.getFullYear();
     const cur_month = date.getMonth() + 1;
     const next_month = date.getMonth() + 2;
     const cur_date = date.getDate();
     const weeks_ch = ['日', '一', '二', '三', '四', '五', '六'];
     //利用构造函数创建对象
+    // const date = new Date()
     function calendar(date, week) {
-      this.date = cur_year + '-' + cur_month + '-' + date;
+      var monthLength = getThisMonthDays(cur_year, cur_month)
+      if (date>monthLength){
+        var date2 = date - monthLength;
+        this.date = cur_year + '-' + next_month + '-' + date2;
+      }else{
+        this.date = cur_year + '-' + cur_month + '-' + date;
+      }
       if (date == cur_date) {
         this.week = "今天";
       } else if (date == cur_date + 1) {
@@ -297,14 +344,16 @@ Page({
     }
     //当前月份的天数
     var monthLength = getThisMonthDays(cur_year, cur_month)
+    var next_monthLength = getThisMonthDays(cur_year, next_month)
     //当前月份的第一天是星期几
     var week = getFirstDayOfWeek(cur_year, cur_month)
     var x = week;
-    for (var i = 1; i <= monthLength; i++) {
+    for (var i = 1; i <= monthLength + next_monthLength; i++) {
       //当循环完一周后，初始化再次循环
       if (x > 6) {
         x = 0;
       }
+      
       //利用构造函数创建对象
       that.data.calendar[i] = new calendar(i, [weeks_ch[x]][0])
       x++;
@@ -345,17 +394,65 @@ Page({
   onShareAppMessage: function() {},
   select: function(event) {
     //为上半部分的点击事件
+    var currentIndex = event.currentTarget.dataset.index
     this.setData({
-      currentIndex: event.currentTarget.dataset.index
+      currentIndex: currentIndex
     })
-    console.log(event,event.currentTarget.dataset.date)
+    var date =new Date();
+    if (currentIndex==0){
+      var cur_Hours = date.getHours();
+      var timeArr = this.data.timeArr;
+      // console.log("this.timeAr==12321312312313==", timeArr, this.timeArr);
+      for (var aa in timeArr) {
+        var time_cur = timeArr[aa].time;
+        var list_hours = time_cur.split(":")[0]
+        if (list_hours <= cur_Hours) {
+          timeArr[aa].status = true
+        }
+        // console.log("cur_Hours==cur_Hours==", time_cur, list_hours, timeArr);
+      }
+      // console.log("timeArr=if==111111111111111111==", timeArr, app.globalData);
+      // 云数据库初始化
+      var select_data={};
+      select_data.reservation_status=1;
+      wx.cloud.init();
+      wx.cloud.callFunction({
+        // 要调用的云函数名称
+        name: 'select_reservationrecords',
+        // name:"test"
+        data: select_data
+      }).then(res => {
+        console.log("data=wx.cloud.callFunction--=", res)
+        var data = res.result;
+      }).catch(err => {
+        // handle error
+        console.error("data=wx.cloud.callFunction--=", err)
+      })
+      this.setData({
+        timeArr:timeArr,
+        currentTime:null,
+        currentemployee:null
+      })
+    }else{
+      var timeArr2222 = this.data.timeArr;
+      for (var aa in timeArr2222) {
+        timeArr2222[aa].status = false
+      }
+      console.log("timeArr=  else=222222222===", timeArr2222, app.globalData);
+      this.setData({
+        timeArr: timeArr2222,
+        currentTime: null,
+        currentemployee: null,
+      })
+    }
+    console.log(event, event.currentTarget.dataset.date)
   },
   selectTime: function(event) {
     //为下半部分的点击事件
     this.setData({
       currentTime: event.currentTarget.dataset.tindex
     })
-    console.log(event, event.currentTarget.dataset.time)
+    // console.log("currentIndex==",event, event.currentTarget.dataset.time)
   },
   selectemployee: function(event) {
     //处理选择护理师
@@ -385,29 +482,51 @@ Page({
 
   },
   confirm_reservation: function(e) {
-    wx.showLoading({
-      title: '加载中',
-    });
-    setTimeout(function() {
-      wx.hideLoading()
-    }, 1500)
     var self = this;
     var data = self.data;
     this.saveFormId(e);
     var form_ids = data.formIdArray;
     var reservation_shop = data.address.shop;
+    if (!reservation_shop){
+       wx.showModal({
+            title: '预约提示',
+            content: '请先选择要预约的门店!',
+            showCancel: false
+          })
+    }
+    else if (!data.currentTime) {
+      wx.showModal({
+        title: '预约提示',
+        content: '请先选择要预约的具体时间!',
+        showCancel: false
+      })
+    }
+    else if (!data.currentemployee) {
+      wx.showModal({
+        title: '预约提示',
+        content: '请先选择要预约的护理师!',
+        showCancel: false
+      })
+    }
+     else{
+    wx.showLoading({
+      title: '加载中',
+    });
+    setTimeout(function () {
+      wx.hideLoading()
+    }, 1500)
+    
     var reservation_prject = data.picker_project;
     var reservation_employee = data.employee_list[data.currentemployee];
     var reservation_time = data.calendar[data.currentIndex].date + " " + data.timeArr[data.currentTime].time;
     var nn = "\r\n";
-    var colon = "：";
-    var content = "预约门店：" + reservation_shop + nn + "预约项目：" + reservation_prject.name + "预计服务时长" + reservation_prject.nursingTime + "分钟" + nn + "预约护理师：" + reservation_employee.employee_number + reservation_employee.employee_name + nn + "预约时间：" + reservation_time;
+    var content = "预约门店：" + reservation_shop + nn + "预约项目：" + reservation_prject.name + "预计服务时长" + reservation_prject.nursingTime + "分钟" + nn + "预约护理师：" + reservation_employee.employee_name + nn + "预约时间：" + reservation_time;
     var confirm_reservation_data = {};
     confirm_reservation_data.reservation_shop = reservation_shop;
     confirm_reservation_data.reservation_prject = reservation_prject;
     confirm_reservation_data.reservation_employee = reservation_employee;
     confirm_reservation_data.reservation_time = reservation_time;
-
+    }
     wx.showModal({
       title: '预约服务确认提示',
       showCancel: true,
@@ -439,61 +558,140 @@ Page({
 
           var send_even = {};
           // send_even.template_id = "iRNJNzEqz3Tt3ObtSR-9gSjHi5T6ZEJdmvuFxo7Fj3Y"; //服务预约成功通知 4个字段
-          send_even.template_id = "iRNJNzEqz3Tt3ObtSR-9gYnMZ-du_mnfbkg034uUBp0"; //服务预约成功通知 7q ww usr 个字段
+          // send_even.template_id = "iRNJNzEqz3Tt3ObtSR-9gYnMZ-du_mnfbkg034uUBp0"; //服务预约成功通知 7q ww usr 个字段
+          send_even.employe_template_id = "aX3pxsFG0_cEDtjF-zibzAPbd09LkXXFWD1AR9ibhbo"; //公众号成功通知 
+          send_even.user_template_id = "eeBOlrKPLtyyXU_HyOPdLH7ShboHtx0p11T9keSGleg"; //公众号成功通知 
 
-          send_even.msgData = {
-            // 订单号
+          send_even.employe_msgData = {
+            "first": {
+              "value": "亲爱的"+reservation_shop+",你有客人预约服务了！！",
+              "color": "#173177"
+            },
             "keyword1": {
-              "value": out_trade_no,
-              // "color": "#173177"
+              "value": data.address.name,
+              "color": "#173177"
             },
-            // 预约时间
             "keyword2": {
-              "value": reservation_time
+              "value": data.address.phone,
+              "color": "#173177"
             },
-            // / 预约项目
+            //预约项目：{{keyword3.DATA}}
             "keyword3": {
               "value": reservation_prject.name,
-              // "color": "#173177"
+              "color": "#173177"
             },
-            // / 服务技师
+            //预约时间
             "keyword4": {
-              "value": reservation_employee.employee_name,
-              // "color": "#173177"
+              "value": reservation_time,
+              "color": "#173177"
             },
-            // 店名
+            //服务人员
             "keyword5": {
-              "value": reservation_shop
+              "value": reservation_employee.employee_name,
+              "color": "#173177"
             },
-            // // 门店电话
-            // "keyword6": {
-            //   "value": data.address
-            // },
-            // // 门店地址
-            // "keyword7": {
-            //   "value": reservation_prject.name
-            // },
-            // 预约客户
-            "keyword6": {
-              "value": data.address.name
-            },
-            // 客户电话
-            "keyword7": {
-              "value": data.address.phone
+            //{{remark.DATA}}
+            "remark": {
+              "value": "请及时联络客户！！",
+              "color": "#173177"
             }
           }
+          send_even.user_msgData = {
+            "first": {
+              "value": "亲爱的-" + data.address.name+"-客户，您好，恭喜您已预约成功！！",
+              "color": "#173177"
+            },
+            //预约编号
+            "keyword1": {
+              "value": out_trade_no,
+              "color": "#173177"
+            },
+            //预约项目：{{keyword3.DATA}}
+            "keyword2": {
+              "value": reservation_prject.name,
+              "color": "#173177"
+            },
+            //预约门店：{{keyword3.DATA}}
+            "keyword3": {
+              "value": reservation_shop,
+              "color": "#173177"
+            },
+           
+            //预约时间
+            "keyword4": {
+              "value": reservation_time,
+              "color": "#173177"
+            },
+            //服务人员
+            // "keyword5": {
+            //   "value": reservation_prject.name,
+            //   // "color": "#173177"
+            // },
+            //门店地址：{{keyword5.DATA}}
+            "remark": {
+              "value": "感谢您的预约，我们不见不散。",
+              "color": "#173177"
+            }
+          }
+          //   // 订单号
+          //   "keyword1": {
+          //     "value": out_trade_no,
+          //     // "color": "#173177"
+          //   },
+          //   // 预约时间
+          //   "keyword2": {
+          //     "value": reservation_time
+          //   },
+          //   // / 预约项目
+          //   "keyword3": {
+          //     "value": reservation_prject.name,
+          //     // "color": "#173177"
+          //   },
+          //   // / 服务技师
+          //   "keyword4": {
+          //     "value": reservation_employee.employee_name,
+          //     // "color": "#173177"
+          //   },
+          //   // 店名
+          //   "keyword5": {
+          //     "value": reservation_shop
+          //   },
+          //   // // 门店电话
+          //   // "keyword6": {
+          //   //   "value": data.address
+          //   // },
+          //   // // 门店地址
+          //   // "keyword7": {
+          //   //   "value": reservation_prject.name
+          //   // },
+          //   // 预约客户
+          //   "keyword6": {
+          //     "value": data.address.name
+          //   },
+          //   // 客户电话
+          //   "keyword7": {
+          //     "value": data.address.phone
+          //   }
+          // }
           // send_even.page = "page/component/user/user";
           send_even.page = "page/component/reservation_records/reservation_records";
-          send_even.form_ids = form_ids;
+          // send_even.form_ids = form_ids;
           // var openids = [app.globalData.openId, app.globalData.openId]
           var openid = app.globalData.openId;
           send_even.openid = openid;
           send_even.employee_openid = reservation_employee.employee_openid
+          wx.cloud.init();
+          // var res_call = await wx.cloud.callFunction({
+          //   // 要调用的云函数名称
+          //   name: 'get_userunionid',
+          //   data: openid
+          // });
+          // console.log('res_call===========8888=======', res_call)
 
           const publicField = db.collection('publicField')
 
           publicField.where({
-            type: 1
+            type: 0
           }).get({
             success: res => {
               // this.setData({
@@ -504,55 +702,59 @@ Page({
               var now_timestamp = Math.round(new Date().getTime() / 1000);
               // console.log('expires_time====now_timestamp====', res, expires_time, now_timestamp);
 
-              if (expires_time > now_timestamp + 60) {
-                console.log('if ================IFIFIF');
-                send_even.access_token = res.data[0].access_token;
-                self.setData({
-                  send_even: send_even
-                })
-              } else {
-                console.log('ELSS=====================2222');
-                wx.cloud.init();
-                wx.cloud.callFunction({
-                  // 要调用的云函数名称
-                  name: 'get_AccessToken',
-                }).then(res => {
-                  wx.showModal({
-                    title: '预约服务提示',
-                    showCancel: true,
-                    content: "数据库好像有点问题哦，请从新提交，谢谢！",
-                    // content: '第一行内容\r\n第二行内容\r\n第三行内容\r\n第四行内容',
-                    success: function(res) {
-                      if (res.confirm) {
-                        console.log('预约服务提示,用户点击确定')
+              // if (expires_time > now_timestamp + 60) {
+              //   console.log('if ================IFIFIF');
+              //   send_even.access_token = res.data[0].access_token;
+              //   self.setData({
+              //     send_even: send_even
+              //   })
+              // } else {
+              //   console.log('ELSS=====================2222');
+              //   wx.cloud.init();
+              //   wx.cloud.callFunction({
+              //     // 要调用的云函数名称
+              //     name: 'get_AccessToken',
+              //   }).then(res => {
+              //     wx.showModal({
+              //       title: '预约服务提示',
+              //       showCancel: true,
+              //       content: "数据库好像有点问题哦，请从新提交，谢谢！",
+              //       // content: '第一行内容\r\n第二行内容\r\n第三行内容\r\n第四行内容',
+              //       success: function(res) {
+              //         if (res.confirm) {
+              //           console.log('预约服务提示,用户点击确定')
 
-                      } else if (res.cancel) {
-                        console.log('预约服务提示,用户点击取消')
-                      }
-                    }
-                  });
-                  send_even.access_token = res.result.access_token;
-                  // console.log('云函数在APP获取到的access_token==3333=1 ', send_even);
-                  self.setData({
+              //         } else if (res.cancel) {
+              //           console.log('预约服务提示,用户点击取消')
+              //         }
+              //       }
+              //     });
+              //     send_even.access_token = res.result.access_token;
+              //     // console.log('云函数在APP获取到的access_token==3333=1 ', send_even);
+              //     self.setData({
+              //       send_even: send_even
+              //     });
+
+              //     // console.log('云函数===elf.data.send_even==3333=1 ',  self.data.send_even);
+              //     // output: res.result === 3
+              //   }).catch(err => {
+              //     // handle error
+              //   })
+              // }
+              self.setData({
                     send_even: send_even
                   });
-
-                  // console.log('云函数===elf.data.send_even==3333=1 ',  self.data.send_even);
-                  // output: res.result === 3
-                }).catch(err => {
-                  // handle error
-                })
-              }
-              console.log('res======befor===self.data.send_even===', self.data.send_even);
+              console.log('res======befor===self.data.send_even===', self.data.send_even, self.data);
               wx.cloud.callFunction({
-                name: 'send_template_msg',
+                // name: 'send_template_msg',
+                name: 'send_public_msg',
                 data: self.data.send_even,
                 complete: res => {
                   console.log('res======complete===222==res===', res);
-                  var send_statusmsg = res.result.res.errmsg
-                  var send_status = send_statusmsg.indexOf("ok")
-                  if (send_status >= 0) {
-                    console.log("send_statusmsg======send_statuss===", send_statusmsg, send_status);
+                  var send_status = res.result.res_employee.errcode
+                  // var send_status = send_statusmsg.indexOf("ok")
+                  if (!send_status) {
+                    console.log("send_statusmsg======send_statuss===", send_status);
                     var action = self.data.action;
                     if (action=="update"){
                       var reservation_id = self.data.reservation_id;

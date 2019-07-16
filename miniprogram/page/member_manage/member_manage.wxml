@@ -1,0 +1,60 @@
+<!--miniprogram/page/member_manage/member_manage.wxml-->
+<!-- <text>miniprogram/page/member_manage/member_manage.wxml</text> -->
+<view class="main">
+  <!-- <view class="goods-tab-box"> -->
+  <view class="goods-tab-nav {{curIndex === 0 ?'on':''}}" bindtap="bindTap" data-index="0">VIP用户{{list_lens["list_len_0"]}}</view>
+  <view class="goods-tab-nav {{curIndex === 1 ?'on':''}}" bindtap="bindTap" data-index="1">非VIP用户{{list_lens["list_len_1"]}}</view>
+  <view class="goods-tab-nav {{curIndex === 2 ?'on':''}}" bindtap="bindTap" data-index="2">所有用户{{list_lens["list_len_2"]}}</view>
+  <view wx:if="{{hasList}}">
+    <view class="orders-box">
+    </view>
+    <view class="orders-list" wx:for="{{userinfo_list}}" wx:key="index">
+     <!-- <view class="header"> -->
+   
+    <!-- <text class="about">关于我们</text> -->
+  <!-- </view> -->
+      <view class="orders-number">{{index+1}}.电话号码：{{item.phone}} <text class='call' data-phone='{{item.phone}}' catchtap="phoneCall" >打电话</text></view>
+      <!-- <view>
+       <image src="{{item.userInfo.avatarUrl}}" class="thumb"></image>
+      <text class="nickname">{{item.userInfo.nickName}}</text>
+      </view> -->
+       <view wx:if="{{item.shop}}">
+        <view class="orders-number">选择门店：{{item.shop}}</view>
+      </view>
+      <view wx:else>
+        <view class="orders-number" >选择门店：没有选择任何门店！</view>
+      </view>
+      <view class="orders-detail">
+        <!-- wx:for="{{item.orders}}"  wx:key="index"  -->
+        <image class="image" src="{{item.userInfo.avatarUrl}}"></image>
+        <view class="orders-detail-text">备注：{{item.remark}}</view>
+        <view class="orders-detail-text">姓名：{{item.name}}</view>
+         <view class="orders-detail-text">昵称：{{item.userInfo.nickName}}</view>
+      </view>
+       <!-- <view size="mini" class="orders-btn" bindtap="ttttt" data-id="{{item._id}}">修改信息</view> -->
+     
+     
+      <!-- <view class="orders-number">支付状态：{{item.status_describe}}
+        <text class="orders-paytext">支付时间：{{item.pay_time}}</text>
+      </view>
+      <view class="orders-number">消费状态：{{item.expense_describe}}
+        <text class="orders-paytext">消费时间：{{item.expense_time}}</text>
+      </view> -->
+
+      <!-- <view class="orders-footer"> -->
+        <!-- <view wx:if="{{item.expense}}" class="address-list"> -->
+         
+        <!-- </view> -->
+        <!-- <view wx:if="{{item.status}}" class="address-list">
+        <view wx:if="{{!from_page}}">
+          <button size="mini" class="orders-btn" bindtap="payOrders" data-id="{{item._id}}" data-index="{{index}}">付款</button>
+          </view>
+        </view>
+        <text>实付：￥{{item.total_fee}}</text> -->
+      <!-- </view> -->
+    </view>
+  </view>
+  <view wx:else>
+    <view class="no-data">会员记录是空的哦~~</view>
+  </view>
+  </view>

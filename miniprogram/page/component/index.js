@@ -1,4 +1,4 @@
-var app = getApp();
+ var app = getApp();
 Page({
   data: {
     bannerUrls: "",
@@ -15,8 +15,6 @@ Page({
     wx.showLoading({
       title: '加载中',
     })
-   
-
     setTimeout(function () {
       wx.hideLoading()
       // wx.navigateBack();
@@ -186,22 +184,7 @@ Page({
   //   }
   //   },
   onShow: function() {
-
-   
-    // wx.getSetting({
-    //   success(res) {
-    //     if (!res.authSetting['scope.userInfo']) {
-    //       wx.authorize({
-    //         scope: 'scope.userInfo',
-    //         success() {
-    //           // 用户已经同意小程序使用用户信息，后续调用 wx.userInfo 接口不会弹窗询问
-    //           //wx.authorize({scope: "scope.userInfo"})，不会弹出授权窗口，请使用 <button open-type="getUserInfo"/>
-    //           wx.startRecord()
-    //         }
-    //       })
-    //     }
-    //   }
-    // })
+    
   },
 
   /**

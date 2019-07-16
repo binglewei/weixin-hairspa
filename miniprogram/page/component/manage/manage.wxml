@@ -41,7 +41,7 @@
     </view>
     <view wx:if="{{manage_type<4}}">
      <view class="address-manage">
-      <navigator url="/page/component/consumption_records/consumption_records?from_page=manage&shop_name={{shop_name}}">
+      <navigator url="/page/member_manage/member_manage">
         <button class="manage-banner" open-type='getUserInfo'>门店会员管理</button>
       </navigator>
     </view>

@@ -1,15 +1,15 @@
 <!--miniprogram/page/component/consumption_records.wxml-->
 <!-- <text>miniprogram/page/component/consumption_records.wxml</text> -->
 <view class="main">
-<!-- <view class="goods-tab-box"> -->
-    <view class="goods-tab-nav {{curIndex === 0 ?'on':''}}" bindtap="bindTap" data-index="0">待消费记录{{list_lens["list_len_0"]}}</view>
-    <view class="goods-tab-nav {{curIndex === 1 ?'on':''}}" bindtap="bindTap" data-index="1">待支付订单{{list_lens["list_len_1"]}}</view>
-    <view class="goods-tab-nav {{curIndex === 2 ?'on':''}}" bindtap="bindTap" data-index="2">所有记录{{list_lens["list_len_2"]}}</view>
-    <!-- <view class="goods-content">
+  <!-- <view class="goods-tab-box"> -->
+  <view class="goods-tab-nav {{curIndex === 0 ?'on':''}}" bindtap="bindTap" data-index="0">待消费订单{{list_lens["list_len_0"]}}</view>
+  <view class="goods-tab-nav {{curIndex === 1 ?'on':''}}" bindtap="bindTap" data-index="1">待支付订单{{list_lens["list_len_1"]}}</view>
+  <view class="goods-tab-nav {{curIndex === 2 ?'on':''}}" bindtap="bindTap" data-index="2">所有订单{{list_lens["list_len_2"]}}</view>
+  <!-- <view class="goods-content">
       <view wx:if="{{curIndex === 0}}">{{goods.shortDescription}}</view> -->
-      <!-- <view wx:if="{{curIndex === 1}}">{{goods.parameter}}</view>
+  <!-- <view wx:if="{{curIndex === 1}}">{{goods.parameter}}</view>
       <view wx:if="{{curIndex === 2}}">{{goods.service}}</view> -->
-    <!-- </view> -->
+  <!-- </view> -->
   <!-- </view> -->
   <view wx:if="{{hasList}}">
     <view class="orders-box">
@@ -22,12 +22,16 @@
         <view class="orders-detail-text">名称：{{item.name}}</view>
         <view class="orders-detail-text">数量：{{item.num}}</view>
       </view>
-       <view wx:if="{{item.address.shop}}">
-      <view class="orders-number">选择门店：{{item.address.shop}}</view>
+       <view wx:if="{{from_page}}">
+          <view class="orders-number">购买客户：{{item.user_magess}}</view>
+        </view>
+      <view wx:if="{{item.address.shop}}">
+        <view class="orders-number">选择门店：{{item.address.shop}}</view>
       </view>
-       <view wx:else>
-       <view class="orders-number">选择门店：没有选择任何门店！</view>
-       </view>
+      <view wx:else>
+        <view class="orders-number">选择门店：没有选择任何门店！</view>
+      </view>
+     
       <view class="orders-number">支付状态：{{item.status_describe}}
         <text class="orders-paytext">支付时间：{{item.pay_time}}</text>
       </view>
@@ -40,7 +44,9 @@
           <button size="mini" class="orders-btn" bindtap="expenseOrders" data-id="{{item._id}}">消费</button>
         </view>
         <view wx:if="{{item.status}}" class="address-list">
+        <view wx:if="{{!from_page}}">
           <button size="mini" class="orders-btn" bindtap="payOrders" data-id="{{item._id}}" data-index="{{index}}">付款</button>
+          </view>
         </view>
         <text>实付：￥{{item.total_fee}}</text>
       </view>

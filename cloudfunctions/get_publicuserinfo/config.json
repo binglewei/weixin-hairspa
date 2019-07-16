@@ -1,7 +1,7 @@
 {
   "triggers": [
     {
-      "name": "pollupdareservationstatus",
+      "name": "pollGetPublcuserinfo",
       "type": "timer",
       "config": "0 */5 * * * * *"
     }
