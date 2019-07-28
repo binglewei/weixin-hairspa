@@ -90,7 +90,7 @@ Page({
                 var len_data = res.data.length;
                 // console.log("len_data==len_data==", len_data, res.data);
                 if (len_data == 0) {
-                  // console.log('[数据库] add: ', add_value);
+                  console.log('[数据库] add: ', add_value);
                   address_list_data.add({
                     data: add_value
 
@@ -105,7 +105,7 @@ Page({
                   if (!unionid_from) {
                     // console.log("unionid_from======", unionid_from)
 
-                    // console.log('[数据库] update:===在app.js= ', add_value)
+                    console.log('[数据库] update:===在app.js= ', add_value)
                     var id = res.data[0]["_id"]
                     address_list_data.doc(id).update({
                       // data 字段表示需新增的 JSON 数据

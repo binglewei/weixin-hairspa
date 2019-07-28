@@ -22,7 +22,7 @@
   </swiper>
       
   <view class="address-box">
-  <view wx:if="{{is_super_admin}}">
+  <view wx:if="{{manage_type<=1}}">
       <view class="address-manage">
         <!-- <navigator url="/page/component/manage/manage"> -->
           <button class="manage-banner" open-type='getUserInfo'>超级权限管理</button>
@@ -30,10 +30,15 @@
       </view>
     </view>
     <view class="address-manage">
+      <navigator url="/page/component/manage/manage_reservation_record/manage_reservation_record?from_page=manage&&shop_name={{shop_name}}">
+        <button class="manage-banner" open-type='getUserInfo'>门店预约记录看板</button>
+      </navigator>
+    </view>
+     <!-- <view class="address-manage">
       <navigator url="/page/component/reservation_records/reservation_records?from_page=manage&shop_name={{shop_name}}">
         <button class="manage-banner" open-type='getUserInfo'>门店预约记录</button>
       </navigator>
-    </view>
+    </view> -->
     <view class="address-manage">
       <navigator url="/page/component/consumption_records/consumption_records?from_page=manage&shop_name={{shop_name}}">
         <button class="manage-banner" open-type='getUserInfo'>门店消费记录</button>

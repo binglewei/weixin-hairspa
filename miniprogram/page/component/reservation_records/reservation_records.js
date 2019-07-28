@@ -132,12 +132,12 @@ Page({
     if (from_page) {
       var select_data = {
         from_page: from_page,
-        shop_name: self.data.shop_name
-        // _openid: this.data.openid
+        // reservation_shop: self.data.shop_name,
       }
     } else {
       var select_data = {
-        // _openid: this.data.openid
+        _openid: app.globalData.openId,
+        // reservation_shop: self.data.shop_name,
       }
     }
     if (e) {
@@ -164,19 +164,9 @@ Page({
     var bindTap_reservation_status = 1
     if (index == 0) {
       bindTap_reservation_status = 1;
-      // bindTap_status = 0;
-      // bindTap_expense_describe = "未消费";
-      // select_data.expense = bindTap_expense;
       select_data.reservation_status = bindTap_reservation_status;
-
-    } 
-    // else if (index == 1) {
-      // bindTap_expense = 0;
-      // bindTap_status = 1;
-      // select_data.expense = bindTap_expense;
-      // select_data.status = bindTap_status;
-    // };
-    // console.log('index, bindTap_reservation_status, select_data, select_data.length====', index, bindTap_reservation_status, select_data)
+    }
+    console.log("data=wx.cloud.callFunction==before--==select_data==", select_data); 
     // 云数据库初始化
     wx.cloud.init();
     wx.cloud.callFunction({

@@ -14,7 +14,7 @@ exports.main = async(event, context) => {
   var employee_openid = event.employee_openid;
   var user_template_id = event.user_template_id;
   var user_msgData = event.user_msgData;
-  var user_openid = event.openid;
+  var user_openid = event.user_openid;
   var pagepath = event.page;
   var miniprogram = {};
   miniprogram.appid = appid;

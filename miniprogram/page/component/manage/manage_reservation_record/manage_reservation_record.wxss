@@ -1,0 +1,110 @@
+/* miniprogram/page/component/manage/manage_reservation_record/manage_reservation_record.wxss */
+@import '../../../common/common.wxss';
+
+.scroll-view_H {
+  height: 128rpx;
+  width: 100%;
+}
+.scroll-view_time{
+  /* position: absolute;
+  left: 186rpx; */
+  height: 1200rpx; 
+}
+.scroll-view_H .list {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  width: 1302rpx;
+}
+
+.scroll-view_H .listItem {
+  text-align: center;
+  width: 186rpx;
+  height: 128rpx;
+  /* background-color: #f1f2f6; */
+  padding-top: 30rpx;
+  box-sizing: border-box;
+  /* float: left; */
+  display: inline-block;
+}
+
+.scroll-view_H .listItem text {
+  display: block;
+}
+
+.scroll-view_H .listItem .name {
+  font-size: 30rpx;
+}
+
+.scroll-view_H .listItem .date {
+  font-size: 30rpx;
+}
+
+.scroll-view_H .current {
+  background-color: #76aef8;
+}
+
+.scroll-view_H .current text {
+  color: #fff;
+}
+.table {
+border: 5px solid rebeccapurple;
+/* border-left: 0; */
+/* border-bottom: 0; */
+width: 100%;
+}
+.tr {
+width: 100%;
+display: flex;
+/* flex-shrink: 1; */
+/* flex-wrap: wrap; */
+flex-basis:186rpx;
+height: 128rpx;
+justify-content: space-between;
+}
+
+.th, .th-name, .td ,.td-2{
+/* position: absolute; */
+padding: 10px;
+border-bottom: 1px solid #636161;
+border-right: 1px solid #dadada;
+text-align: center;
+width: 100%;
+}
+.td-2{
+ background-color: #dadada; 
+}
+.th-name, .th {
+/* font-weight: 400; */
+background-color: #76aef8;
+}
+.picker{
+  height: 90rpx;
+  /* text-align: center; */
+  margin:30rpx 30rpx 0 0;
+  border-bottom: 1rpx solid #ededed;
+  color: #999;
+  /* padding-left: 30rpx; */
+}
+.form_button {
+  background-color: #fff;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+
+.form_button::after {
+  outline: none;
+  border: none;
+  list-style: none;
+}
+button[disabled]{
+  background-color: #fff!important;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+
+}
+.text-if{
+ background-color: #76aef8; 
+}

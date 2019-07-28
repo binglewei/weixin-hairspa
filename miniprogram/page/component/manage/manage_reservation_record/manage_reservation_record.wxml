@@ -1,0 +1,47 @@
+<!--miniprogram/page/component/manage/manage_reservation_record/manage_reservation_record.wxml-->
+<!-- <text>miniprogram/page/component/manage/manage_reservation_record/manage_reservation_record.wxml</text> -->
+<view class='containt'>
+  <view>
+    <text class="form-test">选择要查询的门店（必填）</text>
+    <picker class="picker" value="{{picker1Value}}" range="{{picker1Range}}" range-key="" bindchange="normalPickerBindchange">{{picker1Range[picker1Value]}}</picker>
+    <!-- <input class="form-input"  name="shop" value="{{address.shop}}" placeholder="门店" /> -->
+  </view>
+  <!-- <view class="selectemployee_litle">$请选择预约时间：</view> -->
+  <scroll-view class="scroll-view_H" scroll-x>
+    <view class='list' style='width:{{ width }}rpx'>
+      <view bindtap="select" wx:for="{{ calendar }}" wx:for-item="item" wx:for-index="index" data-index="{{ index }}" class='listItem {{index==currentIndex? "current":""}}' wx:key='' data-date="{{ item.date}}">
+        <text class='name'>{{ item.week }}</text>
+        <text class='date'>{{ item.date }}</text>
+      </view>
+    </view>
+  </scroll-view>
+  <scroll-view class="scroll-view_time" scroll-x>
+    <view class="table" style='width:{{width_time }}rpx'>
+
+      <view class="tr">
+        <view class="th-name">\</view>
+        <view class="th" wx:for="{{ timeArr }}" wx:key=''>{{ item.time }} </view>
+      </view>
+      <view class="tr" wx:for="{{ employee_list_all }}" wx:key='' wx:for-item="employeeItem">
+        <view class='th-name'>{{ employeeItem.employee.employee_name }} </view>
+        <view wx:for="{{ employeeItem.timeArr_in }}" wx:for-item="timeItem" wx:for-index="timeIndex" data-Tindex="{{ timeIndex }}" data-time="{{ timeItem.time}}" data-emnumber="{{ employeeItem.employee.employee_number}}" data-status="{{ timeItem.status}}" bindtap='selectTime'
+          wx:key='' class='listItem {{ timeItem.status? "td-2":"td" }}'>
+          <view wx:if="{{timeItem.status}}"> {{ timeItem.employee.user_magess}}</view>
+          <view wx:else class="text-else">
+            <button class='form_button' disabled="{{!timeItem.status}}" formType="submit">
+              <!-- <text  class='time-text'>{{ timeItem.time }}</text> -->
+            </button>
+          </view>
+        </view>
+      </view>
+    </view>
+    <!-- <view class='list-time' style='width:{{width_time }}rpx'>
+     <view wx:for="{{ timeArr }}" wx:for-item="timeItem" wx:for-index="timeIndex" data-Tindex="{{ timeIndex }}" data-time="{{ timeItem.time}}" data-status="{{ timeItem.status}}" bindtap='selectTime' class='listItem {{ currentTime==timeIndex? "current":"" }}' wx:key=''>
+        <button   class='form_button' disabled="{{timeItem.status}}"  formType="submit" >
+          <text  class='time-text'>{{ timeItem.time }}</text>
+        </button>
+    </view>
+    </view> -->
+  </scroll-view>
+
+</view>

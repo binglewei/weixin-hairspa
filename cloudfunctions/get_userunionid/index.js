@@ -9,7 +9,7 @@ exports.main = async(event, context) => {
   var return_res = {}
   var app_openid = event.openid;
   // var app_openid = "oMmrX5ZcN2TdVn4Dq3a5KZx41hRQ";
-  var app_openid = "oMmrX5WmrqvJgqR7yQQh5AZYoJtU";
+  // var app_openid = "oMmrX5WmrqvJgqR7yQQh5AZYoJtU";
   if (app_openid) {
     app_openid = app_openid;
   } else {

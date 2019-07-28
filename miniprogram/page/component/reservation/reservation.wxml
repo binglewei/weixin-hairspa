@@ -62,10 +62,10 @@
     <view wx:if="{{action}}" class='reservation-footer-1'>
       <button class="save2" bindtap="cancel_reservation" data-out_trade_no="{{out_trade_no}}">取消预约</button>
       <!-- <view class="orders-footer-total">惊喜价￥{{retailPrice}}</view> -->
-      <!-- <form bindsubmit="confirm_reservation" report-submit='true'> -->
+      <form bindsubmit="confirm_reservation" report-submit='true'>
       <button class='save3' form-type="submit">修改预约</button>
       <!-- <button class="save3" bindtap="confirm_reservation">修改预约</button> -->
-      <!-- </form> -->
+      </form>
     </view>
     <view wx:else class="reservation-footer-2">
     <form bindsubmit="confirm_reservation" report-submit='true'>

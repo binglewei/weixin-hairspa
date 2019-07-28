@@ -38,17 +38,20 @@
           <!-- <image src="{{item.thumb}}"></image> -->
           <view class="">预约项目：{{item.reservation_prject.name}}</view>
           <view class="">预约服务时间：{{item.reservation_time}}</view>
+          <view class="">预约护理师：{{item.reservation_employee.employee_name}}</view>
           <view class="">预约门店：{{item.reservation_shop}}</view>
           <!-- <text class="reservation-status">{{item.status}}</text> -->
         </view>
         <view wx:if="{{from_page}}">
+          <view class="reservation-number">预约客户电话：{{item.user_phone}}</view>
           <view class="reservation-number">预约客户：{{item.user_magess}}</view>
+
         </view>
 
         <view class="reservation-footer">
           <!-- <button size="mini" class="reservation-btn" bindtap="payOrders">取消预约</button> -->
           <view wx:if="{{item.reservation_status==1}}">
-            <button size="mini" class="reservation-btn" bindtap="cancel_reservation" data-id="{{item._id}}">取消预约</button>
+            <!-- <button size="mini" class="reservation-btn" bindtap="cancel_reservation" data-id="{{item._id}}">取消预约</button> -->
             <text>更新时间：{{item.update_time}}</text>
           </view>
           <view wx:elif="{{item.reservation_status==0}}">

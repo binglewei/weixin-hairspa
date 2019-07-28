@@ -14,7 +14,8 @@
     "page/component/consumption_records/consumption_records",
     "page/component/reservation_records/reservation_records",
     "page/component/manage/manage",
-    "page/member_manage/member_manage"
+    "page/member_manage/member_manage",
+    "page/component/manage/manage_reservation_record/manage_reservation_record"
   ],
   "window": {
     "navigationBarTextStyle": "white",

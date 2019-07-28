@@ -42,7 +42,7 @@
 
 .reservation-detail {
   position: relative;
-  height: 200rpx;
+  height: 250rpx;
   color: #2f2f2f;
   padding: 20rpx;
   /* padding: 35rpx 20rpx 35rpx 170rpx; */

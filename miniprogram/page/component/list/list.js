@@ -38,7 +38,7 @@ Page({
           var project_lists = res.data
           // var product_list_1=app.globalData.product_list;
           // var product_list_2 = product_list_1.concat(project_lists);
-          // app.globalData.product_list = product_list_2;
+          app.globalData.project_lists = project_lists;
           self.setData({
             project_lists: project_lists,
             action: action,

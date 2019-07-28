@@ -6,20 +6,20 @@ cloud.init()
 // 云函数入口函数
 exports.main = async (event, context) => {
   console.log("event==111111111111==", event)
-  
+  var shop = event.shop;
+  // if (shop){
+
+  // }
   var db = cloud.database();
-  const address_list_data = db.collection('address_list');
-  var address_info_data = await address_list_data.where({
-    // _openid: _openid
-    shop: shop
-  }).get({
+  const timeArr_data = db.collection('timeArr');
+  var timeArr_list_data = await timeArr_data.get({
     success: function (res) {
-      // console.log("res.data====2222222222222222====", res.data)
+      console.log("res.data====2222222222222222====", res.data)
     }
   });
-  var user_Info = address_info_data.data
-  console.log("user_Info=1111111111==", user_Info)
-  return user_Info
+  var timeArr_list_datas = timeArr_list_data.data
+  console.log("user_Info=1111111111==", timeArr_list_datas)
+  return timeArr_list_datas
   // const wxContext = cloud.getWXContext()
 
   // return {
