@@ -16,7 +16,7 @@ Page({
     address: {},
     shop_list: app.globalData.shop_list,
     hasAddress: false,
-    currentIndex: 1,
+    currentIndex: 0,
     currentTime: null,
     currentemployee: null,
     employee_list: [],
@@ -180,24 +180,8 @@ Page({
     that.setData({
       picker_project_Range: app.globalData.project_lists,
       timeArr: that.data.timeArr_init,
-      // timeArr_init: res_data
     });
-    // const timeArr_data = db.collection('timeArr');
-    // timeArr_data.get({
-    //   success: res => {
-    //     var res_data = res.data
-    //     console.log("res.data=111=db.collection('timeArr');==success===", res_data, res);
-    //     that.setData({
-    //       picker_project_Range: app.globalData.project_lists,
-    //       timeArr: res_data,
-    //       timeArr_init: res_data
-    //     });
-    //   },
-    //   fail: err => {
-    //     console.error("res.data=111=db.collection('timeArr');=====", err);
-    //   },
-    // });
-    // var timeArr = Object.assign([], this.data.timeArr_init);
+   
 
     if (that.data.picker_project_Range.length < 2) {
       // /刷新当前页面的数据
@@ -411,11 +395,14 @@ Page({
     that.setData({
       width: 186 * parseInt(that.data.calendar.length - cur_date <= 31 ? that.data.calendar.length : 31)
     })
-    //  var self=this;
-    //   var picker_shop_id = self.data.picker_shop_id;
-    //   var shop = self.data.shop_list[picker_shop_id-1];
-    // console.log("this.data==this.data====", this.data)
-    that.select();
+    wx.showLoading({
+      title: '加载中',
+    });
+    setTimeout(function () {
+      wx.hideLoading();
+      that.select();
+    }, 1000)
+   
   },
   /**
    * 生命周期函数--监听页面隐藏
@@ -442,10 +429,8 @@ Page({
     if (event) {
       var currentIndex = event.currentTarget.dataset.index
     } else {
-      var currentIndex = 1
+      var currentIndex = 0
     }
-
-
     this.setData({
       currentIndex: currentIndex
     })
@@ -463,9 +448,9 @@ Page({
         if (list_hours <= cur_Hours + 1) {
           timeArr_if[aa].status = true
         }
-        // console.log("cur_Hours==cur_Hours==", time_cur, list_hours, timeArr);
+        // console.log("cur_Hours==cur_Hours==", time_cur, list_hours, timeArr, this.data);
       }
-      console.log("timeArr=if==111111111111111111==", timeArr_if, app.globalData);
+      // console.log("timeArr=if==111111111111111111==", timeArr_if, app.globalData);
 
       this.setData({
         timeArr: timeArr_if,
@@ -610,6 +595,7 @@ Page({
 
       var res_result_length = res_result.length
       var timeArr = Object.assign([], this.data.timeArr_init);
+      // var timeArr = Object.assign([], this.data.timeArr);
       if (res_result_length) {
         var timeArr_select = JSON.parse(JSON.stringify(timeArr));
         // console.log("this.timeAr==赋值结果=ifififif=", timeArr_select == timeArr, timeArr_select);
@@ -638,9 +624,7 @@ Page({
           this.setData({
             timeArr: timeArr_select,
           })
-          // console.log("res_result_data===forfororeservation_times==", reservation_times, res_result_data)
-
-
+          console.log("timeArr_select===timeArr_select==", timeArr_select)
         }
       } else {
         var timeArr_select_else = JSON.parse(JSON.stringify(timeArr));
@@ -648,7 +632,7 @@ Page({
           timeArr: timeArr_select_else,
 
         })
-        // console.log("timeArr_select_else====elsee111===", timeArr_select_else == timeArr,timeArr_select_else)
+        console.log("timeArr_select_else====elsee111===", timeArr_select_else == timeArr,timeArr_select_else)
       }
       var court_true = 0;
       var timeArr_select = this.data.timeArr;
@@ -949,8 +933,9 @@ Page({
           //     "value": data.address.phone
           //   }
           // }
-          // send_even.page = "page/component/user/user";
           send_even.page = "page/component/reservation_records/reservation_records";
+          send_even.employee_page = "page/component/manage/manage";
+
           // send_even.form_ids = form_ids;
           // var openids = [app.globalData.openId, app.globalData.openId]
           var openid = app.globalData.openId;
@@ -1152,6 +1137,7 @@ Page({
           cancel_end_even.employe_template_id = employe_template_id;
           cancel_end_even.user_template_id = user_template_id;
           cancel_end_even.page = "page/component/reservation_records/reservation_records";
+          cancel_end_even.employee_page = "page/component/manage/manage";
           cancel_end_even.user_openid = app.globalData.openId;
           
           // var reservation_employee = data.employee_list[data.currentemployee];

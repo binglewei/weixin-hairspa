@@ -63,7 +63,7 @@ height: 128rpx;
 justify-content: space-between;
 }
 
-.th, .th-name, .td ,.td-2{
+.th, .th-name, .td- , .td-0, .td-1, .td-2, .td-3{
 /* position: absolute; */
 padding: 10px;
 border-bottom: 1px solid #636161;
@@ -71,8 +71,25 @@ border-right: 1px solid #dadada;
 text-align: center;
 width: 100%;
 }
+/* 预约取消 0 */
+.td-0{
+ background-color: #dadada;
+ border-right: 1px solid #dadada; 
+}
+/* 预约成功 1 */
+.td-1{
+ background-color: #76aef8;
+ border-right: 1px solid  #76aef8;
+}
+/* 已到店 2 */
 .td-2{
- background-color: #dadada; 
+ background-color: #f01e1e;  
+ border-right: 1px solid#f01e1e;   
+}
+/* 过期未确认 3 */
+.td-3{
+ background-color: #f0ec1e;   
+ border-right: 1px solid #f0ec1e;   
 }
 .th-name, .th {
 /* font-weight: 400; */

@@ -150,17 +150,7 @@ Page({
         env: "wxc6c41875b492a9c0-1c74f6"
       });
       value.update_date = new Date();
-      // wx.getUserInfo({
-      //   lang: "zh_CN",
-      //   withCredentials: true,
-      //   success: function (res) {
-      //     value.userinfo = res.userInfo;
-      //     app.globalData.userInfo = res.userInfo;
-      //     self.setData({
-      //       userInfo: res.userInfo,
-      //     });
-      //   },
-      // });
+      
       value.userInfo = app.globalData.userInfo;
       value.unionid = app.globalData.unionid;
       // console.log("addressdetail==value, app.globalData==", value.userInfo,value);
@@ -169,36 +159,65 @@ Page({
         _openid: app.globalData.openId
       }).get({
         success: res => {
-          // this.setData({
-          //   orders_list: res.data
-          // })
+         
           var len_data = res.data.length;
-          // console.log("len_data====", res.data);
+          console.log("len_data====", res.data);
           if (len_data > 0) {
             console.log('[数据库] update: ', value)
             var id = res.data[0]["_id"]
             address_list_data.doc(id).update({
               // data 字段表示需新增的 JSON 数据
-              // data: JSON.parse(orders_list_String)
+              // data: JSON.parse(value)
               data: value
 
             }).then(res => {
-              // console.log("DATASET==res==update=su、s==", res, value)
+              wx.showLoading({
+                title: '保存中',
+              })
+
+              setTimeout(function () {
+                wx.hideLoading()
+                wx.navigateBack();
+              }, 1000)
+              // console.log("DATASET==res==update=update==", res, value)
             }).catch(err => {
-              console.error("DATASET==res==value===", err, value)
+              console.error("DATASET==res==value==update=", err, value)
+              wx.showModal({
+                title: '错误提示',
+                content: '数据库更新有点问题了，请重新保存，谢谢；实在保存不了，请联系店长处理！！',
+                showCancel: false
+              })
+              address_list_data.doc(id).remove({
+                success: function (res) {
+                  console.log(" .remove--------===删除结果=",res)
+                }
+              })
             })
           } else {
             console.log('[数据库] add: ',value);
             
             address_list_data.add({
               // data 字段表示需新增的 JSON 数据
-              // data: JSON.parse(orders_list_String)
+              // data: JSON.parse(value)
               data: value
 
             }).then(res => {
-              // console.log("DATASET==res==value===", res, value)
+              wx.showLoading({
+                title: '保存中',
+              })
+
+              setTimeout(function () {
+                wx.hideLoading()
+                wx.navigateBack();
+              }, 1000)
+              // console.log("DATASET==res==value==add=", res, value)
             }).catch(err => {
-              // console.error("DATASET==res==value===", err, value)
+              console.error("DATASET==res==value=add==", err, value)
+              wx.showModal({
+                title: '错误提示',
+                content: '数据库添加有点问题了，请重新保存，谢谢；实在保存不了，请联系店长处理！！',
+                showCancel: false
+              })
             })
           }
           // console.log('[数据库] [查询记录] 成功: ', res.data)
@@ -225,14 +244,7 @@ Page({
       // })
       // new Date().t
       // sleep(3000);  //睡眠5秒
-      wx.showLoading({
-        title: '保存中',
-      })
-
-      setTimeout(function () {
-        wx.hideLoading()
-        wx.navigateBack();
-      }, 1000)
+     
       // setTimeout(function () {
       //   //要延时执行的代码
       //   wx.navigateBack();

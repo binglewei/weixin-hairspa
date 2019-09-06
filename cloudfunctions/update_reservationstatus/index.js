@@ -49,7 +49,7 @@ exports.main = async(event, context) => {
       }).update({
         data: {
           reservation_status: 3,
-          reservation_describe: "已经过期",
+          reservation_describe: "过期未确认",
           update_time: date_str
         },
         }).then(console.log)

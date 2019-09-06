@@ -88,7 +88,55 @@ Page({
     })
     
   },
- 
+  verify_reservation(e){
+    var self = this;
+    var id = e.target.dataset.id;
+    var data_reservation = e.target.dataset.reservation;
+    console.log("e.target.datase======11=========", data_reservation, id,e);
+    wx.showModal({
+      title: '确认提示',
+      content: '如果您已经到店接受服务了，请点击确认，谢谢！',
+      success(res) {
+        if (res.confirm) {
+          console.log('用户点击确定')
+          const db = wx.cloud.database();
+          const reservation_list_data = db.collection('reservation_list');
+          // console.log("e=e.target.dataset.id=11111111=", id);
+
+          reservation_list_data.doc(id).update({
+            data: {
+              reservation_status: 2,
+              reservation_describe: "已到店服务",
+              // ddxz:22,
+              update_time: util.format_date_5(new Date())
+              // out_trade_no: 66666666666666
+            },
+            success: res => {
+              // console.log('[数据库] [更新记录] 成功：', res);
+              wx.showToast({
+                title: '确认成功!',
+                icon: 'success',
+                duration: 2000
+              })
+              getCurrentPages()[getCurrentPages().length - 1].onShow()
+              // this.setData({
+              //   count: newCount
+              // })
+            },
+            fail: err => {
+              icon: 'none',
+                // console.error('[数据库] [更新记录] 失败：', err);
+                getCurrentPages()[getCurrentPages().length - 1].onShow()
+
+            }
+
+          })
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+  },
 
  
   /**

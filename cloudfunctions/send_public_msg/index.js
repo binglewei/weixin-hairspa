@@ -16,9 +16,14 @@ exports.main = async(event, context) => {
   var user_msgData = event.user_msgData;
   var user_openid = event.user_openid;
   var pagepath = event.page;
+  var pagepath_employee_page = event.employee_page;
+
   var miniprogram = {};
   miniprogram.appid = appid;
   miniprogram.pagepath = pagepath;
+  var miniprogram_employee = {};
+  miniprogram_employee.appid = appid;
+  miniprogram_employee.pagepath = pagepath_employee_page;
   const db = cloud.database();
   var publicField = db.collection("publicField");
   var res_get = await publicField.where({
@@ -85,7 +90,7 @@ exports.main = async(event, context) => {
         body: {
           touser: employee_openid_public,
           template_id: employe_template_id,
-          miniprogram: miniprogram,
+          miniprogram: miniprogram_employee,
           data: employe_msgData
         }
 

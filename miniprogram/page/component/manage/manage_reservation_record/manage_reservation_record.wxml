@@ -24,8 +24,8 @@
       </view>
       <view class="tr" wx:for="{{ employee_list_all }}" wx:key='' wx:for-item="employeeItem">
         <view class='th-name'>{{ employeeItem.employee.employee_name }} </view>
-        <view wx:for="{{ employeeItem.timeArr_in }}" wx:for-item="timeItem" wx:for-index="timeIndex" data-Tindex="{{ timeIndex }}" data-time="{{ timeItem.time}}" data-emnumber="{{ employeeItem.employee.employee_number}}" data-status="{{ timeItem.status}}" bindtap='selectTime'
-          wx:key='' class='listItem {{ timeItem.status? "td-2":"td" }}'>
+        <view wx:for="{{ employeeItem.timeArr_in }}" wx:for-item="timeItem" wx:for-index="timeIndex" data-Tindex="{{ timeIndex }}" data-time="{{ timeItem.time}}" data-employee="{{ timeItem.employee}}" data-reservationstatus="{{ timeItem.employee.reservation_status}}" data-status="{{ timeItem.status}}" bindtap='selectTime'
+          wx:key='' class='td-{{timeItem.reservation_status}}'>
           <view wx:if="{{timeItem.status}}"> {{ timeItem.employee.user_magess}}</view>
           <view wx:else class="text-else">
             <button class='form_button' disabled="{{!timeItem.status}}" formType="submit">

@@ -1,4 +1,5 @@
 {
   "usingComponents": {},
+  "pageOrientation": "auto",
   "navigationBarTitleText": "预约看板"
 }

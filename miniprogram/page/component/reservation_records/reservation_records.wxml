@@ -51,7 +51,7 @@
         <view class="reservation-footer">
           <!-- <button size="mini" class="reservation-btn" bindtap="payOrders">取消预约</button> -->
           <view wx:if="{{item.reservation_status==1}}">
-            <!-- <button size="mini" class="reservation-btn" bindtap="cancel_reservation" data-id="{{item._id}}">取消预约</button> -->
+            <button size="mini" class="reservation-btn" bindtap="verify_reservation" data-reservation="{{item}}" data-id="{{item._id}}">到店确认</button>
             <text>更新时间：{{item.update_time}}</text>
           </view>
           <view wx:elif="{{item.reservation_status==0}}">

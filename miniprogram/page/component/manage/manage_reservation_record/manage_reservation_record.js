@@ -1,4 +1,5 @@
 // miniprogram/page/component/manage/manage_reservation_record/manage_reservation_record.js
+var util = require('../../../../libs/utils/utils.js');
 var app = getApp();
 Page({
 
@@ -9,10 +10,10 @@ Page({
     picker1Range: ['请选择门店'],
     // picker1Value: 0,
     calendar: [],
-    shop_list: app.globalData.shop_list,
+    shop_list: [],
     timeArr: [],
     employee_list: [],
-    picker_shop_id: 1,
+    // picker_shop_id: 1,
 
   },
 
@@ -52,11 +53,26 @@ Page({
         // console.log("len_data==len_data==", len_data, res.data);
         if (len_data) {
           var user_address = res.data[0];
-          var picker1Value = user_address.picker1Value;
-          // console.log("picker1Value====", user_address, picker1Value);
-          that.setData({
-            picker1Value: picker1Value,
+          var picker1Value = Number(user_address.picker1Value);
+          const employee_list_data = db.collection('employee_list');
+          employee_list_data.where({
+            shop_id: picker1Value
+          }).get({
+            success: function(res) {
+              console.log('[数据库] [employee_list_data===] 成功: ', res);
+              var employee_list = res.data;
+              that.setData({
+                employee_list: employee_list,
+                picker1Value: picker1Value
+              });
+              console.log('self.data.employee_list====3333333====== ', that.data);
+            }
           });
+          // console.log("picker1Value====", user_address, picker1Value);
+          // that.setData({
+          //   picker1Value: picker1Value,
+          //   // picker_shop_id: picker1Value
+          // });
         }
       }
     });
@@ -87,27 +103,7 @@ Page({
     })
 
     //拿到表
-    const employee_list_data = db.collection('employee_list');
-    // console.log('picker_shop_id===2222==：', picker_shop_id);
-    employee_list_data.where({
-      shop_id: that.data.picker_shop_id
-    }).get({
-      success: function(res) {
-        // console.log('[数据库] [employee_list_data===] 成功: ', res.data);
-        var employee_list = res.data;
-        that.setData({
-          employee_list: employee_list,
-        });
-        // console.log('self.data.employee_list====3333333====== ', that.data.employee_list);
-      },
-      fail: function(res) {
-        wx.showToast({
-          icon: 'none',
-          title: '查询护理师记录失败'
-        })
-        console.error('[数据库] [查询记录] 失败：', err)
-      }
-    });
+
     //获取每个月的天数
     function getThisMonthDays(year, month) {
       return new Date(year, month, 0).getDate();
@@ -184,54 +180,103 @@ Page({
     //为下半部分的点击事件(处理选择时间)
     var self = this;
     var currentTime = event.currentTarget.dataset.tindex;
-    var reservation_times = event.currentTarget.dataset.time;
-    var employee_number = event.currentTarget.dataset.emnumber;
+    var employee = event.currentTarget.dataset.employee;
     var status = event.currentTarget.dataset.status;
     this.setData({
       currentTime: currentTime
     })
-    // console.log(" selectTime: currentTime=====", currentTime, event);
+    console.log(" selectTime: currentTime==1111111111===", currentTime, status, employee, event);
     var from_page = self.data.from_page;
-    if (from_page) {
-      var select_data = {
-        from_page: from_page,
-      }
-    }
-    if (status) {
-      var currentIndex = self.data.currentIndex;
-      select_data.reservation_date = self.data.calendar[currentIndex].date;;
-      select_data.reservation_times = reservation_times;
-      select_data.employee_number = employee_number;
-      var picker1Value_1 = self.data.picker1Value;
 
-      select_data.reservation_shop = self.data.picker1Range[picker1Value_1];
-      // console.log("data=wx.cloud.callFunction-==in selectTime-=11111=before==", select_data)
-      // 云数据库初始化
-      wx.cloud.init();
-      wx.cloud.callFunction({
-        // 要调用的云函数名称
-        name: 'select_reservationrecords',
-        // name:"test"
-        data: select_data
-      }).then(res => {
-        // console.log("data=wx.cloud.callFunction--=", res)
-        var res_result = res.result; //result[""0""].reservation_time
-        if (res_result.length) {
-          var nn = "\r\n";
-          var reservation_describe = res_result[0].reservation_describe;
-          var user_magess = res_result[0].user_magess;
-          var reservation_time = res_result[0].reservation_time;
-          var reservation_shop = res_result[0].reservation_shop;
-          var reservation_prject = res_result[0].reservation_prject;
-          var reservation_employee = res_result[0].reservation_employee;
-          var content = "预约状态：" + reservation_describe + nn + "预约客户：" + user_magess + nn + "预约门店：" + reservation_shop + nn + "预约项目：" + reservation_prject.name + "预计服务时长" + reservation_prject.nursingTime + "分钟" + nn + "预约护理师：" + reservation_employee.employee_name + nn + "预约时间：" + reservation_time;
-          wx.showModal({
-            title: '提示信息',
-            content: content,
-            showCancel: false
-          })
+    if (employee) {
+      var currentIndex = self.data.currentIndex;
+      var nn = "\r\n";
+      var id = employee._id;
+      var content = "预约状态：" + employee.reservation_describe + nn + "预约客户：" + employee.user_magess + nn + "预约门店：" + employee.reservation_shop + nn + "预约项目：" + employee.reservation_prject.name + "预计服务时长" + employee.reservation_prject.nursingTime + "分钟" + nn + "预约护理师：" + employee.reservation_employee.employee_name + nn + "预约时间：" + employee.reservation_time;
+      wx.showModal({
+        title: '确认提示',
+        content: content,
+        // cancelText: "取消预约",
+        confirmText: "确认到店",
+        confirmColor: "#AB956D",
+        cancelColor: "#37f341",
+        success(res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+            var reservation_status = employee.reservation_status;
+            if (reservation_status == 1) {
+              wx.cloud.init();
+              var update_datas = {};
+              update_datas.table_name = "reservation_list";
+              update_datas.id = id;
+              update_datas.update_data = {
+                reservation_status: 2,
+                reservation_describe: "已到店服务",
+                update_time: util.format_date_5(new Date())
+              };
+              wx.cloud.callFunction({
+                // 要调用的云函数名称
+                name: 'update_tablemode',
+                data: update_datas
+              }).then(res => {
+                console.log("wx.cloud.callFunction======update_tablemode===", res);
+                var updated = res.result.stats.updated; //result.stats.updated
+                if (updated) {
+                  console.log("res.result.stats.updated;==========ififififf==", res);
+                  getCurrentPages()[getCurrentPages().length - 1].onShow();
+                } else {
+                  console.log("res.result.stats.updated;==========else==", res);
+                  getCurrentPages()[getCurrentPages().length - 1].onShow();
+                }
+
+              })
+            } else {
+              wx.showModal({
+                title: '提示信息',
+                content: '只有预约成功的记录才可以到店确认哦，请核对要确认的预约信息是否正确！！',
+                showCancel: false
+              })
+              getCurrentPages()[getCurrentPages().length - 1].onShow();
+            }
+            // const db = wx.cloud.database();
+            // const reservation_list_data = db.collection('reservation_list');
+            // console.log("e=e.target.dataset.id=11111111=", id);
+
+            // reservation_list_data.doc(id).update({
+            //   data: {
+            //     reservation_status: 2,
+            //     reservation_describe: "已到店服务",
+            //     // ddxz:22,
+            //     update_time: util.format_date_5(new Date())
+            //     // out_trade_no: 66666666666666
+            //   },
+            //   success: res => {
+            //     console.log('[数据库] [更新记录] 成功：', res);
+            //     wx.showToast({
+            //       title: '确认成功!',
+            //       icon: 'success',
+            //       duration: 2000
+            //     })
+            //     getCurrentPages()[getCurrentPages().length - 1].onShow()
+            //     // this.setData({
+            //     //   count: newCount
+            //     // })
+            //   },
+            //   fail: err => {
+            //     icon: 'none',
+            //       console.error('[数据库] [更新记录] 失败：', err);
+            //       getCurrentPages()[getCurrentPages().length - 1].onShow()
+
+            //   }
+
+            // })
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+            getCurrentPages()[getCurrentPages().length - 1].onShow();
+          }
         }
-      });
+      })
+
     } else {
       // wx.showModal({
       //   title: '提示信息',
@@ -290,6 +335,8 @@ Page({
         data_new.timeArr_in = JSON.parse(JSON.stringify(timeArr_in));
         data_new.employee = employee;
         // console.log("data_new====befose====", data_new);
+        data = data.reverse();
+        // console.log("  data = data.reverse();====", data,res.result);
         for (var bb in data) {
           var employee_number_1 = data[bb].employee_number;
           var reservation_times_1 = data[bb].reservation_times;
@@ -302,9 +349,13 @@ Page({
               var time_in = data_new.timeArr_in[cc].time;
               if (time_in == reservation_times_1) {
                 data_new.timeArr_in[cc].employee = data[bb];
+                var reservation_status = data[bb].reservation_status;
                 data_new.timeArr_in[cc].status = true;
                 data_new.timeArr_in[next_cc].status = true;
                 data_new.timeArr_in[next_cc_2].status = true;
+                data_new.timeArr_in[cc].reservation_status = reservation_status;
+                data_new.timeArr_in[next_cc].reservation_status = reservation_status;
+                data_new.timeArr_in[next_cc_2].reservation_status = reservation_status;
               }
             }
           }
@@ -318,12 +369,39 @@ Page({
     })
   },
   normalPickerBindchange: function(e) {
-    this.setData({
-      picker1Value: e.detail.value
-    })
-    this.select()
+    // this.setData({
+    var that = this;
+    var picker1Value = Number(e.detail.value);
+    // })
+    // console.log('normalPickerBindchange===111111=== ', picker1Value,e);
+    var db = wx.cloud.database();
+    const employee_list_data = db.collection('employee_list');
+    employee_list_data.where({
+      shop_id: picker1Value
+    }).get({
+      success: function(res) {
+        // console.log('[数据库] [employee_list_data= in normalPickerBindchange==] 成功: ', res);
+        var employee_list = res.data;
+        that.setData({
+          employee_list: employee_list,
+          picker1Value: picker1Value
+        });
+        // console.log('self.data.employee_list====44444==== in normalPickerBindchange=== ', that.data);
+      }
+    });
+    setTimeout(function() {
+      // wx.hideLoading()
+      that.select();
+    }, 1000)
   },
+  //确认到店更新
+  verify_reservation(e) {
+    var self = this;
+    var id = e.target.dataset.id;
+    var data_reservation = e.target.dataset.reservation;
+    console.log("e.target.datase======11=========", data_reservation, id, e);
 
+  },
   /**
    * 生命周期函数--监听页面隐藏
    */
